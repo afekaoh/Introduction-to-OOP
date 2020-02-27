@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<project default="zip">
+    <target name="compile">
+        <mkdir dir="bin"/>
+        <mkdir dir="bin/src"/>
+        <javac includeantruntime="false" destdir="bin/src" srcdir="src" classpath="bin"/>
+    </target>
+
+    <target name="zip">
+        <mkdir dir="to_zip"/>
+        <mkdir dir="to_zip/src"/>
+        <copydir src="src" dest="to_zip/src"/>
+        <zip destfile="chess.zip" basedir="to_zip"/>
+        <delete dir="to_zip"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="bin"/>
+        <delete file="chess.zip"/>
+    </target>
+
+    <target name="compile to jar" depends="compile">
+        <jar destfile="bin/chess.jar" basedir="bin/src">
+            <manifest>
+                <attribute name="Main-Class"
+                           value="Main"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run" depends="compile to jar">
+        <java jar="bin/chess.jar" fork="true"/>
+    </target>
+</project>

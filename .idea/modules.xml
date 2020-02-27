@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Ass0/Ass0.iml" filepath="$PROJECT_DIR$/Ass0/Ass0.iml" />
       <module fileurl="file://$PROJECT_DIR$/HomeWork.iml" filepath="$PROJECT_DIR$/HomeWork.iml" />
       <module fileurl="file://$PROJECT_DIR$/ass1/ass1.iml" filepath="$PROJECT_DIR$/ass1/ass1.iml" />
       <module fileurl="file://$PROJECT_DIR$/ass2/ass2.iml" filepath="$PROJECT_DIR$/ass2/ass2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/skatches/skatches.iml" filepath="$PROJECT_DIR$/skatches/skatches.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chess/chess.iml" filepath="$PROJECT_DIR$/chess/chess.iml" />
     </modules>
   </component>
 </project>
