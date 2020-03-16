@@ -7,7 +7,7 @@
 		</target>
 
 		<target name="zip" depends="compile">
-			<zip destfile="ass0.zip" basedir="bin"/>
+			<zip destfile=".zip" basedir="bin"/>
 		</target>
 
 		<target name="clean">
