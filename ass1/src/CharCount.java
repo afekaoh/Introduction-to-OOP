@@ -1,9 +1,10 @@
 /**
  * The class Char count.
+ * Assigment Ass1.
  *
- * @author Adam Shay Shapira
- * Id 316044809
- * Assigmnet Ass1
+ * @author Adam Shay Shapira.
+ * @author adam.shspira@live.biu.ac.il
+ * @author Id 316044809.
  */
 public class CharCount {
 
@@ -15,40 +16,34 @@ public class CharCount {
      */
     public static void main(String[] args) {
         // validity check
-        if (args.length < 2 || args[args.length - 1].length() != 1) {
+        final int lastArgsIndex = args.length - 1;
+        if (args.length < 2 || args[lastArgsIndex].length() != 1) {
             System.out.println("Invalid input");
         }
 
-        char toSearch = args[args.length - 1].charAt(0);
-        boolean[] toPrintFirst = new boolean[args.length - 1];
-
-        for (int i = 0; i < args.length - 1; i++) {
-            toPrintFirst[i] = isCharIn(args[i], toSearch);
-            if (toPrintFirst[i]) {
-                System.out.println(args[i]);
+        // sorting the words base on the char
+        String[] toPrint = new String[lastArgsIndex];
+        int startIndex = 0;
+        int endIndex = lastArgsIndex - 1;
+        final String checkChar = args[lastArgsIndex];
+        for (int i = 0; i < lastArgsIndex; i++) {
+            if (args[i].contains(checkChar)) {
+                // all of the words that contain the char
+                toPrint[startIndex++] = args[i];
+            } else {
+                // all the words that dont
+                toPrint[endIndex--] = args[i];
             }
         }
 
-        for (int i = 0; i < args.length - 1; i++) {
-            if (!toPrintFirst[i]) {
-                System.out.println(args[i]);
-            }
+        // printing the words that containing the chars
+        for (int i = 0; i < startIndex; i++) {
+            System.out.println(toPrint[i]);
         }
-    }
 
-    /**
-     * Is char in.
-     *
-     * @param word a string to check if it contains the char.
-     * @param toSearch the char we check if it contained in the string.
-     * @return true if the char is in the string and false if not.
-     */
-    public static boolean isCharIn(final String word, final char toSearch) {
-        for (int i = 0; i < word.length(); i++) {
-            if (word.charAt(i) == toSearch) {
-                return true;
-            }
+        // printing the rest of the words
+        for (int i = lastArgsIndex - 1; i > endIndex; i--) {
+            System.out.println(toPrint[i]);
         }
-        return false;
     }
 }

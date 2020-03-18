@@ -40,10 +40,6 @@
           <KEY>^.*(public|protected|private)*.+class\s+\w+.*</KEY>
           <VALUE>/**\n
  * The class ${name}. \n
- * @author Adam Shay Shapira. \n
- * id 316044809 \n
- * mail adam.shapira@live.biu.ac.il
- * Assignment \n
 &lt;#if element.typeParameters?has_content&gt;        * \n
 &lt;/#if&gt;
 &lt;#list element.typeParameters as typeParameter&gt;

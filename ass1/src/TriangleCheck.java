@@ -2,10 +2,11 @@ import java.util.Arrays;
 
 /**
  * The class Triangle check.
+ * Assigment Ass1.
  *
- * @author Adam Shay Shapira
- * Id 316044809
- * Assigmnet Ass1
+ * @author Adam Shay Shapira.
+ * @author adam.shspira@live.biu.ac.il
+ * @author Id 316044809.
  */
 public class TriangleCheck {
 
@@ -16,26 +17,29 @@ public class TriangleCheck {
      */
     public static void main(String[] args) {
         final int numOfTriangleEdges = 3;
+
+        // validity check
         if (args.length != numOfTriangleEdges) {
             System.out.println("Invalid input");
             return;
         }
 
         // turning the args into a workable format
-        double[] triangleArr = new double[args.length];
-        for (int i = 0; i < triangleArr.length; i++) {
-            triangleArr[i] = Double.parseDouble(args[i]);
-            if (triangleArr[i] == 0) {
+        double[] triangle = new double[numOfTriangleEdges];
+        for (int i = 0; i < triangle.length; i++) {
+            triangle[i] = Double.parseDouble(args[i]);
+            // validity check
+            if (triangle[i] == 0) {
                 System.out.println("Invalid input");
                 return;
             }
         }
 
-        // checking for triangle and right angle
-        if (isTriangle(triangleArr)) {
+        // checking for triangle
+        if (isTriangle(triangle)) {
             System.out.println("triangle!");
-            // no need to check right angle if its not a triangle
-            if (isRightAngle(triangleArr)) {
+            //  check for right angle only if it's a triangle
+            if (isRightAngle(triangle)) {
                 System.out.println("right angled!");
             }
         }
@@ -62,6 +66,6 @@ public class TriangleCheck {
     public static boolean isTriangle(final double[] triangle) {
         // checking if the edges makes a triangle with the triangle inequality
         Arrays.sort(triangle);
-        return triangle[0] + triangle[1] >= triangle[2];
+        return triangle[0] + triangle[1] > triangle[2];
     }
 }
