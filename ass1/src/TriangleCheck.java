@@ -29,7 +29,7 @@ public class TriangleCheck {
         for (int i = 0; i < triangle.length; i++) {
             triangle[i] = Double.parseDouble(args[i]);
             // validity check
-            if (triangle[i] == 0) {
+            if (triangle[i] <= 0) {
                 System.out.println("Invalid input");
                 return;
             }

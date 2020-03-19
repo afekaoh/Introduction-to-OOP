@@ -7,7 +7,7 @@
 
     <target name="clean">
         <delete dir="bin"/>
-		<delete file="Ass1.zip"/>
+		<delete file="ass1.zip"/>
     </target>
 
 	<target name="zip">
@@ -15,7 +15,7 @@
 		<mkdir dir="to_zip/src"/>
 		<copydir src="src" dest="to_zip/src"/>
 		<copy file="build.xml" todir="to_zip"/>
-		<zip destfile="Ass1.zip" basedir="to_zip"/>
+		<zip destfile="ass1.zip" basedir="to_zip"/>
 		<delete dir="to_zip"/>
 	</target>
 

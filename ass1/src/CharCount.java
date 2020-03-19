@@ -19,6 +19,7 @@ public class CharCount {
         final int lastArgsIndex = args.length - 1;
         if (args.length < 2 || args[lastArgsIndex].length() != 1) {
             System.out.println("Invalid input");
+            return;
         }
 
         // sorting the words base on the char
