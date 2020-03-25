@@ -1,20 +1,24 @@
+//ID 316044809
+
+
 /**
- * The class Average primes.
+ * The class AveragePrimes.
  * Assigment Ass1.
  *
  * @author Adam Shay Shapira.
  * @author adam.shspira@live.biu.ac.il
- * @author Id 316044809.
  */
 public class AveragePrimes {
 
     /**
-     * Main method of the CharCount Class.
+     * Main method of the AveragePrimes Class.
+     * gets a number as an argument and prints
+     * the average of all the primes less then or equal to him
      *
-     * @param args the input arguments
+     * @param args the input arguments should contain a single natural number
      */
     public static void main(String[] args) {
-        int num = Integer.parseInt(args[0]);
+        final int num = Integer.parseInt(args[0]);
 
         // validity check
         if (num <= 1) {

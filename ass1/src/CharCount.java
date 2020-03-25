@@ -1,10 +1,11 @@
+//ID 316044809
+
 /**
- * The class Char count.
+ * The class CharCount.
  * Assigment Ass1.
  *
  * @author Adam Shay Shapira.
  * @author adam.shspira@live.biu.ac.il
- * @author Id 316044809.
  */
 public class CharCount {
 
@@ -24,26 +25,26 @@ public class CharCount {
 
         // sorting the words base on the char
         String[] toPrint = new String[lastArgsIndex];
-        int startIndex = 0;
-        int endIndex = lastArgsIndex - 1;
+        int printFirstIndex = 0;
+        int printLastIndex = lastArgsIndex - 1;
         final String checkChar = args[lastArgsIndex];
         for (int i = 0; i < lastArgsIndex; i++) {
             if (args[i].contains(checkChar)) {
                 // all of the words that contain the char
-                toPrint[startIndex++] = args[i];
+                toPrint[printFirstIndex++] = args[i];
             } else {
                 // all the words that dont
-                toPrint[endIndex--] = args[i];
+                toPrint[printLastIndex--] = args[i];
             }
         }
 
         // printing the words that containing the chars
-        for (int i = 0; i < startIndex; i++) {
+        for (int i = 0; i < printFirstIndex; i++) {
             System.out.println(toPrint[i]);
         }
 
         // printing the rest of the words
-        for (int i = lastArgsIndex - 1; i > endIndex; i--) {
+        for (int i = lastArgsIndex - 1; i > printLastIndex; i--) {
             System.out.println(toPrint[i]);
         }
     }
