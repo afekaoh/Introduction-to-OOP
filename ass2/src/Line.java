@@ -17,7 +17,7 @@ public class Line {
     private Point end;
 
     /**
-     * Instantiates a new Line.
+     * Instantiates a new Line using points.
      *
      * @param start the start point.
      * @param end the end point.
@@ -28,7 +28,7 @@ public class Line {
     }
 
     /**
-     * Instantiates a new Line.
+     * Instantiates a new Line using XY coordinates.
      *
      * @param xStart the x start
      * @param yStart the y start
@@ -55,7 +55,7 @@ public class Line {
      * calculating the length of the line.
      *
      * @return the length of the line
-         */
+     */
     public double length() {
         return this.start.distance(this.end);
     }
@@ -100,7 +100,7 @@ public class Line {
     private LineResult calcUT(final Line other) {
         /*
         setting some constants for better readability.
-        all the names chose to be consistent with the formula in the wikipedia article
+        all the names selected to be consistent with the formula in the wikipedia article
          */
         final double x1 = this.start.getX();
         final double y1 = this.start.getY();
@@ -114,7 +114,7 @@ public class Line {
         final double denominator = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
         if (denominator == 0) {
             // the line are parallel to each other
-            return new LineResult(true);
+            return new LineResult();
         }
 
         // calculating t
@@ -136,10 +136,15 @@ public class Line {
      * @return if the line segments are intersecting
      */
     public boolean isIntersecting(final Line other) {
+        // calculating the u and t from intersection formula
         final LineResult lineResult = calcUT(other);
+
         if (lineResult.isParallel()) {
+            // they have 0 or infinity intersection points
             return false;
         }
+
+        // checking if the intersection point is inside both of the line segments
         final double t = lineResult.getT();
         final double u = lineResult.getU();
         return 0 <= t && t <= 1 && 0 <= u && u <= 1;
@@ -155,12 +160,16 @@ public class Line {
         if (!isIntersecting(other)) {
             return null;
         }
+
+        // getting all the variables for the calculation
         final LineResult lineResult = calcUT(other);
         final double x1 = this.start.getX();
         final double y1 = this.start.getY();
         final double x2 = this.end.getX();
         final double y2 = this.end.getY();
         final double t = lineResult.getT();
+
+        // calculating the point location
         return new Point(x1 + t * (x2 - x1), y1 + t * (y2 - y1));
     }
 
@@ -192,7 +201,7 @@ public class Line {
         }
         final Line line = (Line) o;
         // checking if they have the same starting and end points
-        return (start.equals(line.start) && end.equals(line.end)) || (start.equals(line.end) && end.equals(line.start));
+        return (start.equals(line.start) && end.equals(line.end));
     }
 
     /**
@@ -215,7 +224,7 @@ public class Line {
         private final boolean parallel;
 
         /**
-         * Instantiates a new Line result.
+         * Instantiates a new Line result in the case the lines have intersection point.
          *
          * @param t the t
          * @param s the s
@@ -227,20 +236,18 @@ public class Line {
         }
 
         /**
-         * Instantiates a new Line result.
-         *
-         * @param parallel the parallel
+         * Instantiates a new Line result in the case the lines don't have intersection point.
          */
-        LineResult(final boolean parallel) {
+        LineResult() {
             this.u = 0;
             this.t = 0;
-            this.parallel = parallel;
+            this.parallel = true;
         }
 
         /**
          * isParallel.
          *
-         * @return parallel
+         * @return parallel boolean
          */
         public boolean isParallel() {
             return parallel;

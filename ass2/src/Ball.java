@@ -31,7 +31,7 @@ public class Ball {
 
 
     /**
-     * Instantiates a new Ball.
+     * Instantiates a new Ball with center radius and color.
      *
      * @param center the center of the call
      * @param radius the radius of the ball
@@ -44,7 +44,7 @@ public class Ball {
     }
 
     /**
-     * Instantiates a new Ball.
+     * Instantiates a new Ball with the XY coordinates.
      *
      * @param x the x coordinate of the ball
      * @param y the y coordinate of the ball
@@ -58,7 +58,7 @@ public class Ball {
     }
 
     /**
-     * Instantiates a new Ball.
+     * Instantiates a new Ball with velocity.
      *
      * @param center the center
      * @param radius the radius
@@ -185,34 +185,44 @@ public class Ball {
      * @param frame the boundaries of the ball movement
      */
     private void bounce(final Line frame) {
+        boolean bounced = false;
 
-        this.color = Color.getHSBColor(current().nextFloat(), current().nextFloat(), current().nextFloat());
         // extracting the XY data.
         final int xStart = (int) frame.start().getX();
         final int xEnd = (int) frame.end().getX();
         final int yStart = (int) frame.start().getY();
         final int yEnd = (int) frame.end().getY();
 
-        // checking if the ball touching the right well
+        // checking the horizontal boundaries
         if (this.center.getX() + this.radius >= xEnd) {
+            // checking if the ball touching the right well
             this.center.setX(xEnd - radius);
-            this.velocity.setxSpeed(-this.velocity.getxSpeed());
-
-            // checking if the ball touching the left well
+            this.velocity.setXSpeed(-this.velocity.getXSpeed());
+            bounced = true;
         } else if (this.center.getX() - this.radius <= xStart) {
+            // checking if the ball touching the left well
             this.center.setX(xStart + radius);
-            this.velocity.setxSpeed(-this.velocity.getxSpeed());
+            this.velocity.setXSpeed(-this.velocity.getXSpeed());
+            bounced = true;
+        }
+        // no else as the ball could intersect with both X boundary and Y boundary at the same frame
+
+        // checking the vertical boundaries
+        if (this.center.getY() + this.radius >= yEnd) {
+            // checking if the ball touching the floor
+            this.center.setY(yEnd - radius);
+            this.velocity.setYSpeed(-this.velocity.getYSpeed());
+            bounced = true;
+        } else if (this.center.getY() - this.radius <= yStart) {
+            // checking if the ball touching the celling
+            this.center.setY(yStart + radius);
+            this.velocity.setYSpeed(-this.velocity.getYSpeed());
+            bounced = true;
         }
 
-        // checking if the ball touching the floor
-        if (this.center.getY() + this.radius >= yEnd) {
-            this.center.setY(yEnd - radius);
-            this.velocity.setySpeed(-this.velocity.getySpeed());
-
-            // checking if the ball touching the celling
-        } else if (this.center.getY() - this.radius <= yStart) {
-            this.center.setY(yStart + radius);
-            this.velocity.setySpeed(-this.velocity.getySpeed());
+        if (bounced) {
+            // changing the color every bounce
+            this.color = Color.getHSBColor(current().nextFloat(), current().nextFloat(), current().nextFloat());
         }
     }
 }

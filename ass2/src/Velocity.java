@@ -71,7 +71,7 @@ public class Velocity {
      *
      * @return the speed
      */
-    public double getxSpeed() {
+    public double getXSpeed() {
         return xSpeed;
     }
 
@@ -80,7 +80,7 @@ public class Velocity {
      *
      * @param newXSpeed the new x speed
      */
-    public void setxSpeed(final double newXSpeed) {
+    public void setXSpeed(final double newXSpeed) {
         this.xSpeed = newXSpeed;
     }
 
@@ -89,7 +89,7 @@ public class Velocity {
      *
      * @return the speed
      */
-    public double getySpeed() {
+    public double getYSpeed() {
         return ySpeed;
     }
 
@@ -98,7 +98,7 @@ public class Velocity {
      *
      * @param newYSpeed the new y speed
      */
-    public void setySpeed(final double newYSpeed) {
+    public void setYSpeed(final double newYSpeed) {
         this.ySpeed = newYSpeed;
     }
 }

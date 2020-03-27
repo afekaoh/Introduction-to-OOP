@@ -10,6 +10,7 @@ import biuoop.Sleeper;
  */
 public class BouncingBallAnimation {
 
+    public static final int SLEEPING_TIME = 40;
     /**
      * The Width of the animation.
      */
@@ -47,7 +48,7 @@ public class BouncingBallAnimation {
      */
     public static void main(final String[] args) {
         if (args.length != 4) {
-            System.out.println("error");
+            System.out.println("error! not enough arguments");
             return;
         }
         // creating a new animation
@@ -61,27 +62,28 @@ public class BouncingBallAnimation {
 
         // creating the new Ball
         final Point center = new Point(x, y);
-        final Ball ball = new Ball(center, 50, angle, speed, java.awt.Color.BLACK);
+        final Ball ball = new Ball(center, 30, angle, speed, java.awt.Color.BLACK);
         animation.drawAnimation(ball);
     }
 
 
     /**
      * Draw animation.
+     * the function gets a ball and draws it to the screen.
      *
-     * @param ball the ball
+     * @param ball the ball to draw
      */
     public void drawAnimation(final Ball ball) {
-        // setting the frame bounds
+        // setting the frame of movement bounds
         final Line frame = new Line(0, 0, width, height);
-        // creating the ball
+
         // draw loop
         while (true) {
             final DrawSurface canvas = gui.getDrawSurface();
             ball.move(frame);
             ball.drawOn(canvas);
             gui.show(canvas);
-            sleeper.sleepFor(40);
+            sleeper.sleepFor(SLEEPING_TIME);
         }
     }
 }

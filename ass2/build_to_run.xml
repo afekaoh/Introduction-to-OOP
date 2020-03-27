@@ -24,7 +24,7 @@
         </dirset>
     </path>
 
-    <property name="classpath" value="biuoop-1.4.jar:bin" />
+    <property name="classpath" value="biuoop-1.4.jar:bin"/>
     <!-- Compile all java files under `src`, and export .class files into `bin` -->
     <target name="compile">
         <mkdir dir="bin"/>
@@ -36,7 +36,7 @@
     </target>
 
     <!--    This target is for your convenience; we will not grade it. -->
-    <target name="run-gui-example" depends="compile" >
+    <target name="run-gui-example" depends="compile">
         <java classname="SimpleGuiExample" classpath="${classpath}" fork="true"/>
     </target>
 
@@ -44,7 +44,7 @@
         <java classname="AbstractArtDrawing" classpath="${classpath}" fork="true"/>
     </target>
 
-    <target name="run3.2" depends="compile" >
+    <target name="run3.2" depends="compile">
         <property name="args" value="1 2 3 4"/>
         <java classname="BouncingBallAnimation" classpath="${classpath}" fork="true">
             <!-- This specifies to pass the arguments from the `ant` command into the `java` execution command -->
@@ -52,7 +52,7 @@
         </java>
     </target>
 
-    <target name="run3.3" depends="compile" >
+    <target name="run3.3" depends="compile">
         <property name="args" value="12 2 3 4 2 9"/>
         <java classname="MultipleBouncingBallsAnimation" classpath="${classpath}" fork="true">
             <!-- This specifies to pass the arguments from the `ant` command into the `java` execution command -->
@@ -60,7 +60,7 @@
         </java>
     </target>
 
-    <target name="run3.4" depends="compile" >
+    <target name="run3.4" depends="compile">
         <property name="args" value="12 2 3 4 2 9 8 14 7 9"/>
         <java classname="MultipleFramesBouncingBallsAnimation" classpath="${classpath}" fork="true">
             <!-- This specifies to pass the arguments from the `ant` command into the `java` execution command -->
@@ -71,8 +71,8 @@
     <!-- Run checkstyle on all our source files -->
     <target name="check">
         <java jar="checkstyle-5.7-all.jar" fork="true">
-            <arg line="-c biuoop.xml" />
-            <arg line="src/*.java" />
+            <arg line="-c biuoop.xml"/>
+            <arg line="src/*.java"/>
         </java>
     </target>
 

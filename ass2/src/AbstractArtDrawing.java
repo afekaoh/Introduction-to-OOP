@@ -6,6 +6,8 @@ import biuoop.GUI;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import static java.util.concurrent.ThreadLocalRandom.current;
+
 /**
  * The class Abstract art drawing.
  */
@@ -14,6 +16,9 @@ public class AbstractArtDrawing {
      * The radius of a point to draw.
      */
     public static final int POINT_RADIUS = 3;
+    /**
+     * The color of a line.
+     */
     public static final Color LINE_COLOR = Color.BLACK;
 
     /**
@@ -24,6 +29,9 @@ public class AbstractArtDrawing {
      * The Height of the art.
      */
     private final int height;
+    /**
+     * The Gui.
+     */
     private final GUI gui;
 
     /**
@@ -35,6 +43,7 @@ public class AbstractArtDrawing {
     public AbstractArtDrawing(final int width, final int height) {
         this.width = width;
         this.height = height;
+        // setting up the gui
         gui = new GUI("Abstract Art", this.width, this.height);
     }
 
@@ -53,7 +62,6 @@ public class AbstractArtDrawing {
      * drawing random lines their middle point and all there intersections.
      */
     private void drawRandomLines() {
-        // setting up the gui module
         final DrawSurface canvas = gui.getDrawSurface();
 
         // generating the lines
@@ -66,13 +74,13 @@ public class AbstractArtDrawing {
         final ArrayList<Point> intersectionPoints = findIntersectionPoints(lines);
 
         // drawing the lines and the middle points.
-        for (Line line : lines) {
+        for (final Line line : lines) {
             drawLine(canvas, line);
             drawPoint(canvas, line.middle(), Color.BLUE);
         }
 
         // drawing the intersection points
-        for (Point point : intersectionPoints) {
+        for (final Point point : intersectionPoints) {
             drawPoint(canvas, point, Color.RED);
         }
         gui.show(canvas);
@@ -87,8 +95,9 @@ public class AbstractArtDrawing {
      */
     private ArrayList<Point> findIntersectionPoints(final Line[] lines) {
         final ArrayList<Point> intersectionPoints = new ArrayList<>();
-        for (Line line : lines) {
-            for (Line other : lines) {
+        // checking all the lines against all the other lines
+        for (final Line line : lines) {
+            for (final Line other : lines) {
                 if (line.equals(other)) {
                     continue;
                 }
@@ -108,8 +117,8 @@ public class AbstractArtDrawing {
      * @param color the color of the point.
      */
     private void drawPoint(final DrawSurface canvas, final Point point, final Color color) {
-        int x = (int) point.getX();
-        int y = (int) point.getY();
+        final int x = (int) point.getX();
+        final int y = (int) point.getY();
         canvas.setColor(color);
         canvas.fillCircle(x, y, POINT_RADIUS);
     }
@@ -125,7 +134,7 @@ public class AbstractArtDrawing {
         final int y1 = (int) line.start().getY();
         final int x2 = (int) line.end().getX();
         final int y2 = (int) line.end().getY();
-        canvas.setColor(LINE_COLOR);
+        canvas.setColor(Color.getHSBColor(current().nextFloat(), current().nextFloat(), current().nextFloat()));
         canvas.drawLine(x1, y1, x2, y2);
     }
 }

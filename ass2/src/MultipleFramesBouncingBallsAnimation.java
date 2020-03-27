@@ -26,7 +26,7 @@ public class MultipleFramesBouncingBallsAnimation {
      */
     private final Sleeper sleeper;
     /**
-     * The Guis.
+     * The Gui.
      */
     private final GUI gui;
 
@@ -49,16 +49,73 @@ public class MultipleFramesBouncingBallsAnimation {
      * @param args the input arguments
      */
     public static void main(final String[] args) {
+        // validity check
         if (args.length < 1) {
+            System.out.println("error! not enough arguments");
             return;
         }
-
+        // creating the animation
         MultipleFramesBouncingBallsAnimation animation = new MultipleFramesBouncingBallsAnimation(800, 600);
-        int[] ballsR = new int[args.length];
+
+        // parsing the user data
+        int[] ballsRadii = new int[args.length];
         for (int i = 0; i < args.length; i++) {
-            ballsR[i] = Integer.parseInt(args[i]);
+            ballsRadii[i] = Integer.parseInt(args[i]);
         }
-        animation.drawAnimation(ballsR);
+
+        //creating the balls
+        Ball[] balls = new Ball[ballsRadii.length];
+        for (int i = 0; i < balls.length; i++) {
+            balls[i] = new Ball(ballsRadii[i], animation.width, animation.height);
+        }
+        animation.drawAnimation(balls);
+    }
+
+    /**
+     * Draw animation.
+     *
+     * @param balls the balls to draw
+     */
+    private void drawAnimation(final Ball[] balls) {
+        // setting up the frame of movements
+        final Line frame1 = new Line(50, 50, 500, 500);
+        final Line frame2 = new Line(450, 450, 600, 600);
+
+        // draw loop
+        while (true) {
+            final DrawSurface canvas = gui.getDrawSurface();
+            // drawing the frames
+            drawFrame(canvas, frame1, Color.GRAY);
+            drawFrame(canvas, frame2, Color.YELLOW);
+
+            // drawing the balls
+            for (int i = 0; i < balls.length; i++) {
+                drawBall(i % 2 == 1 ? frame1 : frame2, canvas, balls[i]);
+            }
+            gui.show(canvas);
+            sleeper.sleepFor(40);
+        }
+    }
+
+    /**
+     * Draws the frame.
+     *
+     * @param canvas the canvas to draw onto
+     * @param frame a line representing the edges of the frame to draw
+     * @param color the color of the frame
+     */
+    private void drawFrame(final DrawSurface canvas, final Line frame, final Color color) {
+        // drawing the fill
+        canvas.setColor(color);
+        final int x = (int) frame.start().getX();
+        final int y = (int) frame.start().getY();
+        final int frameWidth = (int) (frame.end().getX() - x);
+        final int frameHeight = (int) (frame.end().getY() - y);
+        canvas.fillRectangle(x, y, frameWidth, frameHeight);
+
+        // drawing the stroke
+        canvas.setColor(Color.black);
+        canvas.drawRectangle(x, y, frameWidth, frameHeight);
     }
 
     /**
@@ -71,58 +128,5 @@ public class MultipleFramesBouncingBallsAnimation {
     private void drawBall(final Line frame, final DrawSurface canvas, final Ball ball) {
         ball.move(frame);
         ball.drawOn(canvas);
-    }
-
-    /**
-     * Draw animation.
-     *
-     * @param radii the radii of all the balls to draw
-     */
-    private void drawAnimation(final int[] radii) {
-        final Line frame1 = new Line(50, 50, 500, 500);
-        final Line frame2 = new Line(450, 450, 600, 600);
-
-        Ball[] balls1 = new Ball[radii.length / 2];
-        Ball[] balls2 = new Ball[radii.length / 2 + radii.length % 2];
-        int balls1Index = 0;
-        int balls2Index = 0;
-        for (int i = 0; i < radii.length; i++) {
-            if (i % 2 == 1) {
-                balls1[balls1Index] = new Ball(radii[i], frame1.start(), frame1.end());
-                balls1Index++;
-            } else {
-                balls2[balls2Index] = new Ball(radii[i], frame2.start(), frame2.end());
-                balls2Index++;
-            }
-        }
-        while (true) {
-            final DrawSurface canvas = gui.getDrawSurface();
-            drawRectangle(canvas, frame1, Color.GRAY);
-            drawRectangle(canvas, frame2, Color.YELLOW);
-            for (final Ball ball : balls1) {
-                drawBall(frame1, canvas, ball);
-            }
-            for (final Ball ball : balls2) {
-                drawBall(frame2, canvas, ball);
-            }
-            gui.show(canvas);
-            sleeper.sleepFor(40);  // wait for 50 milliseconds.
-        }
-    }
-
-    /**
-     * Draw rectangle with.
-     *
-     * @param canvas the canvas
-     * @param frame the frame
-     * @param color the color
-     */
-    private void drawRectangle(final DrawSurface canvas, final Line frame, final Color color) {
-        canvas.setColor(color);
-        final int x = (int) frame.start().getX();
-        final int y = (int) frame.start().getY();
-        final int frameWidth = (int) (frame.end().getX() - x);
-        final int frameHeight = (int) (frame.end().getY() - y);
-        canvas.fillRectangle(x, y, frameWidth, frameHeight);
     }
 }
