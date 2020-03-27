@@ -1,0 +1,267 @@
+// ID 316044809
+
+import java.util.Objects;
+
+/**
+ * The class Line.
+ * representing a line in 2D space.
+ */
+public class Line {
+    /**
+     * The Start point.
+     */
+    private Point start;
+    /**
+     * The End point.
+     */
+    private Point end;
+
+    /**
+     * Instantiates a new Line.
+     *
+     * @param start the start point.
+     * @param end the end point.
+     */
+    public Line(final Point start, final Point end) {
+        this.start = start;
+        this.end = end;
+    }
+
+    /**
+     * Instantiates a new Line.
+     *
+     * @param xStart the x start
+     * @param yStart the y start
+     * @param xEnd the x end
+     * @param yEnd the y end
+     */
+    public Line(final double xStart, final double yStart, final double xEnd, final double yEnd) {
+        this.start = new Point(xStart, yStart);
+        this.end = new Point(xEnd, yEnd);
+    }
+
+    /**
+     * Instantiates a random Line from (0,0) to (xRange,yRange).
+     *
+     * @param xRange the x range
+     * @param yRange the y range
+     */
+    public Line(final double xRange, final double yRange) {
+        this.start = Point.getRandomPoint(xRange, yRange);
+        this.end = Point.getRandomPoint(xRange, yRange);
+    }
+
+    /**
+     * calculating the length of the line.
+     *
+     * @return the length of the line
+         */
+    public double length() {
+        return this.start.distance(this.end);
+    }
+
+
+    /**
+     * Middle point.
+     *
+     * @return the middle point of the line
+     */
+    public Point middle() {
+        final double xMiddle = (this.start.getX() + this.end.getX()) / 2;
+        final double yMiddle = (this.start.getY() + this.end.getY()) / 2;
+        return new Point(xMiddle, yMiddle);
+    }
+
+    /**
+     * Start point.
+     *
+     * @return the start point of the line
+     */
+    public Point start() {
+        return start;
+    }
+
+    /**
+     * End point.
+     *
+     * @return the end point of the line
+     */
+    public Point end() {
+        return end;
+    }
+
+
+    /**
+     * Calculating the u and the t from the intersection formula.
+     *
+     * @param other the other line
+     * @return a lineResult object containing the u the t and if the lines are parallel
+     */
+    private LineResult calcUT(final Line other) {
+        /*
+        setting some constants for better readability.
+        all the names chose to be consistent with the formula in the wikipedia article
+         */
+        final double x1 = this.start.getX();
+        final double y1 = this.start.getY();
+        final double x2 = this.end.getX();
+        final double y2 = this.end.getY();
+        final double x3 = other.start().getX();
+        final double y3 = other.start().getY();
+        final double x4 = other.end().getX();
+        final double y4 = other.end().getY();
+
+        final double denominator = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+        if (denominator == 0) {
+            // the line are parallel to each other
+            return new LineResult(true);
+        }
+
+        // calculating t
+        final double tNumerator = (x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4);
+        final double t = tNumerator / denominator;
+
+        //calculating u
+        final double uNumerator = (x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3);
+        final double u = -1 * (uNumerator / denominator);
+
+        return new LineResult(t, u);
+    }
+
+    /**
+     * Is intersecting boolean.
+     * checking is the lines are intersecting using the line intersection formula
+     *
+     * @param other the other line
+     * @return if the line segments are intersecting
+     */
+    public boolean isIntersecting(final Line other) {
+        final LineResult lineResult = calcUT(other);
+        if (lineResult.isParallel()) {
+            return false;
+        }
+        final double t = lineResult.getT();
+        final double u = lineResult.getU();
+        return 0 <= t && t <= 1 && 0 <= u && u <= 1;
+    }
+
+    /**
+     * calculating the intersection point using the formula.
+     *
+     * @param other the other line
+     * @return point of intersection or null if it doesn't exist
+     */
+    public Point intersectionWith(final Line other) {
+        if (!isIntersecting(other)) {
+            return null;
+        }
+        final LineResult lineResult = calcUT(other);
+        final double x1 = this.start.getX();
+        final double y1 = this.start.getY();
+        final double x2 = this.end.getX();
+        final double y2 = this.end.getY();
+        final double t = lineResult.getT();
+        return new Point(x1 + t * (x2 - x1), y1 + t * (y2 - y1));
+    }
+
+    /**
+     * Hash code int.
+     *
+     * @return the int
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(start, end);
+    }
+
+    /**
+     * Equals boolean.
+     *
+     * @param o an object to determent equality to
+     * @return true is the lines are equal, false otherwise
+     */
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            // same reference
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            // not a line
+            return false;
+        }
+        final Line line = (Line) o;
+        // checking if they have the same starting and end points
+        return (start.equals(line.start) && end.equals(line.end)) || (start.equals(line.end) && end.equals(line.start));
+    }
+
+    /**
+     * an object to help returns multiple element in the calcUT method.
+     * the u, t, parallel will be calculate from using this article
+     * https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
+     */
+    static final class LineResult {
+        /**
+         * The t from the line intersection formula.
+         */
+        private final double t;
+        /**
+         * The u from the line intersection formula.
+         */
+        private final double u;
+        /**
+         * a flag will set to true if the line are parallel to each other.
+         */
+        private final boolean parallel;
+
+        /**
+         * Instantiates a new Line result.
+         *
+         * @param t the t
+         * @param s the s
+         */
+        LineResult(final double t, final double s) {
+            this.t = t;
+            this.u = s;
+            this.parallel = false;
+        }
+
+        /**
+         * Instantiates a new Line result.
+         *
+         * @param parallel the parallel
+         */
+        LineResult(final boolean parallel) {
+            this.u = 0;
+            this.t = 0;
+            this.parallel = parallel;
+        }
+
+        /**
+         * isParallel.
+         *
+         * @return parallel
+         */
+        public boolean isParallel() {
+            return parallel;
+        }
+
+        /**
+         * Gets t.
+         *
+         * @return the t
+         */
+        public double getT() {
+            return t;
+        }
+
+        /**
+         * Gets u.
+         *
+         * @return the u
+         */
+        public double getU() {
+            return u;
+        }
+    }
+}
