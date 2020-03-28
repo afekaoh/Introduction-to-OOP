@@ -81,6 +81,7 @@ public class Ball {
      * @param yRange the yRange
      */
     public Ball(final int radius, final double xRange, final double yRange) {
+        // sending it to the 2 points random constructor
         this(radius, new Point(0, 0), new Point(xRange, yRange));
     }
 
@@ -94,9 +95,11 @@ public class Ball {
      */
     public Ball(final int radius, final Point start, final Point end) {
         start.setX(start.getX() + radius);
+        start.setY(start.getY() + radius);
         this.center = Point.getRandomPoint(start, end);
         this.radius = radius;
         this.color = Color.getHSBColor(current().nextFloat(), current().nextFloat(), current().nextFloat());
+        // generating a new random speed
         final double angle = current().nextDouble() * 360;
         final double speed = Velocity.map(radius, 1, 50, 15, 5);
         this.velocity = Velocity.fromAngleAndSpeed(angle, speed);
@@ -169,11 +172,18 @@ public class Ball {
     }
 
     /**
+     * Move on step.
+     */
+    public void moveOneStep() {
+        this.center = this.velocity.applyToPoint(this.center);
+    }
+
+    /**
      * Moving the ball.
      *
      * @param frame the boundaries of the ball movement
      */
-    public void move(final Line frame) {
+    public void moveOneStep(final Line frame) {
         // moving the ball
         this.center = this.velocity.applyToPoint(this.center);
         bounce(frame);

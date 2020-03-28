@@ -133,4 +133,9 @@ public class Point {
     public void setY(final double newY) {
         this.y = newY;
     }
+
+    @Override
+    public String toString() {
+        return "Point{" + "x=" + x + ", y=" + y + '}';
+    }
 }

@@ -10,6 +10,9 @@ import biuoop.Sleeper;
  */
 public class BouncingBallAnimation {
 
+    /**
+     * The constant SLEEPING_TIME.
+     */
     public static final int SLEEPING_TIME = 40;
     /**
      * The Width of the animation.
@@ -66,6 +69,26 @@ public class BouncingBallAnimation {
         animation.drawAnimation(ball);
     }
 
+    /**
+     * Draw animation.
+     *
+     * @param start the start
+     * @param dx the dx
+     * @param dy the dy
+     */
+    private static void drawAnimation(Point start, double dx, double dy) {
+        GUI gui = new GUI("title", 200, 200);
+        Sleeper sleeper = new Sleeper();
+        Ball ball = new Ball(start.getX(), start.getY(), 30, java.awt.Color.BLACK);
+        ball.setVelocity(dx, dy);
+        while (true) {
+            ball.moveOneStep();
+            DrawSurface d = gui.getDrawSurface();
+            ball.drawOn(d);
+            gui.show(d);
+            sleeper.sleepFor(50);  // wait for 50 milliseconds.
+        }
+    }
 
     /**
      * Draw animation.
@@ -80,7 +103,7 @@ public class BouncingBallAnimation {
         // draw loop
         while (true) {
             final DrawSurface canvas = gui.getDrawSurface();
-            ball.move(frame);
+            ball.moveOneStep(frame);
             ball.drawOn(canvas);
             gui.show(canvas);
             sleeper.sleepFor(SLEEPING_TIME);

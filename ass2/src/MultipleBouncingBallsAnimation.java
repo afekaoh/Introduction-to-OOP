@@ -97,7 +97,7 @@ public class MultipleBouncingBallsAnimation {
      * @param ball the ball to draw
      */
     private void drawBall(final Line frame, final DrawSurface canvas, final Ball ball) {
-        ball.move(frame);
+        ball.moveOneStep(frame);
         ball.drawOn(canvas);
     }
 }
