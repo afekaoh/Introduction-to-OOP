@@ -4,6 +4,8 @@ import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.Sleeper;
 
+import java.awt.Color;
+
 
 /**
  * The class Bouncing ball animation.
@@ -51,21 +53,26 @@ public class BouncingBallAnimation {
      */
     public static void main(final String[] args) {
         if (args.length != 4) {
-            System.out.println("error! not enough arguments");
-            return;
+            throw new RuntimeException("Error! enter exactly 4 arguments!");
         }
+
+        // parsing the user data
+        final double speed, x, y, angle;
+        try {
+            x = Double.parseDouble(args[0]);
+            y = Double.parseDouble(args[1]);
+            angle = Double.parseDouble(args[2]);
+            speed = Double.parseDouble(args[3]);
+        } catch (Exception NumberFormatException) {
+            throw new RuntimeException("Error! enter numbers only!");
+        }
+
         // creating a new animation
         final BouncingBallAnimation animation = new BouncingBallAnimation(800, 600);
 
-        // parsing the user data
-        final double x = Double.parseDouble(args[0]);
-        final double y = Double.parseDouble(args[1]);
-        final double angle = Double.parseDouble(args[2]);
-        final double speed = Double.parseDouble(args[3]);
-
         // creating the new Ball
         final Point center = new Point(x, y);
-        final Ball ball = new Ball(center, 30, angle, speed, java.awt.Color.BLACK);
+        final Ball ball = new Ball(center, 30, angle, speed, Color.BLACK);
         animation.drawAnimation(ball);
     }
 

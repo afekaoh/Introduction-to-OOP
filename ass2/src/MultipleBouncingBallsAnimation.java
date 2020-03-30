@@ -48,17 +48,21 @@ public class MultipleBouncingBallsAnimation {
     public static void main(String[] args) {
         // validity check
         if (args.length < 1) {
-            System.out.println("error! not enough arguments");
-            return;
+            throw new RuntimeException("Error! enter radii for the balls");
         }
-        // creating a new animation
-        MultipleBouncingBallsAnimation animation = new MultipleBouncingBallsAnimation(800, 600);
 
         // parsing the user data
-        int[] ballsRadii = new int[args.length];
-        for (int i = 0; i < args.length; i++) {
-            ballsRadii[i] = Integer.parseInt(args[i]);
+        final int[] ballsRadii = new int[args.length];
+        try {
+            for (int i = 0; i < args.length; i++) {
+                ballsRadii[i] = Integer.parseInt(args[i]);
+            }
+        } catch (Exception NumberFormatException) {
+            throw new RuntimeException("Error! enter radii in integers numbers only");
         }
+
+        // creating a new animation
+        MultipleBouncingBallsAnimation animation = new MultipleBouncingBallsAnimation(800, 600);
 
         //creating the balls
         final Ball[] balls = new Ball[ballsRadii.length];
@@ -83,6 +87,7 @@ public class MultipleBouncingBallsAnimation {
             final DrawSurface canvas = gui.getDrawSurface();
             for (final Ball ball : balls) {
                 drawBall(frame, canvas, ball);
+//                System.out.println("Ball: " + ball.getRadius() + " " + ball.getVelocity());
             }
             gui.show(canvas);
             sleeper.sleepFor(BouncingBallAnimation.SLEEPING_TIME);

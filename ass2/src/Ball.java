@@ -101,7 +101,7 @@ public class Ball {
         this.color = Color.getHSBColor(current().nextFloat(), current().nextFloat(), current().nextFloat());
         // generating a new random speed
         final double angle = current().nextDouble() * 360;
-        final double speed = Velocity.map(radius, 1, 50, 15, 5);
+        final double speed = Velocity.map(radius * radius, 1, 50, 30, 15);
         this.velocity = Velocity.fromAngleAndSpeed(angle, speed);
     }
 
@@ -169,6 +169,8 @@ public class Ball {
     public void drawOn(final DrawSurface canvas) {
         canvas.setColor(this.color);
         canvas.fillCircle((int) this.center.getX(), (int) this.center.getY(), this.radius);
+        canvas.setColor(Color.black);
+        canvas.drawCircle((int) this.center.getX(), (int) this.center.getY(), this.radius);
     }
 
     /**

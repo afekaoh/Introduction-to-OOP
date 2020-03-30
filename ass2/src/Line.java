@@ -113,6 +113,24 @@ public class Line {
 
         final double denominator = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
         if (denominator == 0) {
+
+            //checking is they Coincident in exactly one point
+            if (this.start.equals(other.start()) && !isPointOn(other.end())) {
+                return new LineResult(0, 0, false);
+            }
+
+            if (this.end.equals(other.end()) && !isPointOn(other.start())) {
+                return new LineResult(1, 1, false);
+            }
+
+            if (this.start.equals(other.end()) && !isPointOn(other.start())) {
+                return new LineResult(0, 1, false);
+            }
+
+            if (this.end.equals(other.start()) && !isPointOn(other.end())) {
+                return new LineResult(1, 0, false);
+            }
+
             // the line are parallel to each other
             return new LineResult();
         }
@@ -136,6 +154,15 @@ public class Line {
      * @return if the line segments are intersecting
      */
     public boolean isIntersecting(final Line other) {
+
+        // checking the case that one of lines is a point
+        if (this.length() == 0) {
+            return other.isPointOn(this.start);
+        }
+        if (other.length() == 0) {
+            return this.isPointOn(other.start());
+        }
+
         // calculating the u and t from intersection formula
         final LineResult lineResult = calcUT(other);
 
@@ -159,6 +186,14 @@ public class Line {
     public Point intersectionWith(final Line other) {
         if (!isIntersecting(other)) {
             return null;
+        }
+
+        // checking the case that one of lines is a point
+        if (this.length() == 0) {
+            return this.start;
+        }
+        if (other.length() == 0) {
+            return other.start();
         }
 
         // getting all the variables for the calculation
@@ -205,6 +240,23 @@ public class Line {
     }
 
     /**
+     * Is point on the line.
+     * gets a point and checking if the point on the line.
+     *
+     * @param point the point to check
+     * @return if the point is on the line
+     */
+    public boolean isPointOn(Point point) {
+        if (length() == 0) {
+            // checking
+            return point.equals(this.end);
+        }
+        final double epsilon = 10e-12;
+        // if the point is on the line the distance between it and the edges of the line is the length of the line
+        return Math.abs(this.length() - (this.start.distance(point) + this.end.distance(point))) <= epsilon;
+    }
+
+    /**
      * an object to help returns multiple element in the calcUT method.
      * the u, t, parallel will be calculate from using this article
      * https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
@@ -227,12 +279,25 @@ public class Line {
          * Instantiates a new Line result in the case the lines have intersection point.
          *
          * @param t the t
-         * @param s the s
+         * @param u the u
          */
-        LineResult(final double t, final double s) {
+        LineResult(final double t, final double u) {
             this.t = t;
-            this.u = s;
+            this.u = u;
             this.parallel = false;
+        }
+
+        /**
+         * Instantiates a new Line result in the case the lines have intersection point.
+         *
+         * @param t the t
+         * @param u the u
+         * @param parallel the p
+         */
+        LineResult(final double t, final double u, final boolean parallel) {
+            this.t = t;
+            this.u = u;
+            this.parallel = parallel;
         }
 
         /**

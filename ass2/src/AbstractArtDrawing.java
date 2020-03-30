@@ -6,8 +6,6 @@ import biuoop.GUI;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import static java.util.concurrent.ThreadLocalRandom.current;
-
 /**
  * The class Abstract art drawing.
  */
@@ -121,6 +119,8 @@ public class AbstractArtDrawing {
         final int y = (int) point.getY();
         canvas.setColor(color);
         canvas.fillCircle(x, y, POINT_RADIUS);
+        canvas.setColor(Color.black);
+        canvas.drawCircle(x, y, POINT_RADIUS);
     }
 
     /**
@@ -134,7 +134,7 @@ public class AbstractArtDrawing {
         final int y1 = (int) line.start().getY();
         final int x2 = (int) line.end().getX();
         final int y2 = (int) line.end().getY();
-        canvas.setColor(Color.getHSBColor(current().nextFloat(), current().nextFloat(), current().nextFloat()));
+        canvas.setColor(LINE_COLOR);
         canvas.drawLine(x1, y1, x2, y2);
     }
 }

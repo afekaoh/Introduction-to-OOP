@@ -51,17 +51,19 @@ public class MultipleFramesBouncingBallsAnimation {
     public static void main(final String[] args) {
         // validity check
         if (args.length < 1) {
-            System.out.println("error! not enough arguments");
-            return;
+            throw new RuntimeException("Error! enter radii for the balls");
+        }
+        // parsing the user data
+        final int[] ballsRadii = new int[args.length];
+        try {
+            for (int i = 0; i < args.length; i++) {
+                ballsRadii[i] = Integer.parseInt(args[i]);
+            }
+        } catch (Exception NumberFormatException) {
+            throw new RuntimeException("Error! enter radii in integers numbers only");
         }
         // creating the animation
         MultipleFramesBouncingBallsAnimation animation = new MultipleFramesBouncingBallsAnimation(800, 600);
-
-        // parsing the user data
-        int[] ballsRadii = new int[args.length];
-        for (int i = 0; i < args.length; i++) {
-            ballsRadii[i] = Integer.parseInt(args[i]);
-        }
 
         //creating the balls
         Ball[] balls = new Ball[ballsRadii.length];
@@ -89,11 +91,14 @@ public class MultipleFramesBouncingBallsAnimation {
             drawFrame(canvas, frame2, Color.YELLOW);
 
             // drawing the balls
-            for (int i = 0; i < balls.length; i++) {
-                drawBall(i % 2 == 1 ? frame1 : frame2, canvas, balls[i]);
+            for (int i = 0; i < balls.length / 2; i++) {
+                drawBall(frame1, canvas, balls[i]);
+            }
+            for (int i = balls.length / 2; i < balls.length; i++) {
+                drawBall(frame2, canvas, balls[i]);
             }
             gui.show(canvas);
-            sleeper.sleepFor(40);
+            sleeper.sleepFor(BouncingBallAnimation.SLEEPING_TIME);
         }
     }
 

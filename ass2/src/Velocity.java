@@ -101,4 +101,9 @@ public class Velocity {
     public void setYSpeed(final double newYSpeed) {
         this.ySpeed = newYSpeed;
     }
+
+    @Override
+    public String toString() {
+        return "Velocity{" + "xSpeed=" + xSpeed + ", ySpeed=" + ySpeed + '}';
+    }
 }
