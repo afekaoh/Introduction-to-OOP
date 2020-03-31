@@ -10,40 +10,17 @@ import java.awt.Color;
 /**
  * The class Bouncing ball animation.
  */
-public class BouncingBallAnimation {
-
-    /**
-     * The constant SLEEPING_TIME.
-     */
-    public static final int SLEEPING_TIME = 40;
-    /**
-     * The Width of the animation.
-     */
-    private final int width;
-    /**
-     * The Height of the animation.
-     */
-    private final int height;
-    /**
-     * The Gui for the animation.
-     */
-    private final GUI gui;
-    /**
-     * The Sleeper of the animation.
-     */
-    private final Sleeper sleeper;
+public class BouncingBallAnimation extends Animation {
 
     /**
      * Instantiates a new Bouncing ball animation.
      *
      * @param width the width
      * @param height the height
+     * @param title the title
      */
-    public BouncingBallAnimation(final int width, final int height) {
-        this.width = width;
-        this.height = height;
-        gui = new GUI("Bounce Ball", this.width, this.height);
-        sleeper = new Sleeper();
+    public BouncingBallAnimation(final int width, final int height, final String title) {
+        super(width, height, title);
     }
 
     /**
@@ -52,28 +29,11 @@ public class BouncingBallAnimation {
      * @param args the input arguments
      */
     public static void main(final String[] args) {
-        if (args.length != 4) {
-            throw new RuntimeException("Error! enter exactly 4 arguments!");
-        }
-
-        // parsing the user data
-        final double speed, x, y, angle;
-        try {
-            x = Double.parseDouble(args[0]);
-            y = Double.parseDouble(args[1]);
-            angle = Double.parseDouble(args[2]);
-            speed = Double.parseDouble(args[3]);
-        } catch (Exception NumberFormatException) {
-            throw new RuntimeException("Error! enter numbers only!");
-        }
 
         // creating a new animation
-        final BouncingBallAnimation animation = new BouncingBallAnimation(800, 600);
+        final BouncingBallAnimation animation = new BouncingBallAnimation(800, 600, "Bouncing Ball");
 
-        // creating the new Ball
-        final Point center = new Point(x, y);
-        final Ball ball = new Ball(center, 30, angle, speed, Color.BLACK);
-        animation.drawAnimation(ball);
+        animation.drawAnimation(args);
     }
 
     /**
@@ -84,6 +44,7 @@ public class BouncingBallAnimation {
      * @param dy the dy
      */
     private static void drawAnimation(Point start, double dx, double dy) {
+
         GUI gui = new GUI("title", 200, 200);
         Sleeper sleeper = new Sleeper();
         Ball ball = new Ball(start.getX(), start.getY(), 30, java.awt.Color.BLACK);
@@ -97,23 +58,46 @@ public class BouncingBallAnimation {
         }
     }
 
+
     /**
      * Draw animation.
-     * the function gets a ball and draws it to the screen.
+     * the function creates a ball and draws it to the screen.
      *
-     * @param ball the ball to draw
+     * @param args the arguments to create the Ball
      */
-    public void drawAnimation(final Ball ball) {
+    public void drawAnimation(final String[] args) {
+
+        // validity check
+        if (args.length != 4) {
+            throw new RuntimeException("Error! enter exactly 4 arguments!");
+        }
+
+        // parsing the user data
+        final double ySpeed, x, y, xSpeed;
+        try {
+            x = Double.parseDouble(args[0]);
+            y = Double.parseDouble(args[1]);
+            xSpeed = Double.parseDouble(args[2]);
+            ySpeed = Double.parseDouble(args[3]);
+        } catch (Exception NumberFormatException) {
+            throw new RuntimeException("Error! enter numbers only!");
+        }
+
+        // creating the new Ball
+        final Point center = new Point(x, y);
+        final Ball ball = new Ball(center, 30, Color.BLACK);
+        final Velocity v = new Velocity(xSpeed, ySpeed);
+        ball.setVelocity(v);
+
         // setting the frame of movement bounds
-        final Line frame = new Line(0, 0, width, height);
+        final Line frame = new Line(0, 0, getWidth(), getHeight());
 
         // draw loop
         while (true) {
-            final DrawSurface canvas = gui.getDrawSurface();
-            ball.moveOneStep(frame);
-            ball.drawOn(canvas);
-            gui.show(canvas);
-            sleeper.sleepFor(SLEEPING_TIME);
+            final DrawSurface canvas = getGui().getDrawSurface();
+            drawBall(frame, canvas, ball);
+            getGui().show(canvas);
+            getSleeper().sleepFor(SLEEPING_TIME);
         }
     }
 }

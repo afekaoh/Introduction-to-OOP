@@ -1,7 +1,6 @@
 // ID 316044809
 
 import biuoop.DrawSurface;
-import biuoop.GUI;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -9,40 +8,17 @@ import java.util.ArrayList;
 /**
  * The class Abstract art drawing.
  */
-public class AbstractArtDrawing {
-    /**
-     * The radius of a point to draw.
-     */
-    public static final int POINT_RADIUS = 3;
-    /**
-     * The color of a line.
-     */
-    public static final Color LINE_COLOR = Color.BLACK;
-
-    /**
-     * The Width of the art.
-     */
-    private final int width;
-    /**
-     * The Height of the art.
-     */
-    private final int height;
-    /**
-     * The Gui.
-     */
-    private final GUI gui;
+public class AbstractArtDrawing extends Animation {
 
     /**
      * Instantiates a new Abstract art drawing.
      *
-     * @param width the width
-     * @param height the height
+     * @param width the width of the art
+     * @param height the height of the art
+     * @param title the title of the art
      */
-    public AbstractArtDrawing(final int width, final int height) {
-        this.width = width;
-        this.height = height;
-        // setting up the gui
-        gui = new GUI("Abstract Art", this.width, this.height);
+    public AbstractArtDrawing(final int width, final int height, final String title) {
+        super(width, height, title);
     }
 
     /**
@@ -51,7 +27,7 @@ public class AbstractArtDrawing {
      * @param args the input arguments
      */
     public static void main(final String[] args) {
-        AbstractArtDrawing art = new AbstractArtDrawing(800, 600);
+        AbstractArtDrawing art = new AbstractArtDrawing(400, 300, "Abstract Art Drawing");
         art.drawRandomLines();
     }
 
@@ -60,12 +36,23 @@ public class AbstractArtDrawing {
      * drawing random lines their middle point and all there intersections.
      */
     private void drawRandomLines() {
-        final DrawSurface canvas = gui.getDrawSurface();
+        drawAnimation(null);
+    }
+
+    /**
+     * Draw animation.
+     *
+     * @param args the args not used can be null
+     */
+    @Override
+    public void drawAnimation(final String[] args) {
+
+        final DrawSurface canvas = getGui().getDrawSurface();
 
         // generating the lines
         final Line[] lines = new Line[10];
         for (int i = 0; i < 10; i++) {
-            lines[i] = new Line(width, height);
+            lines[i] = new Line(getWidth(), getHeight());
         }
 
         // finding all intersection points.
@@ -81,8 +68,9 @@ public class AbstractArtDrawing {
         for (final Point point : intersectionPoints) {
             drawPoint(canvas, point, Color.RED);
         }
-        gui.show(canvas);
+        getGui().show(canvas);
     }
+
 
     /**
      * Find intersection points.
@@ -105,36 +93,5 @@ public class AbstractArtDrawing {
             }
         }
         return intersectionPoints;
-    }
-
-    /**
-     * Draw point.
-     *
-     * @param canvas the DrawSurface to draw the point to
-     * @param point the point to draw
-     * @param color the color of the point.
-     */
-    private void drawPoint(final DrawSurface canvas, final Point point, final Color color) {
-        final int x = (int) point.getX();
-        final int y = (int) point.getY();
-        canvas.setColor(color);
-        canvas.fillCircle(x, y, POINT_RADIUS);
-        canvas.setColor(Color.black);
-        canvas.drawCircle(x, y, POINT_RADIUS);
-    }
-
-    /**
-     * Draw line.
-     *
-     * @param canvas the DrawSurface to draw the line to
-     * @param line the line to draw
-     */
-    private void drawLine(final DrawSurface canvas, final Line line) {
-        final int x1 = (int) line.start().getX();
-        final int y1 = (int) line.start().getY();
-        final int x2 = (int) line.end().getX();
-        final int y2 = (int) line.end().getY();
-        canvas.setColor(LINE_COLOR);
-        canvas.drawLine(x1, y1, x2, y2);
     }
 }

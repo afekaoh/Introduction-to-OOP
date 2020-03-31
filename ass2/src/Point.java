@@ -98,6 +98,11 @@ public class Point {
         return deltaX <= epsilon && epsilon >= deltaY;
     }
 
+    @Override
+    public String toString() {
+        return "Point{" + "x=" + x + ", y=" + y + '}';
+    }
+
     /**
      * Gets x.
      *
@@ -132,10 +137,5 @@ public class Point {
      */
     public void setY(final double newY) {
         this.y = newY;
-    }
-
-    @Override
-    public String toString() {
-        return "Point{" + "x=" + x + ", y=" + y + '}';
     }
 }
