@@ -57,22 +57,6 @@ public class Animation {
     }
 
     /**
-     * Create balls.
-     * gets an string array of radii and creates an array of balls with the corresponding radii
-     *
-     * @param radii the balls radii
-     * @return an array of Balls
-     */
-    public Ball[] createBalls(final String[] radii) {
-        final int[] ballsRadii = getRadii(radii);
-        Ball[] balls = new Ball[ballsRadii.length];
-        for (int i = 0; i < balls.length; i++) {
-            balls[i] = new Ball(ballsRadii[i], width, height);
-        }
-        return balls;
-    }
-
-    /**
      * Gets width.
      *
      * @return the width
@@ -115,7 +99,7 @@ public class Animation {
      */
     public void drawAnimation(final String[] args) {
         // setting the frame of movement bounds
-        final Line frame = new Line(0, 0, getWidth(), getHeight());
+        final Line frame = new Line(0, 0, width, height);
 
         // draw loop
         while (true) {
@@ -207,5 +191,21 @@ public class Animation {
         final int y2 = (int) line.end().getY();
         canvas.setColor(LINE_COLOR);
         canvas.drawLine(x1, y1, x2, y2);
+    }
+
+    /**
+     * Create balls.
+     * gets an string array of radii and creates an array of balls with the corresponding radii
+     *
+     * @param radii the balls radii
+     * @return an array of Balls
+     */
+    public Ball[] createBalls(final String[] radii) {
+        final int[] ballsRadii = getRadii(radii);
+        Ball[] balls = new Ball[ballsRadii.length];
+        for (int i = 0; i < balls.length; i++) {
+            balls[i] = new Ball(ballsRadii[i], width, height);
+        }
+        return balls;
     }
 }
