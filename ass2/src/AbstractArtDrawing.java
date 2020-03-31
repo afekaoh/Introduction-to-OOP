@@ -36,16 +36,6 @@ public class AbstractArtDrawing extends Animation {
      * drawing random lines their middle point and all there intersections.
      */
     private void drawRandomLines() {
-        drawAnimation(null);
-    }
-
-    /**
-     * Draw animation.
-     *
-     * @param args the args not used can be null
-     */
-    @Override
-    public void drawAnimation(final String[] args) {
 
         final DrawSurface canvas = getGui().getDrawSurface();
 

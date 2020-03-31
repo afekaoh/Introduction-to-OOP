@@ -11,19 +11,19 @@ import java.awt.Color;
  * Implementing all the animation related methods to be used in the various animations classes.
  */
 public class Animation {
-
+    // constants
     /**
      * The constant SLEEPING_TIME.
      */
     public static final int SLEEPING_TIME = 40;
     /**
-     * The radius of a point to draw.
+     * A default radius for a point.
      */
     public static final int POINT_RADIUS = 3;
     /**
-     * The color of a line.
+     * A default color of a line.
      */
-    public static final Color LINE_COLOR = Color.BLACK;
+    public static final Color BLACK = Color.BLACK;
 
     /**
      * The Width of the animation.
@@ -98,9 +98,6 @@ public class Animation {
      * @param args the arguments for the animation
      */
     public void drawAnimation(final String[] args) {
-        // setting the frame of movement bounds
-        final Line frame = new Line(0, 0, width, height);
-
         // draw loop
         while (true) {
             final DrawSurface canvas = getGui().getDrawSurface();
@@ -157,7 +154,7 @@ public class Animation {
         canvas.fillRectangle(x, y, frameWidth, frameHeight);
 
         // drawing the stroke
-        canvas.setColor(Color.black);
+        canvas.setColor(BLACK);
         canvas.drawRectangle(x, y, frameWidth, frameHeight);
     }
 
@@ -174,7 +171,7 @@ public class Animation {
         final int y = (int) point.getY();
         canvas.setColor(color);
         canvas.fillCircle(x, y, POINT_RADIUS);
-        canvas.setColor(Color.black);
+        canvas.setColor(BLACK);
         canvas.drawCircle(x, y, POINT_RADIUS);
     }
 
@@ -189,7 +186,7 @@ public class Animation {
         final int y1 = (int) line.start().getY();
         final int x2 = (int) line.end().getX();
         final int y2 = (int) line.end().getY();
-        canvas.setColor(LINE_COLOR);
+        canvas.setColor(BLACK);
         canvas.drawLine(x1, y1, x2, y2);
     }
 

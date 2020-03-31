@@ -33,6 +33,7 @@
 
     <target name="clean">
         <delete dir="bin"/>
+        <delete file="ass2.zip"/>
     </target>
 
     <!--    This target is for your convenience; we will not grade it. -->
