@@ -27,17 +27,16 @@ public class MultipleBouncingBallsAnimation extends Animation {
     public static void main(String[] args) {
 
         // creating a new animation
-        final MultipleBouncingBallsAnimation animation;
-        animation = new MultipleBouncingBallsAnimation(800, 600, "Multiple Bouncing Balls");
+        final var animation = new MultipleBouncingBallsAnimation(800, 600, "Multiple Bouncing Balls");
 
         animation.drawAnimation(args);
     }
 
 
     /**
-     * Draws the animation.
+     * create random balls and draws them to the screen.
      *
-     * @param args the args
+     * @param args the radii of the balls
      */
     public void drawAnimation(final String[] args) {
         // validity check

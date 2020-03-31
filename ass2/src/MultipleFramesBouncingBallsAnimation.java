@@ -29,16 +29,15 @@ public class MultipleFramesBouncingBallsAnimation extends Animation {
      */
     public static void main(final String[] args) {
         // creating the animation
-        final MultipleFramesBouncingBallsAnimation animation;
-        animation = new MultipleFramesBouncingBallsAnimation(800, 600, "Multi Frames Balls");
+        final var animation = new MultipleFramesBouncingBallsAnimation(800, 600, "Multi Frames Balls");
         animation.drawAnimation(args);
     }
 
 
     /**
-     * Draw animation.
+     * creates 2 frames and random balls and draw the balls on those frames.
      *
-     * @param args the args
+     * @param args the radii of the balls to draw
      */
     public void drawAnimation(String[] args) {
         // validity check

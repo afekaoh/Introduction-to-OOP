@@ -52,8 +52,8 @@ public class Animation {
     public Animation(final int width, final int height, final String title) {
         this.width = width;
         this.height = height;
-        gui = new GUI(title, this.width, this.height);
-        sleeper = new Sleeper();
+        this.gui = new GUI(title, this.width, this.height);
+        this.sleeper = new Sleeper();
     }
 
     /**
@@ -180,13 +180,14 @@ public class Animation {
      *
      * @param canvas the DrawSurface to draw the line to
      * @param line the line to draw
+     * @param color the color of the line
      */
-    public void drawLine(final DrawSurface canvas, final Line line) {
+    public void drawLine(final DrawSurface canvas, final Line line, final Color color) {
         final int x1 = (int) line.start().getX();
         final int y1 = (int) line.start().getY();
         final int x2 = (int) line.end().getX();
         final int y2 = (int) line.end().getY();
-        canvas.setColor(BLACK);
+        canvas.setColor(color);
         canvas.drawLine(x1, y1, x2, y2);
     }
 

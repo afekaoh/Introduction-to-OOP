@@ -50,7 +50,7 @@ public class AbstractArtDrawing extends Animation {
 
         // drawing the lines and the middle points.
         for (final Line line : lines) {
-            drawLine(canvas, line);
+            drawLine(canvas, line, BLACK);
             drawPoint(canvas, line.middle(), Color.BLUE);
         }
 
