@@ -8,7 +8,7 @@
 
     <!-- Define a property, which is like a variable for the build file, -->
     <!--  with the classpath for all compilation & execution targets. -->
-    <target name="zip">
+    <target name="zip" depends="clean">
         <mkdir dir="to_zip"/>
         <mkdir dir="to_zip/src"/>
         <copydir src="src" dest="to_zip/src"/>

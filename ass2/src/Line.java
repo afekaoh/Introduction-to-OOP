@@ -60,7 +60,6 @@ public class Line {
         return this.start.distance(this.end);
     }
 
-
     /**
      * Middle point.
      *
@@ -90,7 +89,6 @@ public class Line {
         return end;
     }
 
-
     /**
      * Calculating the u and the t from the intersection formula.
      *
@@ -112,27 +110,10 @@ public class Line {
         final double y4 = other.end().getY();
 
         final double denominator = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+
         if (denominator == 0) {
-
-            //checking is they Coincident in exactly one point
-            if (this.start.equals(other.start()) && !isPointOn(other.end())) {
-                return new LineResult(0, 0, false);
-            }
-
-            if (this.end.equals(other.end()) && !isPointOn(other.start())) {
-                return new LineResult(1, 1, false);
-            }
-
-            if (this.start.equals(other.end()) && !isPointOn(other.start())) {
-                return new LineResult(0, 1, false);
-            }
-
-            if (this.end.equals(other.start()) && !isPointOn(other.end())) {
-                return new LineResult(1, 0, false);
-            }
-
-            // the line are parallel to each other
-            return new LineResult();
+            //checking is they Coincident in exactly one point or if they are parallel
+            return other.length() < this.length() ? checkEdges(this, other) : checkEdges(other, this);
         }
 
         // calculating t
@@ -174,7 +155,7 @@ public class Line {
         // checking if the intersection point is inside both of the line segments
         final double t = lineResult.getT();
         final double u = lineResult.getU();
-        return 0 <= t && t <= 1 && 0 <= u && u <= 1;
+        return (0 <= t && t <= 1) && (0 <= u && u <= 1);
     }
 
     /**
@@ -257,6 +238,38 @@ public class Line {
     }
 
     /**
+     * Check edges.
+     * check if 2 coincident lines are parallel or have 1 intersection point
+     *
+     * @param line the first line to check
+     * @param other the other line to check
+     * @return the line result
+     */
+    private static LineResult checkEdges(final Line line, final Line other) {
+        // if they coincident nut have only 1 intersection point
+
+        if (line.start.equals(other.start()) && !line.isPointOn(other.end())) {
+            return new LineResult(0, 0);
+        }
+
+        if (line.end.equals(other.end()) && !line.isPointOn(other.start())) {
+            return new LineResult(1, 1);
+        }
+
+        if (line.start.equals(other.end()) && !line.isPointOn(other.start())) {
+            return new LineResult(0, 1);
+        }
+
+        if (line.end.equals(other.start()) && !line.isPointOn(other.end())) {
+            return new LineResult(1, 0);
+        }
+
+        // they are parallel.
+        return new LineResult();
+    }
+
+
+    /**
      * an object to help returns multiple element in the calcUT method.
      * the u, t, parallel will be calculate from using this article
      * https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
@@ -285,19 +298,6 @@ public class Line {
             this.t = t;
             this.u = u;
             this.parallel = false;
-        }
-
-        /**
-         * Instantiates a new Line result in the case the lines have intersection point.
-         *
-         * @param t the t
-         * @param u the u
-         * @param parallel the p
-         */
-        LineResult(final double t, final double u, final boolean parallel) {
-            this.t = t;
-            this.u = u;
-            this.parallel = parallel;
         }
 
         /**
