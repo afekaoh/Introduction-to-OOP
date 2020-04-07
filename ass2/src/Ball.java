@@ -26,8 +26,9 @@ public class Ball {
 
     /**
      * The Velocity of the ball.
+     * defaults to (0,0) if not set otherwise
      */
-    private Velocity velocity;
+    private Velocity velocity = new Velocity(0, 0);
 
 
     /**
@@ -36,11 +37,13 @@ public class Ball {
      * @param center the center of the call
      * @param radius the radius of the ball
      * @param color the color of the ball
+     * @param velocity the velocity of the ball
      */
-    public Ball(final Point center, final int radius, final Color color) {
+    public Ball(final Point center, final int radius, final Color color, Velocity velocity) {
         this.center = center;
         this.radius = radius;
         this.color = color;
+        this.velocity = velocity;
     }
 
     /**
@@ -81,7 +84,7 @@ public class Ball {
      * @param yRange the yRange
      */
     public Ball(final int radius, final double xRange, final double yRange) {
-        // sending it to the 2 points random constructor
+        // sending it to the generic random constructor
         this(radius, new Point(0, 0), new Point(xRange, yRange));
     }
 
@@ -98,10 +101,10 @@ public class Ball {
         start.setY(start.getY() + radius);
         this.center = Point.getRandomPoint(start, end);
         this.radius = radius;
-        this.color = Color.getHSBColor(current().nextFloat(), current().nextFloat(), current().nextFloat());
+        this.color = Color.getHSBColor(current().nextFloat() + 1, current().nextFloat(), current().nextFloat());
         // generating a new random speed
         final double angle = current().nextDouble() * 360;
-        final double speed = Velocity.map(radius * radius, 1, 50, 30, 15);
+        final double speed = Velocity.map(radius * radius, 1, 2500, 15, 7);
         this.velocity = Velocity.fromAngleAndSpeed(angle, speed);
     }
 
@@ -174,7 +177,7 @@ public class Ball {
     }
 
     /**
-     * Move on step.
+     * Move one step.
      */
     public void moveOneStep() {
         this.center = this.velocity.applyToPoint(this.center);
@@ -185,8 +188,7 @@ public class Ball {
      *
      * @param frame the boundaries of the ball movement
      */
-    public void moveOneStep(final Line frame) {
-        // moving the ball
+    public void moveOneStep(final Frame frame) {
         this.center = this.velocity.applyToPoint(this.center);
         bounce(frame);
     }
@@ -196,14 +198,14 @@ public class Ball {
      *
      * @param frame the boundaries of the ball movement
      */
-    private void bounce(final Line frame) {
+    private void bounce(final Frame frame) {
         boolean bounced = false;
 
         // extracting the XY data.
-        final int xStart = (int) frame.start().getX();
-        final int xEnd = (int) frame.end().getX();
-        final int yStart = (int) frame.start().getY();
-        final int yEnd = (int) frame.end().getY();
+        final double xStart = frame.top().getX();
+        final double xEnd = frame.bottom().getX();
+        final double yStart = frame.top().getY();
+        final double yEnd = frame.bottom().getY();
 
         // checking the horizontal boundaries
         if (this.center.getX() + this.radius >= xEnd) {
@@ -234,7 +236,7 @@ public class Ball {
 
         if (bounced) {
             // changing the color every bounce
-            this.color = Color.getHSBColor(current().nextFloat(), current().nextFloat(), current().nextFloat());
+            this.color = Color.getHSBColor(current().nextFloat() + 1, current().nextFloat(), current().nextFloat());
         }
     }
 }

@@ -1,12 +1,11 @@
 // ID 316044809
 
-import biuoop.DrawSurface;
-
 
 /**
  * The class Multiple bouncing balls animation.
  */
 public class MultipleBouncingBallsAnimation extends Animation {
+    private final Frame frameOfMovement;
 
     /**
      * Instantiates a new Multiple bouncing balls animation.
@@ -17,6 +16,8 @@ public class MultipleBouncingBallsAnimation extends Animation {
      */
     public MultipleBouncingBallsAnimation(final int width, final int height, final String title) {
         super(width, height, title);
+        // setting the frame of movement bounds
+        this.frameOfMovement = new Frame(0, 0, width, height);
     }
 
     /**
@@ -45,19 +46,15 @@ public class MultipleBouncingBallsAnimation extends Animation {
         }
 
         //creating the balls
-        final Ball[] balls = createBalls(args);
-        // setting the frame of movement bounds
-        final Line frame = new Line(0, 0, getWidth(), getHeight());
+        final Ball[] balls = createBallsFromCMD(args);
 
         // draw loop
         while (true) {
-            final DrawSurface canvas = getGui().getDrawSurface();
+            setNewCanvas();
             for (final Ball ball : balls) {
-                drawBall(frame, canvas, ball);
+                drawBall(frameOfMovement, ball);
             }
-
-            getGui().show(canvas);
-            getSleeper().sleepFor(SLEEPING_TIME);
+            show();
         }
     }
 }

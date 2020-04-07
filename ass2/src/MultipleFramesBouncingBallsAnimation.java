@@ -1,7 +1,5 @@
 // ID 316044809
 
-import biuoop.DrawSurface;
-
 import java.awt.Color;
 
 
@@ -12,6 +10,16 @@ public class MultipleFramesBouncingBallsAnimation extends Animation {
 
 
     /**
+     * The first Frame of movement.
+     */
+    private final Frame frameOfMovement0;
+
+    /**
+     * The second Frame of movement.
+     */
+    private final Frame frameOfMovement1;
+
+    /**
      * Instantiates a new Multiple frames bouncing balls animation.
      *
      * @param width the width
@@ -20,6 +28,9 @@ public class MultipleFramesBouncingBallsAnimation extends Animation {
      */
     public MultipleFramesBouncingBallsAnimation(final int width, final int height, final String title) {
         super(width, height, title);
+        // setting up the frames of movements
+        this.frameOfMovement0 = new Frame(50, 50, 500, 500, Color.GRAY);
+        this.frameOfMovement1 = new Frame(450, 450, 600, 600, Color.YELLOW);
     }
 
     /**
@@ -46,27 +57,19 @@ public class MultipleFramesBouncingBallsAnimation extends Animation {
         }
 
         //creating the balls
-        final Ball[] balls = createBalls(args);
-        // setting up the frame of movements
-        final Line frame1 = new Line(50, 50, 500, 500);
-        final Line frame2 = new Line(450, 450, 600, 600);
+        final Ball[] balls = createBallsFromCMD(args);
 
         // draw loop
         while (true) {
-            final DrawSurface canvas = getGui().getDrawSurface();
+            setNewCanvas();
             // drawing the frames
-            drawFrame(canvas, frame1, Color.GRAY);
-            drawFrame(canvas, frame2, Color.YELLOW);
-
+            drawFrame(frameOfMovement0);
+            drawFrame(frameOfMovement1);
             // drawing the balls
-            for (int i = 0; i < balls.length / 2; i++) {
-                drawBall(frame1, canvas, balls[i]);
+            for (int i = 0; i < balls.length; i++) {
+                drawBall(i % 2 == 0 ? frameOfMovement0 : frameOfMovement1, balls[i]);
             }
-            for (int i = balls.length / 2; i < balls.length; i++) {
-                drawBall(frame2, canvas, balls[i]);
-            }
-            getGui().show(canvas);
-            getSleeper().sleepFor(SLEEPING_TIME);
+            show();
         }
     }
 }

@@ -1,7 +1,8 @@
 // ID 316044809
 
 import java.util.Objects;
-import java.util.concurrent.ThreadLocalRandom;
+
+import static java.util.concurrent.ThreadLocalRandom.current;
 
 /**
  * The class Point.
@@ -36,8 +37,8 @@ public class Point {
      * @return a point in a random location between (0,0) to (xRange,yRange)
      */
     public static Point getRandomPoint(final double xRange, final double yRange) {
-        final double x = ThreadLocalRandom.current().nextDouble(xRange);
-        final double y = ThreadLocalRandom.current().nextDouble(yRange);
+        final double x = current().nextDouble(xRange);
+        final double y = current().nextDouble(yRange);
         return new Point(x, y);
     }
 
@@ -49,9 +50,45 @@ public class Point {
      * @return random point between the start and the end
      */
     public static Point getRandomPoint(final Point start, final Point end) {
-        final double x = ThreadLocalRandom.current().nextDouble(start.getX(), end.getX());
-        final double y = ThreadLocalRandom.current().nextDouble(start.getY(), end.getY());
+        final double x = current().nextDouble(start.getX(), end.getX());
+        final double y = current().nextDouble(start.getY(), end.getY());
         return new Point(x, y);
+    }
+
+    /**
+     * Gets x.
+     *
+     * @return the x
+     */
+    public double getX() {
+        return x;
+    }
+
+    /**
+     * Sets x.
+     *
+     * @param newX the x
+     */
+    public void setX(final double newX) {
+        this.x = newX;
+    }
+
+    /**
+     * Gets y.
+     *
+     * @return the y
+     */
+    public double getY() {
+        return y;
+    }
+
+    /**
+     * Sets y.
+     *
+     * @param newY the y
+     */
+    public void setY(final double newY) {
+        this.y = newY;
     }
 
     /**
@@ -101,41 +138,5 @@ public class Point {
     @Override
     public String toString() {
         return "Point{" + "x=" + x + ", y=" + y + '}';
-    }
-
-    /**
-     * Gets x.
-     *
-     * @return the x
-     */
-    public double getX() {
-        return x;
-    }
-
-    /**
-     * Sets x.
-     *
-     * @param newX the x
-     */
-    public void setX(final double newX) {
-        this.x = newX;
-    }
-
-    /**
-     * Gets y.
-     *
-     * @return the y
-     */
-    public double getY() {
-        return y;
-    }
-
-    /**
-     * Sets y.
-     *
-     * @param newY the y
-     */
-    public void setY(final double newY) {
-        this.y = newY;
     }
 }

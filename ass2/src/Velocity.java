@@ -26,7 +26,7 @@ public class Velocity {
     }
 
     /**
-     * From angle and speed velocity.
+     * Create a new velocity from angle and speed.
      *
      * @param angle the angle of the velocity
      * @param speed the speed

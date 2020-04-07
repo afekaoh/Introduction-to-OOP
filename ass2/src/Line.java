@@ -52,6 +52,37 @@ public class Line {
     }
 
     /**
+     * Check edges.
+     * check if 2 coincident lines are parallel or have 1 intersection point
+     *
+     * @param line1 the first line to check
+     * @param line2 the other line to check
+     * @return the line result
+     */
+    private static LineResult checkEdges(final Line line1, final Line line2) {
+        // if they coincident but have only 1 intersection point
+
+        if (line1.start.equals(line2.start()) && !line1.isPointOn(line2.end())) {
+            return new LineResult(0, 0);
+        }
+
+        if (line1.end.equals(line2.end()) && !line1.isPointOn(line2.start())) {
+            return new LineResult(1, 1);
+        }
+
+        if (line1.start.equals(line2.end()) && !line1.isPointOn(line2.start())) {
+            return new LineResult(0, 1);
+        }
+
+        if (line1.end.equals(line2.start()) && !line1.isPointOn(line2.end())) {
+            return new LineResult(1, 0);
+        }
+
+        // they are parallel.
+        return new LineResult();
+    }
+
+    /**
      * calculating the length of the line.
      *
      * @return the length of the line
@@ -229,43 +260,12 @@ public class Line {
      */
     public boolean isPointOn(Point point) {
         if (length() == 0) {
-            // checking
+            // checking the case the line is point as well
             return point.equals(this.end);
         }
         final double epsilon = 10e-12;
         // if the point is on the line the distance between it and the edges of the line is the length of the line
         return Math.abs(this.length() - (this.start.distance(point) + this.end.distance(point))) <= epsilon;
-    }
-
-    /**
-     * Check edges.
-     * check if 2 coincident lines are parallel or have 1 intersection point
-     *
-     * @param line the first line to check
-     * @param other the other line to check
-     * @return the line result
-     */
-    private static LineResult checkEdges(final Line line, final Line other) {
-        // if they coincident nut have only 1 intersection point
-
-        if (line.start.equals(other.start()) && !line.isPointOn(other.end())) {
-            return new LineResult(0, 0);
-        }
-
-        if (line.end.equals(other.end()) && !line.isPointOn(other.start())) {
-            return new LineResult(1, 1);
-        }
-
-        if (line.start.equals(other.end()) && !line.isPointOn(other.start())) {
-            return new LineResult(0, 1);
-        }
-
-        if (line.end.equals(other.start()) && !line.isPointOn(other.end())) {
-            return new LineResult(1, 0);
-        }
-
-        // they are parallel.
-        return new LineResult();
     }
 
 
@@ -304,8 +304,8 @@ public class Line {
          * Instantiates a new Line result in the case the lines don't have intersection point.
          */
         LineResult() {
-            this.u = 0;
             this.t = 0;
+            this.u = 0;
             this.parallel = true;
         }
 

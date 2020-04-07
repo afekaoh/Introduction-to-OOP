@@ -1,12 +1,16 @@
 // ID 316044809
 
-import biuoop.DrawSurface;
-
 
 /**
  * The class Bouncing ball animation.
  */
 public class BouncingBallAnimation extends Animation {
+
+
+    /**
+     * The Frame of movement.
+     */
+    private final Frame frameOfMovement;
 
     /**
      * Instantiates a new Bouncing ball animation.
@@ -17,6 +21,8 @@ public class BouncingBallAnimation extends Animation {
      */
     public BouncingBallAnimation(final int width, final int height, final String title) {
         super(width, height, title);
+        // setting the frame of movement bounds
+        this.frameOfMovement = new Frame(0, 0, width, height);
     }
 
     /**
@@ -27,11 +33,10 @@ public class BouncingBallAnimation extends Animation {
     public static void main(final String[] args) {
 
         // creating a new animation
-        final BouncingBallAnimation animation = new BouncingBallAnimation(400, 300, "Bouncing Ball");
+        final var animation = new BouncingBallAnimation(400, 300, "Bouncing Ball");
 
         animation.drawAnimation(args);
     }
-
 
     /**
      * Draw animation.
@@ -58,20 +63,13 @@ public class BouncingBallAnimation extends Animation {
         }
 
         // creating the new Ball
-        final Point center = new Point(x, y);
-        final Ball ball = new Ball(center, 30, BLACK);
-        final Velocity v = new Velocity(xSpeed, ySpeed);
-        ball.setVelocity(v);
-
-        // setting the frame of movement bounds
-        final Line frame = new Line(0, 0, getWidth(), getHeight());
+        final Ball ball = new Ball(new Point(x, y), 30, BLACK, new Velocity(xSpeed, ySpeed));
 
         // draw loop
         while (true) {
-            final DrawSurface canvas = getGui().getDrawSurface();
-            drawBall(frame, canvas, ball);
-            getGui().show(canvas);
-            getSleeper().sleepFor(SLEEPING_TIME);
+            setNewCanvas();
+            drawBall(frameOfMovement, ball);
+            show();
         }
     }
 }

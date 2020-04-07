@@ -1,7 +1,5 @@
 // ID 316044809
 
-import biuoop.DrawSurface;
-
 import java.awt.Color;
 import java.util.ArrayList;
 
@@ -37,28 +35,23 @@ public class AbstractArtDrawing extends Animation {
      */
     private void drawRandomLines() {
 
-        final DrawSurface canvas = getGui().getDrawSurface();
-
         // generating the lines
-        final Line[] lines = new Line[10];
-        for (int i = 0; i < 10; i++) {
-            lines[i] = new Line(getWidth(), getHeight());
-        }
+        final Line[] lines = createRandomLines(10);
 
         // finding all intersection points.
         final ArrayList<Point> intersectionPoints = findIntersectionPoints(lines);
 
         // drawing the lines and the middle points.
         for (final Line line : lines) {
-            drawLine(canvas, line, BLACK);
-            drawPoint(canvas, line.middle(), Color.BLUE);
+            drawLine(line, BLACK);
+            drawPoint(line.middle(), Color.BLUE, POINT_RADIUS);
         }
 
         // drawing the intersection points
         for (final Point point : intersectionPoints) {
-            drawPoint(canvas, point, Color.RED);
+            drawPoint(point, Color.RED, POINT_RADIUS);
         }
-        getGui().show(canvas);
+        show();
     }
 
 
