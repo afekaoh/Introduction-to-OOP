@@ -10,14 +10,14 @@ public class MultipleFramesBouncingBallsAnimation extends Animation {
 
 
     /**
-     * The first Frame of movement.
+     * The first Boundary of movement.
      */
-    private final Frame frameOfMovement0;
+    private final Boundary frameOfMovement0;
 
     /**
-     * The second Frame of movement.
+     * The second Boundary of movement.
      */
-    private final Frame frameOfMovement1;
+    private final Boundary frameOfMovement1;
 
     /**
      * Instantiates a new Multiple frames bouncing balls animation.
@@ -29,8 +29,8 @@ public class MultipleFramesBouncingBallsAnimation extends Animation {
     public MultipleFramesBouncingBallsAnimation(final int width, final int height, final String title) {
         super(width, height, title);
         // setting up the frames of movements
-        this.frameOfMovement0 = new Frame(50, 50, 500, 500, Color.GRAY);
-        this.frameOfMovement1 = new Frame(450, 450, 600, 600, Color.YELLOW);
+        this.frameOfMovement0 = new Boundary(50, 50, 500, 500, Color.GRAY);
+        this.frameOfMovement1 = new Boundary(450, 450, 600, 600, Color.YELLOW);
     }
 
     /**

@@ -8,9 +8,9 @@ public class BouncingBallAnimation extends Animation {
 
 
     /**
-     * The Frame of movement.
+     * The Boundary of movement.
      */
-    private final Frame frameOfMovement;
+    private final Boundary frameOfMovement;
 
     /**
      * Instantiates a new Bouncing ball animation.
@@ -22,7 +22,7 @@ public class BouncingBallAnimation extends Animation {
     public BouncingBallAnimation(final int width, final int height, final String title) {
         super(width, height, title);
         // setting the frame of movement bounds
-        this.frameOfMovement = new Frame(0, 0, width, height);
+        this.frameOfMovement = new Boundary(0, 0, width, height);
     }
 
     /**

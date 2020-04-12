@@ -5,7 +5,7 @@
  * The class Multiple bouncing balls animation.
  */
 public class MultipleBouncingBallsAnimation extends Animation {
-    private final Frame frameOfMovement;
+    private final Boundary frameOfMovement;
 
     /**
      * Instantiates a new Multiple bouncing balls animation.
@@ -17,7 +17,7 @@ public class MultipleBouncingBallsAnimation extends Animation {
     public MultipleBouncingBallsAnimation(final int width, final int height, final String title) {
         super(width, height, title);
         // setting the frame of movement bounds
-        this.frameOfMovement = new Frame(0, 0, width, height);
+        this.frameOfMovement = new Boundary(0, 0, width, height);
     }
 
     /**

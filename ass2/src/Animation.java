@@ -11,18 +11,9 @@ import java.awt.Color;
  * Implementing all the animation related methods to be used in the various animations classes.
  */
 public class Animation {
-    // constants
-    /**
-     * The constant SLEEPING_TIME.
-     */
+    // constants for the animation classes
     public static final int SLEEPING_TIME = 40;
-    /**
-     * A default radius for a point.
-     */
     public static final int POINT_RADIUS = 3;
-    /**
-     * the color black which used a lot.
-     */
     public static final Color BLACK = Color.BLACK;
 
     /**
@@ -106,11 +97,11 @@ public class Animation {
     /**
      * Draw ball to the given canvas.
      *
-     * @param frame a line representing the boundaries of the frame
+     * @param boundary a line representing the boundaries of the boundary
      * @param ball the ball to draw
      */
-    public void drawBall(final Frame frame, final Ball ball) {
-        ball.moveOneStep(frame);
+    public void drawBall(final Boundary boundary, final Ball ball) {
+        ball.moveOneStep(boundary);
         drawPoint(ball.getCenter(), ball.getColor(), ball.getRadius());
     }
 
@@ -181,20 +172,20 @@ public class Animation {
     }
 
     /**
-     * Draws the frame.
+     * Draws the boundary.
      *
-     * @param frame the frame
+     * @param boundary the boundary
      */
-    public void drawFrame(Frame frame) {
+    public void drawFrame(Boundary boundary) {
         // drawing the fill
-        canvas.setColor(frame.getColor());
+        canvas.setColor(boundary.getColor());
 
-        final int leftX = (int) frame.top().getX();
-        final int topY = (int) frame.top().getY();
-        final int frameWidth = frame.getFrameWidth();
-        final int frameHeight = frame.getFrameHeight();
+        final int leftX = (int) boundary.topPoint().getX();
+        final int topY = (int) boundary.topPoint().getY();
+        final int frameWidth = boundary.getBoundaryWidth();
+        final int frameHeight = boundary.getBoundaryHeight();
 
-        //drawing the frame
+        //drawing the boundary
         canvas.fillRectangle(leftX, topY, frameWidth, frameHeight);
 
         // drawing the stroke

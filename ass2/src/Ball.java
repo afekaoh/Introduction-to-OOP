@@ -186,26 +186,26 @@ public class Ball {
     /**
      * Moving the ball.
      *
-     * @param frame the boundaries of the ball movement
+     * @param boundary the boundaries of the ball movement
      */
-    public void moveOneStep(final Frame frame) {
+    public void moveOneStep(final Boundary boundary) {
         this.center = this.velocity.applyToPoint(this.center);
-        bounce(frame);
+        bounce(boundary);
     }
 
     /**
      * Bounce the ball if it got to a boundary.
      *
-     * @param frame the boundaries of the ball movement
+     * @param boundary the boundaries of the ball movement
      */
-    private void bounce(final Frame frame) {
+    private void bounce(final Boundary boundary) {
         boolean bounced = false;
 
         // extracting the XY data.
-        final double xStart = frame.top().getX();
-        final double xEnd = frame.bottom().getX();
-        final double yStart = frame.top().getY();
-        final double yEnd = frame.bottom().getY();
+        final double xStart = boundary.topPoint().getX();
+        final double xEnd = boundary.bottomPoint().getX();
+        final double yStart = boundary.topPoint().getY();
+        final double yEnd = boundary.bottomPoint().getY();
 
         // checking the horizontal boundaries
         if (this.center.getX() + this.radius >= xEnd) {
@@ -219,7 +219,7 @@ public class Ball {
             this.velocity.setXSpeed(-this.velocity.getXSpeed());
             bounced = true;
         }
-        // no else as the ball could intersect with both X boundary and Y boundary at the same frame
+        // no else as the ball could intersect with both X boundary and Y boundary at the same boundary
 
         // checking the vertical boundaries
         if (this.center.getY() + this.radius >= yEnd) {
