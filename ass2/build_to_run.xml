@@ -24,7 +24,7 @@
         </dirset>
     </path>
 
-    <property name="classpath" value="biuoop-1.4.jar:bin:bin/*"/>
+    <property name="classpath" value="../General/biuoop-1.4.jar:bin"/>
     <!-- Compile all java files under `src`, and export .class files into `bin` -->
     <target name="compile">
         <mkdir dir="bin"/>

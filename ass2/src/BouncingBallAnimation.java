@@ -1,6 +1,5 @@
 // ID 316044809
 
-
 /**
  * The class Bouncing ball animation.
  * creates an animation of one bouncing ball according to user specific arguments.
@@ -34,7 +33,7 @@ public class BouncingBallAnimation extends Animation {
     public static void main(final String[] args) {
 
         // creating a new animation
-        final var animation = new BouncingBallAnimation(400, 300, "Bouncing Ball");
+        final BouncingBallAnimation animation = new BouncingBallAnimation(400, 300, "Bouncing Ball");
 
         animation.drawAnimation(args);
     }

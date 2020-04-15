@@ -1,7 +1,5 @@
 // ID 316044809
 
-import java.awt.Color;
-
 
 /**
  * The class Multiple bouncing balls animation.
@@ -30,8 +28,8 @@ public class MultipleFramesBouncingBallsAnimation extends Animation {
     public MultipleFramesBouncingBallsAnimation(final int width, final int height, final String title) {
         super(width, height, title);
         // setting up the frames of movements
-        this.frameOfMovement0 = new Boundary(50, 50, 500, 500, Color.GRAY);
-        this.frameOfMovement1 = new Boundary(450, 450, 600, 600, Color.YELLOW);
+        this.frameOfMovement0 = new Boundary(50, 50, 500, 500, java.awt.Color.GRAY);
+        this.frameOfMovement1 = new Boundary(450, 450, 600, 600, java.awt.Color.YELLOW);
     }
 
     /**
@@ -41,7 +39,7 @@ public class MultipleFramesBouncingBallsAnimation extends Animation {
      */
     public static void main(final String[] args) {
         // creating the animation
-        final var animation = new MultipleFramesBouncingBallsAnimation(800, 600, "Multi Frames Balls");
+        final MultipleFramesBouncingBallsAnimation animation = new MultipleFramesBouncingBallsAnimation(800, 600, "Multi Frames Balls");
         animation.drawAnimation(args);
     }
 

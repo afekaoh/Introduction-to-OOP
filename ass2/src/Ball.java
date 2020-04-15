@@ -83,7 +83,7 @@ public class Ball {
      * @param boundary the boundary to draw the balls into
      */
     public Ball(final int radius, final Boundary boundary) {
-        Random rand = new Random();
+        Random rand = new java.util.Random();
         Point start = new Point(boundary.left() + radius, boundary.top() + radius);
         Point end = new Point(boundary.right() - radius, boundary.bottom() - radius);
         this.center = Point.getRandomPoint(start, end);
