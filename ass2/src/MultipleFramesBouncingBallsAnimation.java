@@ -5,6 +5,7 @@ import java.awt.Color;
 
 /**
  * The class Multiple bouncing balls animation.
+ * creates an animation of multiple bouncing balls in 2 separate frames according to user specific radii.
  */
 public class MultipleFramesBouncingBallsAnimation extends Animation {
 
@@ -57,7 +58,7 @@ public class MultipleFramesBouncingBallsAnimation extends Animation {
         }
 
         //creating the balls
-        final Ball[] balls = createBallsFromCMD(args);
+        final Ball[] balls = createBallsFromCMD(args, new Boundary(0, 0, getWidth(), getHeight()));
 
         // draw loop
         while (true) {

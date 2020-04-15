@@ -81,7 +81,7 @@ public class Animation {
      * @param args the arguments for the animation
      */
     public void drawAnimation(final String[] args) {
-        // draw loop
+        // showing the GUI
         setNewCanvas();
         show();
     }
@@ -141,14 +141,19 @@ public class Animation {
      * gets an string array of radii and creates an array of balls with the corresponding radii
      *
      * @param radii the balls radii
+     * @param boundary the boundary
      * @return an array of Balls
      */
-    public Ball[] createBallsFromCMD(final String[] radii) {
+    public Ball[] createBallsFromCMD(final String[] radii, final Boundary boundary) {
+        //parsing the radii from the array.
         final int[] ballsRadii = getRadii(radii);
+
+        // creating the balls.
         Ball[] balls = new Ball[ballsRadii.length];
         for (int i = 0; i < balls.length; i++) {
-            balls[i] = new Ball(ballsRadii[i], width, height);
+            balls[i] = new Ball(ballsRadii[i], boundary);
         }
+
         return balls;
     }
 
@@ -162,10 +167,12 @@ public class Animation {
     private int[] getRadii(final String[] radii) {
         final int[] ballsRadii = new int[radii.length];
         try {
+            // parsing the data.
             for (int i = 0; i < radii.length; i++) {
                 ballsRadii[i] = Integer.parseInt(radii[i]);
             }
         } catch (Exception NumberFormatException) {
+            // validity check.
             throw new RuntimeException("Error! enter radii in integers numbers only");
         }
         return ballsRadii;

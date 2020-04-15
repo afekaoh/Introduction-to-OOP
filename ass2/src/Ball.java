@@ -3,8 +3,7 @@
 import biuoop.DrawSurface;
 
 import java.awt.Color;
-
-import static java.util.concurrent.ThreadLocalRandom.current;
+import java.util.Random;
 
 /**
  * The class Ball representing a 2D ball.
@@ -18,6 +17,7 @@ public class Ball {
     /**
      * The Radius of the ball.
      */
+    @SuppressWarnings("FieldMayBeFinal")
     private int radius;
     /**
      * The Color of the ball.
@@ -77,33 +77,20 @@ public class Ball {
     }
 
     /**
-     * Instantiates a new Ball in random spot between (0,0) to (xRange, yRange).
-     *
-     * @param radius the radius
-     * @param xRange the xRange
-     * @param yRange the yRange
-     */
-    public Ball(final int radius, final double xRange, final double yRange) {
-        // sending it to the generic random constructor
-        this(radius, new Point(0, 0), new Point(xRange, yRange));
-    }
-
-
-    /**
      * Instantiates a new Ball in random spot between start to end with a random speed.
      *
      * @param radius the radius
-     * @param start the start
-     * @param end the end
+     * @param boundary the boundary to draw the balls into
      */
-    public Ball(final int radius, final Point start, final Point end) {
-        start.setX(start.getX() + radius);
-        start.setY(start.getY() + radius);
+    public Ball(final int radius, final Boundary boundary) {
+        Random rand = new Random();
+        Point start = new Point(boundary.left() + radius, boundary.top() + radius);
+        Point end = new Point(boundary.right() - radius, boundary.bottom() - radius);
         this.center = Point.getRandomPoint(start, end);
         this.radius = radius;
-        this.color = Color.getHSBColor(current().nextFloat() + 1, current().nextFloat(), current().nextFloat());
+        this.color = Color.getHSBColor(rand.nextFloat(), 0.9f, 1f);
         // generating a new random speed
-        final double angle = current().nextDouble() * 360;
+        final double angle = rand.nextDouble() * 360;
         final double speed = Velocity.map(radius * radius, 1, 2500, 15, 7);
         this.velocity = Velocity.fromAngleAndSpeed(angle, speed);
     }
@@ -235,8 +222,9 @@ public class Ball {
         }
 
         if (bounced) {
+            Random rand = new Random();
             // changing the color every bounce
-            this.color = Color.getHSBColor(current().nextFloat() + 1, current().nextFloat(), current().nextFloat());
+            this.color = Color.getHSBColor(rand.nextFloat(), 0.9f, 1f);
         }
     }
 }

@@ -10,11 +10,11 @@ public class Line {
     /**
      * The Start point.
      */
-    private Point start;
+    private final Point start;
     /**
      * The End point.
      */
-    private Point end;
+    private final Point end;
 
     /**
      * Instantiates a new Line using points.
@@ -249,6 +249,11 @@ public class Line {
         final Line line = (Line) o;
         // checking if they have the same starting and end points
         return (start.equals(line.start) && end.equals(line.end));
+    }
+
+    @Override
+    public String toString() {
+        return "Line{" + "start=" + start + ", end=" + end + '}';
     }
 
     /**

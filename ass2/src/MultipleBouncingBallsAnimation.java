@@ -3,6 +3,7 @@
 
 /**
  * The class Multiple bouncing balls animation.
+ * creates an animation of multiple bouncing balls according to user specific radii.
  */
 public class MultipleBouncingBallsAnimation extends Animation {
     private final Boundary frameOfMovement;
@@ -29,7 +30,6 @@ public class MultipleBouncingBallsAnimation extends Animation {
 
         // creating a new animation
         final var animation = new MultipleBouncingBallsAnimation(800, 600, "Multiple Bouncing Balls");
-
         animation.drawAnimation(args);
     }
 
@@ -46,7 +46,7 @@ public class MultipleBouncingBallsAnimation extends Animation {
         }
 
         //creating the balls
-        final Ball[] balls = createBallsFromCMD(args);
+        final Ball[] balls = createBallsFromCMD(args, frameOfMovement);
 
         // draw loop
         while (true) {

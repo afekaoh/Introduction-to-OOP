@@ -3,6 +3,7 @@
 
 /**
  * The class Bouncing ball animation.
+ * creates an animation of one bouncing ball according to user specific arguments.
  */
 public class BouncingBallAnimation extends Animation {
 
