@@ -1,6 +1,5 @@
 // ID 316044809
 
-
 /**
  * The class Multiple bouncing balls animation.
  * creates an animation of multiple bouncing balls according to user specific radii.
@@ -29,7 +28,7 @@ public class MultipleBouncingBallsAnimation extends Animation {
     public static void main(String[] args) {
 
         // creating a new animation
-        final var animation = new MultipleBouncingBallsAnimation(800, 600, "Multiple Bouncing Balls");
+        final MultipleBouncingBallsAnimation animation = new MultipleBouncingBallsAnimation(800, 600, "Multiple Bouncing Balls");
         animation.drawAnimation(args);
     }
 

@@ -1,9 +1,10 @@
+// ID 316044809
+
 import java.awt.Color;
 
 /**
  * The class Boundary.
  */
-// ID 316044809
 public class Boundary {
 
     /**

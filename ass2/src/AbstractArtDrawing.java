@@ -1,6 +1,5 @@
 // ID 316044809
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 /**
@@ -44,12 +43,12 @@ public class AbstractArtDrawing extends Animation {
         // drawing the lines and the middle points.
         for (final Line line : lines) {
             drawLine(line, BLACK);
-            drawPoint(line.middle(), Color.BLUE, POINT_RADIUS);
+            drawPoint(line.middle(), java.awt.Color.BLUE, POINT_RADIUS);
         }
 
         // drawing the intersection points
         for (final Point point : intersectionPoints) {
-            drawPoint(point, Color.RED, POINT_RADIUS);
+            drawPoint(point, java.awt.Color.RED, POINT_RADIUS);
         }
         show();
     }
