@@ -1,5 +1,6 @@
 // ID 316044809
 
+
 /**
  * The class Bouncing ball animation.
  * creates an animation of one bouncing ball according to user specific arguments.
@@ -45,9 +46,8 @@ public class BouncingBallAnimation extends Animation {
      * @param args the arguments to create the Ball
      */
     public void drawAnimation(final String[] args) {
-
         // validity check
-        if (args.length != 4) {
+        if (args == null || args.length != 4) {
             throw new RuntimeException("Error! enter exactly 4 arguments!");
         }
 
@@ -59,6 +59,7 @@ public class BouncingBallAnimation extends Animation {
             xSpeed = Double.parseDouble(args[2]);
             ySpeed = Double.parseDouble(args[3]);
         } catch (Exception NumberFormatException) {
+            // validity check
             throw new RuntimeException("Error! enter numbers only!");
         }
 

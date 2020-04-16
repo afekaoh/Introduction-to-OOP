@@ -58,18 +58,18 @@ public class Animation {
     }
 
     /**
-     * Gets width.
+     * Get width.
      *
-     * @return the width
+     * @return the width of animation.
      */
     public int getWidth() {
         return width;
     }
 
     /**
-     * Gets height.
+     * Get height.
      *
-     * @return the height
+     * @return the height of the animation.
      */
     public int getHeight() {
         return height;
@@ -102,7 +102,7 @@ public class Animation {
      */
     public void drawBall(final Boundary boundary, final Ball ball) {
         ball.moveOneStep(boundary);
-        drawPoint(ball.getCenter(), ball.getColor(), ball.getRadius());
+        drawPoint(ball.getCenter(), ball.getColor(), ball.getSize());
     }
 
     /**
@@ -179,9 +179,9 @@ public class Animation {
     }
 
     /**
-     * Draws the boundary.
+     * Draws a frame representing by a boundary.
      *
-     * @param boundary the boundary
+     * @param boundary the boundary to draw
      */
     public void drawFrame(Boundary boundary) {
         // drawing the fill
@@ -204,7 +204,7 @@ public class Animation {
      * Create random lines on the screen.
      *
      * @param numOfLines the num of lines
-     * @return an array of lines
+     * @return an array of random lines
      */
     public Line[] createRandomLines(final int numOfLines) {
         final Line[] lines = new Line[numOfLines];

@@ -83,18 +83,26 @@ public class Ball {
      * @param boundary the boundary to draw the balls into
      */
     public Ball(final int radius, final Boundary boundary) {
-        Random rand = new java.util.Random();
+        Random rand = new Random();
         Point start = new Point(boundary.left() + radius, boundary.top() + radius);
         Point end = new Point(boundary.right() - radius, boundary.bottom() - radius);
         this.center = Point.getRandomPoint(start, end);
         this.radius = radius;
-        this.color = Color.getHSBColor(rand.nextFloat(), 0.9f, 1f);
         // generating a new random speed
-        final double angle = rand.nextDouble() * 360;
+        final double angle = (rand.nextInt(4) + 1) * (rand.nextDouble() * (70 - 12.5) + 12.5);
         final double speed = Velocity.map(radius * radius, 1, 2500, 15, 7);
         this.velocity = Velocity.fromAngleAndSpeed(angle, speed);
+        setRandomColor();
     }
 
+    /**
+     * give the Ball a new random color.
+     */
+    private void setRandomColor() {
+        Random rand = new Random();
+        // changing the color every bounce
+        this.color = Color.getHSBColor(rand.nextFloat(), 0.9f, 1f);
+    }
 
     /**
      * Sets velocity.
@@ -138,7 +146,7 @@ public class Ball {
      *
      * @return the radius
      */
-    public int getRadius() {
+    public int getSize() {
         return radius;
     }
 
@@ -188,43 +196,59 @@ public class Ball {
     private void bounce(final Boundary boundary) {
         boolean bounced = false;
 
-        // extracting the XY data.
-        final double xStart = boundary.topPoint().getX();
-        final double xEnd = boundary.bottomPoint().getX();
-        final double yStart = boundary.topPoint().getY();
-        final double yEnd = boundary.bottomPoint().getY();
+        // getting the ball edges.
+        final double ballRight = this.center.getX() + this.radius;
+        final double ballLeft = this.center.getX() - this.radius;
+        final double ballBottom = this.center.getY() + this.radius;
+        final double ballTop = this.center.getY() - this.radius;
 
         // checking the horizontal boundaries
-        if (this.center.getX() + this.radius >= xEnd) {
-            // checking if the ball touching the right well
-            this.center.setX(xEnd - radius);
-            this.velocity.setXSpeed(-this.velocity.getXSpeed());
+        if (ballRight >= boundary.right()) {
+            // checking if the ball touching the right
+            this.center.setX(boundary.right() - radius);
+            this.velocity.reverseX();
             bounced = true;
-        } else if (this.center.getX() - this.radius <= xStart) {
-            // checking if the ball touching the left well
-            this.center.setX(xStart + radius);
-            this.velocity.setXSpeed(-this.velocity.getXSpeed());
+        } else if (ballLeft <= boundary.left()) {
+            // checking if the ball touching the left
+            this.center.setX(boundary.left() + radius);
+            this.velocity.reverseX();
             bounced = true;
         }
         // no else as the ball could intersect with both X boundary and Y boundary at the same boundary
 
         // checking the vertical boundaries
-        if (this.center.getY() + this.radius >= yEnd) {
+        if (ballBottom >= boundary.bottom()) {
             // checking if the ball touching the floor
-            this.center.setY(yEnd - radius);
-            this.velocity.setYSpeed(-this.velocity.getYSpeed());
+            this.center.setY(boundary.bottom() - radius);
+            this.velocity.reverseY();
             bounced = true;
-        } else if (this.center.getY() - this.radius <= yStart) {
+        } else if (ballTop <= boundary.top()) {
             // checking if the ball touching the celling
-            this.center.setY(yStart + radius);
-            this.velocity.setYSpeed(-this.velocity.getYSpeed());
+            this.center.setY(boundary.top() + radius);
+            this.velocity.reverseY();
             bounced = true;
         }
 
         if (bounced) {
-            Random rand = new Random();
-            // changing the color every bounce
-            this.color = Color.getHSBColor(rand.nextFloat(), 0.9f, 1f);
+            setRandomColor();
         }
+    }
+
+    /**
+     * Get x int.
+     *
+     * @return the X
+     */
+    public int getX() {
+        return (int) this.center.getX();
+    }
+
+    /**
+     * Get y int.
+     *
+     * @return the Y
+     */
+    public int getY() {
+        return (int) this.center.getX();
     }
 }

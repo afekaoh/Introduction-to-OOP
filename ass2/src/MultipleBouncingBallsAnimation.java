@@ -1,5 +1,6 @@
 // ID 316044809
 
+
 /**
  * The class Multiple bouncing balls animation.
  * creates an animation of multiple bouncing balls according to user specific radii.
@@ -28,7 +29,8 @@ public class MultipleBouncingBallsAnimation extends Animation {
     public static void main(String[] args) {
 
         // creating a new animation
-        final MultipleBouncingBallsAnimation animation = new MultipleBouncingBallsAnimation(800, 600, "Multiple Bouncing Balls");
+        final MultipleBouncingBallsAnimation animation;
+        animation = new MultipleBouncingBallsAnimation(400, 300, "Multiple Bouncing Balls");
         animation.drawAnimation(args);
     }
 
@@ -40,7 +42,7 @@ public class MultipleBouncingBallsAnimation extends Animation {
      */
     public void drawAnimation(final String[] args) {
         // validity check
-        if (args.length < 1) {
+        if (args == null || args.length < 1) {
             throw new RuntimeException("Error! enter radii for the balls");
         }
 

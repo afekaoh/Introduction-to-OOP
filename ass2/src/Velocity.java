@@ -102,6 +102,20 @@ public class Velocity {
         this.ySpeed = newYSpeed;
     }
 
+    /**
+     * Reverse  the xSpeed.
+     */
+    public void reverseX() {
+        this.xSpeed *= -1;
+    }
+
+    /**
+     * Reverse the ySpeed.
+     */
+    public void reverseY() {
+        this.ySpeed *= -1;
+    }
+
     @Override
     public String toString() {
         return "Velocity{" + "xSpeed=" + xSpeed + ", ySpeed=" + ySpeed + '}';

@@ -11,12 +11,7 @@ public class MultipleFramesBouncingBallsAnimation extends Animation {
     /**
      * The first Boundary of movement.
      */
-    private final Boundary frameOfMovement0;
-
-    /**
-     * The second Boundary of movement.
-     */
-    private final Boundary frameOfMovement1;
+    private final Boundary[] framesOfMovement;
 
     /**
      * Instantiates a new Multiple frames bouncing balls animation.
@@ -28,8 +23,9 @@ public class MultipleFramesBouncingBallsAnimation extends Animation {
     public MultipleFramesBouncingBallsAnimation(final int width, final int height, final String title) {
         super(width, height, title);
         // setting up the frames of movements
-        this.frameOfMovement0 = new Boundary(50, 50, 500, 500, java.awt.Color.GRAY);
-        this.frameOfMovement1 = new Boundary(450, 450, 600, 600, java.awt.Color.YELLOW);
+        this.framesOfMovement = new Boundary[] {
+                new Boundary(50, 50, 500, 500, java.awt.Color.GRAY),
+                new Boundary(450, 450, 600, 600, java.awt.Color.YELLOW)};
     }
 
     /**
@@ -39,7 +35,8 @@ public class MultipleFramesBouncingBallsAnimation extends Animation {
      */
     public static void main(final String[] args) {
         // creating the animation
-        final MultipleFramesBouncingBallsAnimation animation = new MultipleFramesBouncingBallsAnimation(800, 600, "Multi Frames Balls");
+        final MultipleFramesBouncingBallsAnimation animation;
+        animation = new MultipleFramesBouncingBallsAnimation(800, 600, "Multi Frames Balls");
         animation.drawAnimation(args);
     }
 
@@ -51,9 +48,7 @@ public class MultipleFramesBouncingBallsAnimation extends Animation {
      */
     public void drawAnimation(String[] args) {
         // validity check
-        if (args.length < 1) {
-            throw new RuntimeException("Error! enter radii for the balls");
-        }
+        assert args != null && args.length >= 1 : "Error! enter radii for the balls";
 
         //creating the balls
         final Ball[] balls = createBallsFromCMD(args, new Boundary(0, 0, getWidth(), getHeight()));
@@ -62,11 +57,12 @@ public class MultipleFramesBouncingBallsAnimation extends Animation {
         while (true) {
             setNewCanvas();
             // drawing the frames
-            drawFrame(frameOfMovement0);
-            drawFrame(frameOfMovement1);
+            for (Boundary b : framesOfMovement) {
+                drawFrame(b);
+            }
             // drawing the balls
             for (int i = 0; i < balls.length; i++) {
-                drawBall(i % 2 == 0 ? frameOfMovement0 : frameOfMovement1, balls[i]);
+                drawBall(framesOfMovement[i % 2], balls[i]);
             }
             show();
         }
