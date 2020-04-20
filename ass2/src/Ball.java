@@ -17,7 +17,6 @@ public class Ball {
     /**
      * The Radius of the ball.
      */
-    @SuppressWarnings("FieldMayBeFinal")
     private int radius;
     /**
      * The Color of the ball.
@@ -102,6 +101,15 @@ public class Ball {
         Random rand = new Random();
         // changing the color every bounce
         this.color = Color.getHSBColor(rand.nextFloat(), 0.9f, 1f);
+    }
+
+    /**
+     * Sets radius.
+     *
+     * @param r the radius
+     */
+    public void setRadius(final int r) {
+        this.radius = r;
     }
 
     /**
@@ -249,6 +257,6 @@ public class Ball {
      * @return the Y
      */
     public int getY() {
-        return (int) this.center.getX();
+        return (int) this.center.getY();
     }
 }
