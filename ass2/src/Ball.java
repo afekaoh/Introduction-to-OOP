@@ -33,9 +33,9 @@ public class Ball {
     /**
      * Instantiates a new Ball with center radius and color.
      *
-     * @param center the center of the call
-     * @param radius the radius of the ball
-     * @param color the color of the ball
+     * @param center   the center of the call
+     * @param radius   the radius of the ball
+     * @param color    the color of the ball
      * @param velocity the velocity of the ball
      */
     public Ball(final Point center, final int radius, final Color color, Velocity velocity) {
@@ -48,10 +48,10 @@ public class Ball {
     /**
      * Instantiates a new Ball with the XY coordinates.
      *
-     * @param x the x coordinate of the ball
-     * @param y the y coordinate of the ball
+     * @param x      the x coordinate of the ball
+     * @param y      the y coordinate of the ball
      * @param radius the radius of the ball
-     * @param color the color of the ball
+     * @param color  the color of the ball
      */
     public Ball(final double x, final double y, final int radius, final Color color) {
         this.center = new Point(x, y);
@@ -64,9 +64,9 @@ public class Ball {
      *
      * @param center the center
      * @param radius the radius
-     * @param angle the angle
-     * @param speed the speed
-     * @param color the color
+     * @param angle  the angle
+     * @param speed  the speed
+     * @param color  the color
      */
     public Ball(final Point center, final int radius, final double angle, final double speed, final Color color) {
         this.center = center;
@@ -78,7 +78,7 @@ public class Ball {
     /**
      * Instantiates a new Ball in random spot between start to end with a random speed.
      *
-     * @param radius the radius
+     * @param radius   the radius
      * @param boundary the boundary to draw the balls into
      */
     public Ball(final int radius, final Boundary boundary) {

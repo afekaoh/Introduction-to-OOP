@@ -46,7 +46,7 @@ public class Point {
      * Gets random point. between 2 points
      *
      * @param start the start of the range
-     * @param end the end of the range
+     * @param end   the end of the range
      * @return random point between the start and the end
      */
     public static Point getRandomPoint(final Point start, final Point end) {

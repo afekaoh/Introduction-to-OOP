@@ -19,8 +19,8 @@ public class Boundary {
     /**
      * Instantiates a new Boundary.
      *
-     * @param topLeftX the topPoint left x
-     * @param topLeftY the topPoint left y
+     * @param topLeftX   the topPoint left x
+     * @param topLeftY   the topPoint left y
      * @param downRightX the down right x
      * @param downRightY the down right y
      */
@@ -31,11 +31,11 @@ public class Boundary {
     /**
      * Instantiates a new Boundary.
      *
-     * @param topLeftX the topPoint left x
-     * @param topLeftY the topPoint left y
+     * @param topLeftX   the topPoint left x
+     * @param topLeftY   the topPoint left y
      * @param downRightX the down right x
      * @param downRightY the down right y
-     * @param color the color
+     * @param color      the color
      */
     public Boundary(final int topLeftX, final int topLeftY, final int downRightX, final int downRightY,
                     final Color color) {

@@ -11,9 +11,9 @@ public class MultipleBouncingBallsAnimation extends Animation {
     /**
      * Instantiates a new Multiple bouncing balls animation.
      *
-     * @param width the width
+     * @param width  the width
      * @param height the height
-     * @param title the title
+     * @param title  the title
      */
     public MultipleBouncingBallsAnimation(final int width, final int height, final String title) {
         super(width, height, title);

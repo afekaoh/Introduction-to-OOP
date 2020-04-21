@@ -10,9 +10,9 @@ public class AbstractArtDrawing extends Animation {
     /**
      * Instantiates a new Abstract art drawing.
      *
-     * @param width the width of the art
+     * @param width  the width of the art
      * @param height the height of the art
-     * @param title the title of the art
+     * @param title  the title of the art
      */
     public AbstractArtDrawing(final int width, final int height, final String title) {
         super(width, height, title);

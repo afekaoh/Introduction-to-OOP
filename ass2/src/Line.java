@@ -20,7 +20,7 @@ public class Line {
      * Instantiates a new Line using points.
      *
      * @param start the start point.
-     * @param end the end point.
+     * @param end   the end point.
      */
     public Line(final Point start, final Point end) {
         this.start = start;
@@ -32,8 +32,8 @@ public class Line {
      *
      * @param xStart the x start
      * @param yStart the y start
-     * @param xEnd the x end
-     * @param yEnd the y end
+     * @param xEnd   the x end
+     * @param yEnd   the y end
      */
     public Line(final double xStart, final double yStart, final double xEnd, final double yEnd) {
         this.start = new Point(xStart, yStart);

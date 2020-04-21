@@ -38,9 +38,9 @@ public class Animation {
     /**
      * Instantiates a new Bouncing ball animation.
      *
-     * @param width the width of the animation
+     * @param width  the width of the animation
      * @param height the height of the animation
-     * @param title the title of the animation
+     * @param title  the title of the animation
      */
     public Animation(final int width, final int height, final String title) {
         this.width = width;
@@ -98,7 +98,7 @@ public class Animation {
      * Draw ball to the given canvas.
      *
      * @param boundary a line representing the boundaries of the boundary
-     * @param ball the ball to draw
+     * @param ball     the ball to draw
      */
     public void drawBall(final Boundary boundary, final Ball ball) {
         ball.moveOneStep(boundary);
@@ -108,8 +108,8 @@ public class Animation {
     /**
      * Draw point.
      *
-     * @param point the point to draw
-     * @param color the color of the point.
+     * @param point  the point to draw
+     * @param color  the color of the point.
      * @param radius the radius of the point
      */
     public void drawPoint(final Point point, final Color color, final int radius) {
@@ -124,7 +124,7 @@ public class Animation {
     /**
      * Draw line.
      *
-     * @param line the line to draw
+     * @param line  the line to draw
      * @param color the color of the line
      */
     public void drawLine(final Line line, final Color color) {
@@ -140,7 +140,7 @@ public class Animation {
      * Create balls.
      * gets an string array of radii and creates an array of balls with the corresponding radii
      *
-     * @param radii the balls radii
+     * @param radii    the balls radii
      * @param boundary the boundary
      * @return an array of Balls
      */
