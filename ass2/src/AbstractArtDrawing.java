@@ -1,6 +1,6 @@
 // ID 316044809
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * The class Abstract art drawing.
@@ -38,7 +38,7 @@ public class AbstractArtDrawing extends Animation {
         final Line[] lines = createRandomLines(10);
 
         // finding all intersection points.
-        final ArrayList<Point> intersectionPoints = findIntersectionPoints(lines);
+        final HashSet<Point> intersectionPoints = findIntersectionPoints(lines);
 
         // drawing the lines and the middle points.
         for (final Line line : lines) {
@@ -61,8 +61,8 @@ public class AbstractArtDrawing extends Animation {
      * @param lines an array of lines
      * @return an arrayList of all the intersection points
      */
-    private ArrayList<Point> findIntersectionPoints(final Line[] lines) {
-        final ArrayList<Point> intersectionPoints = new ArrayList<>();
+    private HashSet<Point> findIntersectionPoints(final Line[] lines) {
+        final HashSet<Point> intersectionPoints = new HashSet<>();
         // checking all the lines against all the other lines
         for (final Line line : lines) {
             for (final Line other : lines) {

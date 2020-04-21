@@ -98,8 +98,9 @@ public class Ball {
         // generating a random angle
         final double maxAngle = 70;
         final double minAngle = 12.5;
-        final int quadrant = rand.nextInt(4) + 1;
-        final double angle = quadrant * (rand.nextDouble() * (maxAngle - minAngle) + minAngle);
+        // generating a random quadrant for the speed to point to
+        final int quadrant = rand.nextInt(4) * 90;
+        final double angle = quadrant + (rand.nextDouble() * (maxAngle - minAngle) + minAngle);
 
         // generating the speed
         final int maxRadius = 50;

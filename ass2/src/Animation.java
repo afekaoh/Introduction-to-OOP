@@ -117,7 +117,7 @@ public class Animation {
      */
     public void drawBall(final Boundary boundary, final Ball ball) {
         ball.moveOneStep(boundary);
-        drawPoint(ball.getCenter(), ball.getColor(), ball.getSize());
+        ball.drawOn(canvas);
     }
 
     /**
