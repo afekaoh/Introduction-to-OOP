@@ -51,6 +51,21 @@ public class Animation {
     }
 
     /**
+     * Map values from one range to another.
+     *
+     * @param value  the incoming value to be converted
+     * @param start1 lower bound of the value's current range
+     * @param stop1  upper bound of the value's current range
+     * @param start2 lower bound of the value's target range
+     * @param stop2  upper bound of the value's target range
+     * @return value mapped to the new range
+     */
+    public static double map(final double value, final double start1, final double stop1, final double start2,
+                             final double stop2) {
+        return (value - start1) / (stop1 - start1) * (stop2 - start2) + start2;
+    }
+
+    /**
      * Sets a new DrawSurface.
      */
     public void setNewCanvas() {

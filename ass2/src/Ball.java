@@ -76,22 +76,40 @@ public class Ball {
     }
 
     /**
-     * Instantiates a new Ball in random spot between start to end with a random speed.
+     * Instantiates a new Ball in random spot inside a boundary.
      *
      * @param radius   the radius
      * @param boundary the boundary to draw the balls into
      */
     public Ball(final int radius, final Boundary boundary) {
-        Random rand = new Random();
         Point start = new Point(boundary.left() + radius, boundary.top() + radius);
         Point end = new Point(boundary.right() - radius, boundary.bottom() - radius);
         this.center = Point.getRandomPoint(start, end);
         this.radius = radius;
-        // generating a new random speed
-        final double angle = (rand.nextInt(4) + 1) * (rand.nextDouble() * (70 - 12.5) + 12.5);
-        final double speed = Velocity.map(radius * radius, 1, 2500, 15, 7);
-        this.velocity = Velocity.fromAngleAndSpeed(angle, speed);
+        setVelocityFromRadius();
         setRandomColor();
+    }
+
+    /**
+     * Sets a new velocity based on the ball radius.
+     */
+    private void setVelocityFromRadius() {
+        Random rand = new Random();
+        // generating a random angle
+        final double maxAngle = 70;
+        final double minAngle = 12.5;
+        final int quadrant = rand.nextInt(4) + 1;
+        final double angle = quadrant * (rand.nextDouble() * (maxAngle - minAngle) + minAngle);
+
+        // generating the speed
+        final int maxRadius = 50;
+        final int maxRadiusSq = maxRadius * maxRadius;
+        final int minRadius = 1;
+        final int maxSpeed = 15;
+        final int minSpeed = 7;
+        final int radiusToMap = Math.min(this.radius * this.radius, maxRadiusSq);
+        final double speed = Animation.map(radiusToMap, minRadius, maxRadiusSq, maxSpeed, minSpeed);
+        this.velocity = Velocity.fromAngleAndSpeed(angle, speed);
     }
 
     /**
@@ -99,7 +117,6 @@ public class Ball {
      */
     private void setRandomColor() {
         Random rand = new Random();
-        // changing the color every bounce
         this.color = Color.getHSBColor(rand.nextFloat(), 0.9f, 1f);
     }
 
@@ -238,6 +255,7 @@ public class Ball {
         }
 
         if (bounced) {
+            // changing the color every bounce
             setRandomColor();
         }
     }
