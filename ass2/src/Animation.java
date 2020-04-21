@@ -5,6 +5,7 @@ import biuoop.GUI;
 import biuoop.Sleeper;
 
 import java.awt.Color;
+import java.io.IOException;
 
 /**
  * The class Animation.
@@ -180,17 +181,27 @@ public class Animation {
      * @return the array of balls radii
      */
     private int[] getRadii(final String[] radii) {
-        final int[] ballsRadii = new int[radii.length];
         try {
+            if (radii == null || radii.length < 1) {
+                throw new IOException("Error! enter radii");
+            }
+            final int[] ballsRadii = new int[radii.length];
             // parsing the data.
             for (int i = 0; i < radii.length; i++) {
                 ballsRadii[i] = Integer.parseInt(radii[i]);
             }
-        } catch (Exception NumberFormatException) {
+            return ballsRadii;
+        } catch (NumberFormatException e) {
             // validity check.
-            throw new RuntimeException("Error! enter radii in integers numbers only");
+            System.out.println("Enter radii in integers numbers only");
+            e.printStackTrace();
+            gui.close();
+            throw new RuntimeException();
+        } catch (IOException e) {
+            e.printStackTrace();
+            gui.close();
+            throw new RuntimeException();
         }
-        return ballsRadii;
     }
 
     /**

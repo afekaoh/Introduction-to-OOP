@@ -1,6 +1,8 @@
 // ID 316044809
 
 
+import java.io.IOException;
+
 /**
  * The class Bouncing ball animation.
  * creates an animation of one bouncing ball according to user specific arguments.
@@ -46,21 +48,21 @@ public class BouncingBallAnimation extends Animation {
      * @param args the arguments to create the Ball
      */
     public void drawAnimation(final String[] args) {
-        // validity check
-        if (args == null || args.length != 4) {
-            throw new RuntimeException("Error! enter exactly 4 arguments!");
-        }
-
         // parsing the user data
         final double ySpeed, x, y, xSpeed;
         try {
+            if (args == null || args.length != 4) {
+                throw new IOException("Error! enter exactly 4 arguments!");
+            }
             x = Double.parseDouble(args[0]);
             y = Double.parseDouble(args[1]);
             xSpeed = Double.parseDouble(args[2]);
             ySpeed = Double.parseDouble(args[3]);
-        } catch (Exception NumberFormatException) {
+        } catch (Exception e) {
             // validity check
-            throw new RuntimeException("Error! enter numbers only!");
+            e.printStackTrace();
+            System.exit(1);
+            throw new RuntimeException();
         }
 
         // creating the new Ball

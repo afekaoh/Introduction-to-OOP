@@ -47,9 +47,6 @@ public class MultipleFramesBouncingBallsAnimation extends Animation {
      * @param args the radii of the balls to draw
      */
     public void drawAnimation(String[] args) {
-        // validity check
-        assert args != null && args.length >= 1 : "Error! enter radii for the balls";
-
         //creating the balls
         final Ball[] balls = createBallsFromCMD(args, new Boundary(0, 0, getWidth(), getHeight()));
 
