@@ -49,7 +49,7 @@ public class BouncingBallAnimation extends Animation {
      */
     public void drawAnimation(final String[] args) {
         // parsing the user data
-        final double ySpeed, x, y, xSpeed;
+        final double x, y, xSpeed, ySpeed;
         try {
             if (args == null || args.length != 4) {
                 throw new IOException("Error! enter exactly 4 arguments!");
