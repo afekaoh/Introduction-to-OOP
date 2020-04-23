@@ -52,6 +52,21 @@ public class Velocity {
     }
 
     /**
+     * Map values from one range to another.
+     *
+     * @param value  the incoming value to be converted
+     * @param start1 lower bound of the value's current range
+     * @param stop1  upper bound of the value's current range
+     * @param start2 lower bound of the value's target range
+     * @param stop2  upper bound of the value's target range
+     * @return value mapped to the new range
+     */
+    public static double map(final double value, final double start1, final double stop1, final double start2,
+                             final double stop2) {
+        return (value - start1) / (stop1 - start1) * (stop2 - start2) + start2;
+    }
+
+    /**
      * Apply to point.
      *
      * @param p the point to apply velocity to
@@ -116,18 +131,23 @@ public class Velocity {
         return "Velocity{" + "xSpeed=" + xSpeed + ", ySpeed=" + ySpeed + '}';
     }
 
+    public double getMag() {
+        return new Line(0, 0, xSpeed, ySpeed).length();
+    }
+
+    public double getAngle() {
+        return Math.atan(ySpeed / xSpeed);
+    }
+
     /**
-     * Map values from one range to another.
+     * Sets speed.
+     * todo doc
      *
-     * @param value  the incoming value to be converted
-     * @param start1 lower bound of the value's current range
-     * @param stop1  upper bound of the value's current range
-     * @param start2 lower bound of the value's target range
-     * @param stop2  upper bound of the value's target range
-     * @return value mapped to the new range
+     * @param newXSpeed the new x speed
+     * @param newYSpeed the new y speed
      */
-    public static double map(final double value, final double start1, final double stop1, final double start2,
-                             final double stop2) {
-        return (value - start1) / (stop1 - start1) * (stop2 - start2) + start2;
+    public void setSpeed(int newXSpeed, int newYSpeed) {
+        setXSpeed(newXSpeed);
+        setYSpeed(newYSpeed);
     }
 }

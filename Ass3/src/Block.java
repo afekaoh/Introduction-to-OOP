@@ -1,5 +1,7 @@
 import biuoop.DrawSurface;
 
+import java.awt.Color;
+
 /**
  * The class Block.
  */
@@ -10,6 +12,7 @@ public class Block implements Collidable, Sprite {
      * The Boundary.
      */
     private final Rectangle boundary;
+    private Color color;
 
     /**
      * Instantiates a new Block.
@@ -20,6 +23,7 @@ public class Block implements Collidable, Sprite {
      */
     public Block(Point topLeft, int width, int height) {
         this.boundary = new Rectangle(topLeft, width, height);
+        this.color = Color.BLACK;
     }
 
     /**
@@ -28,12 +32,29 @@ public class Block implements Collidable, Sprite {
      * @param canvas the canvas
      */
     public void drawOn(DrawSurface canvas) {
-        this.boundary.show(canvas);
+        canvas.setColor(this.color);
+        //drawing the rectangle
+        canvas.fillRectangle((int) boundary.left(), (int) boundary.top(), boundary.getWidth(), boundary.getHeight());
+
+        // drawing the stroke
+        canvas.setColor(Color.WHITE);
+        canvas.drawRectangle((int) boundary.left(), (int) boundary.top(), boundary.getWidth(), boundary.getHeight());
     }
 
     @Override
     public void timePassed() {
         // do nothing
+    }
+
+    /**
+     * todo
+     * Add to game.
+     *
+     * @param game the game
+     */
+    public void addToGame(Game game) {
+        game.addCollidable(this);
+        game.addSprite(this);
     }
 
     /**

@@ -30,6 +30,17 @@ public class Point {
     }
 
     /**
+     * todo
+     * Instantiates a new Point.
+     *
+     * @param p the p
+     */
+    public Point(Point p) {
+        this.x = p.getX();
+        this.y = p.getY();
+    }
+
+    /**
      * Get random point.
      *
      * @param xRange the x range

@@ -5,12 +5,14 @@ import biuoop.DrawSurface;
 import java.awt.Color;
 import java.util.Random;
 
+import static java.util.concurrent.ThreadLocalRandom.current;
+
 /**
  * The class Ball representing a 2D ball.
  */
 public class Ball implements Sprite {
 
-    private GameEnvironment environment;
+    private final GameEnvironment environment;
     /**
      * The Center point.
      */
@@ -27,77 +29,23 @@ public class Ball implements Sprite {
      * The Velocity of the ball.
      * defaults to (0,0) if not set otherwise
      */
-    private Velocity velocity = new Velocity(0, 0);
+    private Velocity velocity;
     //todo add game environment
 
     /**
      * Instantiates a new Ball with center radius and color.
      *
-     * @param center   the center of the call
-     * @param radius   the radius of the ball
-     * @param color    the color of the ball
-     * @param velocity the velocity of the ball
+     * @param center      the center of the call
+     * @param radius      the radius of the ball
+     * @param color       the color of the ball
+     * @param environment the environment
      */
-    public Ball(final Point center, final int radius, final Color color, Velocity velocity) {
+    public Ball(final Point center, final int radius, final Color color, GameEnvironment environment) {
         this.center = center;
         this.radius = radius;
         this.color = color;
-        this.velocity = velocity;
-    }
-
-    /**
-     * Instantiates a new Ball with the XY coordinates.
-     *
-     * @param x      the x coordinate of the ball
-     * @param y      the y coordinate of the ball
-     * @param radius the radius of the ball
-     * @param color  the color of the ball
-     */
-    public Ball(final double x, final double y, final int radius, final Color color) {
-        this.center = new Point(x, y);
-        this.radius = radius;
-        this.color = color;
-    }
-
-    /**
-     * Instantiates a new Ball with velocity.
-     *
-     * @param center the center
-     * @param radius the radius
-     * @param angle  the angle
-     * @param speed  the speed
-     * @param color  the color
-     */
-    public Ball(final Point center, final int radius, final double angle, final double speed, final Color color) {
-        this.center = center;
-        this.radius = radius;
-        this.color = color;
-        this.velocity = Velocity.fromAngleAndSpeed(angle, speed);
-    }
-
-    /**
-     * Instantiates a new Ball in random spot inside a rectangle.
-     *
-     * @param radius    the radius
-     * @param rectangle the rectangle to draw the balls into
-     */
-    public Ball(final int radius, final Rectangle rectangle) {
-        Point start = new Point(rectangle.left() + radius, rectangle.top() + radius);
-        Point end = new Point(rectangle.right() - radius, rectangle.bottom() - radius);
-        this.center = Point.getRandomPoint(start, end);
-        this.radius = radius;
-        setVelocityFromRadius();
-        setRandomColor();
-    }
-
-    /**
-     * todo
-     * Sets environment.
-     *
-     * @param gameEnvironment the game environment
-     */
-    public void setEnvironment(GameEnvironment gameEnvironment) {
-        this.environment = gameEnvironment;
+        this.velocity = new Velocity((current().nextBoolean() ? 1 : -1) * 10, -10);
+        this.environment = environment;
     }
 
     /**
@@ -121,6 +69,10 @@ public class Ball implements Sprite {
         final int radiusToMap = Math.min(this.radius * this.radius, maxRadiusSq);
         final double speed = Velocity.map(radiusToMap, minRadius, maxRadiusSq, maxSpeed, minSpeed);
         this.velocity = Velocity.fromAngleAndSpeed(angle, speed);
+    }
+
+    public void addToGame(Game game) {
+        game.addSprite(this);
     }
 
     /**
@@ -217,8 +169,6 @@ public class Ball implements Sprite {
 
     /**
      * Move one step.
-     *
-     * @param canvas
      */
     public void moveOneStep() {
         final Line trajectory = new Line(center, this.velocity.applyToPoint(this.center));
@@ -226,65 +176,14 @@ public class Ball implements Sprite {
         if (collision == null) {
             this.center = trajectory.end();
         } else {
-            this.center = trajectory.getPointByPercentage(0.9);
+            Point p = null;
             this.velocity = collision.collisionObject().hit(collision.collisionPoint(), velocity);
-        }
-    }
-
-    /**
-     * Moving the ball.
-     *
-     * @param rectangle the boundaries of the ball movement
-     */
-    public void moveOneStep(final Rectangle rectangle) {
-        this.center = this.velocity.applyToPoint(this.center);
-        bounce(rectangle);
-    }
-
-    /**
-     * Bounce the ball if it got to a rectangle.
-     *
-     * @param rectangle the boundaries of the ball movement
-     */
-    private void bounce(final Rectangle rectangle) {
-        boolean bounced = false;
-
-        // getting the ball edges.
-        final double ballRight = this.center.getX() + this.radius;
-        final double ballLeft = this.center.getX() - this.radius;
-        final double ballBottom = this.center.getY() + this.radius;
-        final double ballTop = this.center.getY() - this.radius;
-
-        // checking the horizontal boundaries
-        if (ballRight >= rectangle.right()) {
-            // checking if the ball touching the right
-            this.center.setX(rectangle.right() - radius);
-            this.velocity.reverseX();
-            bounced = true;
-        } else if (ballLeft <= rectangle.left()) {
-            // checking if the ball touching the left
-            this.center.setX(rectangle.left() + radius);
-            this.velocity.reverseX();
-            bounced = true;
-        }
-        // no else as the ball could intersect with both X rectangle and Y rectangle at the same rectangle
-
-        // checking the vertical boundaries
-        if (ballBottom >= rectangle.bottom()) {
-            // checking if the ball touching the floor
-            this.center.setY(rectangle.bottom() - radius);
-            this.velocity.reverseY();
-            bounced = true;
-        } else if (ballTop <= rectangle.top()) {
-            // checking if the ball touching the celling
-            this.center.setY(rectangle.top() + radius);
-            this.velocity.reverseY();
-            bounced = true;
-        }
-
-        if (bounced) {
-            // changing the color every bounce
-            setRandomColor();
+            while (collision != null) {
+                p = trajectory.middle();
+                trajectory.setEnd(p);
+                collision = environment.getClosestCollision(trajectory);
+            }
+            this.center = p;
         }
     }
 

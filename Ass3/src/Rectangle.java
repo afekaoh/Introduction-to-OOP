@@ -1,8 +1,5 @@
 // ID 316044809
 
-import biuoop.DrawSurface;
-
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,38 +12,6 @@ public class Rectangle {
      * The Rectangle.
      */
     private final Line boundaryLine;
-    /**
-     * The Color.
-     */
-    private Color color = new Color(0, 0, 0);
-//    private Color color = new Color(240, 240, 240);
-
-    /**
-     * Instantiates a new Rectangle.
-     *
-     * @param topLeftX   the topPoint left x
-     * @param topLeftY   the topPoint left y
-     * @param downRightX the down right x
-     * @param downRightY the down right y
-     */
-    public Rectangle(final int topLeftX, final int topLeftY, final int downRightX, final int downRightY) {
-        this.boundaryLine = new Line(topLeftX, topLeftY, downRightX, downRightY);
-    }
-
-    /**
-     * Instantiates a new Rectangle.
-     *
-     * @param topLeftX   the topPoint left x
-     * @param topLeftY   the topPoint left y
-     * @param downRightX the down right x
-     * @param downRightY the down right y
-     * @param color      the color
-     */
-    public Rectangle(final int topLeftX, final int topLeftY, final int downRightX, final int downRightY,
-                     final Color color) {
-        this.boundaryLine = new Line(topLeftX, topLeftY, downRightX, downRightY);
-        this.color = color;
-    }
 
     /**
      * Instantiates a new Rectangle.
@@ -67,6 +32,17 @@ public class Rectangle {
      */
     public Rectangle(Point upperLeft, Point downRight) {
         this.boundaryLine = new Line(upperLeft, downRight);
+    }
+
+    /**
+     * todo
+     * Move.
+     *
+     * @param v the v
+     */
+    public void move(Velocity v) {
+        this.boundaryLine.setStart(v.applyToPoint(boundaryLine.start()));
+        this.boundaryLine.setEnd(v.applyToPoint(boundaryLine.end()));
     }
 
     /**
@@ -158,16 +134,6 @@ public class Rectangle {
         return boundaryLine.start();
     }
 
-
-    /**
-     * Gets color.
-     *
-     * @return the color
-     */
-    public Color getColor() {
-        return color;
-    }
-
     /**
      * Gets frame width.
      *
@@ -186,19 +152,11 @@ public class Rectangle {
         return (int) (boundaryLine.end().getY() - boundaryLine.start().getY());
     }
 
-    /**
-     * Show.
-     * todo
-     *
-     * @param canvas the canvas
-     */
-    public void show(DrawSurface canvas) {
-        canvas.setColor(this.getColor());
-        //drawing the rectangle
-        canvas.fillRectangle((int) left(), (int) top(), getWidth(), getHeight());
+    public double middle() {
+        return (right() + left()) / 2;
+    }
 
-        // drawing the stroke
-        canvas.setColor(Color.BLACK);
-        canvas.drawRectangle((int) left(), (int) top(), getWidth(), getHeight());
+    public Line getTopLine() {
+        return new Line(left(), top(), right(), top());
     }
 }

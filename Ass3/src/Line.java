@@ -9,13 +9,13 @@ import java.util.Objects;
  */
 public class Line {
     /**
-     * The Start point.
-     */
-    private final Point start;
-    /**
      * The End point.
      */
-    private final Point end;
+    private Point end;
+    /**
+     * The Start point.
+     */
+    private Point start;
 
     /**
      * Instantiates a new Line using points.
@@ -311,6 +311,14 @@ public class Line {
         final double epsilon = 10e-12;
         // if the point is on the line the distance between it and the edges of the line is the length of the line
         return Math.abs(this.length() - (this.start.distance(point) + this.end.distance(point))) <= epsilon;
+    }
+
+    public void setStart(Point p) {
+        this.start = p;
+    }
+
+    public void setEnd(Point p) {
+        this.end = p;
     }
 
 
