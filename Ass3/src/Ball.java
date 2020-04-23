@@ -10,6 +10,7 @@ import java.util.Random;
  */
 public class Ball {
 
+    private final GameEnvironment environment = new GameEnvironment();
     /**
      * The Center point.
      */
@@ -22,13 +23,11 @@ public class Ball {
      * The Color of the ball.
      */
     private Color color;
-
     /**
      * The Velocity of the ball.
      * defaults to (0,0) if not set otherwise
      */
     private Velocity velocity = new Velocity(0, 0);
-
     //todo add game environment
 
     /**
@@ -202,7 +201,14 @@ public class Ball {
      * Move one step.
      */
     public void moveOneStep() {
-        this.center = this.velocity.applyToPoint(this.center);
+        final Line trajectory = new Line(center, this.velocity.applyToPoint(this.center));
+        CollisionInfo collision = environment.getClosestCollision(trajectory);
+        if (collision == null) {
+            this.center = trajectory.end();
+        } else {
+            this.center = trajectory.getPointByPercentage(0.9);
+            this.velocity = collision.collisionObject().hit(collision.collisionPoint(), velocity);
+        }
     }
 
     /**

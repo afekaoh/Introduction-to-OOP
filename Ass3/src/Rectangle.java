@@ -2,6 +2,7 @@
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The class Rectangle.
@@ -125,7 +126,7 @@ public class Rectangle {
      * @param line the line
      * @return the list
      */
-    public ArrayList<Point> intersectionPoints(Line line) {
+    public List<Point> intersectionPoints(Line line) {
         Line[] edges = {
                 // top line
                 new Line(right(), top(), left(), top()),
@@ -136,7 +137,7 @@ public class Rectangle {
                 //bottomt line
                 new Line(right(), bottom(), left(), bottom())
         };
-        ArrayList<Point> points = new ArrayList<>();
+        List<Point> points = new ArrayList<>();
         for (Line edge : edges) {
             if (edge.isIntersecting(line)) {
                 points.add(edge.intersectionWith(line));

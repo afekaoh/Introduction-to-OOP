@@ -135,6 +135,18 @@ public class Point {
         return deltaX <= epsilon && epsilon >= deltaY;
     }
 
+    /**
+     * todo
+     * Move point.
+     *
+     * @param deltaX the delta x
+     * @param deltaY the delta y
+     */
+    public void movePoint(double deltaX, double deltaY) {
+        this.x += deltaX;
+        this.y += deltaY;
+    }
+
     @Override
     public String toString() {
         return "Point{" + "x=" + x + ", y=" + y + '}';

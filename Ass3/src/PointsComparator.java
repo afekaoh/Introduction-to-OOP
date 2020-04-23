@@ -1,12 +1,11 @@
 // ID 316044809
 
-
 import java.util.Comparator;
 
 /**
- * The class Points comperator.
+ * The class Points comparator.
  */
-public class PointsComparator implements Comparator<Point> {
+public final class PointsComparator implements Comparator<Point> {
 
     private final Point compareTo;
 

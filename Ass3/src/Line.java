@@ -1,6 +1,6 @@
 // ID 316044809
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -104,6 +104,19 @@ public class Line {
     }
 
     /**
+     * todo
+     * Gets point by percentage.
+     *
+     * @param percent the percent
+     * @return the point by percentage
+     */
+    public Point getPointByPercentage(double percent) {
+        double x = end.getX() * percent;
+        double y = end.getY() * percent;
+        return new Point(x, y);
+    }
+
+    /**
      * Start point.
      *
      * @return the start point of the line
@@ -129,7 +142,7 @@ public class Line {
      * @return the point
      */
     public Point closestIntersectionToStartOfLine(Rectangle rect) {
-        ArrayList<Point> intersectionPoints = rect.intersectionPoints(this);
+        List<Point> intersectionPoints = rect.intersectionPoints(this);
         if (intersectionPoints.isEmpty()) {
             return null;
         }
@@ -247,6 +260,33 @@ public class Line {
         return Objects.hash(start, end);
     }
 
+    /**
+     * Equals boolean.
+     *
+     * @param o the o
+     * @return the boolean
+     */
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            // same reference
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            // not a line
+            return false;
+        }
+        final Line line = (Line) o;
+        // checking if they have the same starting and end points
+        return (start.equals(line.start) && end.equals(line.end));
+    }
+
+    /**
+     * todo
+     * To string string.
+     *
+     * @return the string
+     */
     @Override
     public String toString() {
         return "Line{" + "start=" + start + ", end=" + end + '}';

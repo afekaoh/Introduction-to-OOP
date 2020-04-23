@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
-//todo
-
+//todo doc
 /**
  * The class Game environment.
  */
@@ -35,10 +34,17 @@ public class GameEnvironment {
      * @return the closest collision
      */
     public CollisionInfo getClosestCollision(Line trajectory) {
-        //todo
+        final PointsComparator comp = new PointsComparator(trajectory.start());
+        CollisionInfo info = null;
         for (Collidable c : collidables) {
-            trajectory.closestIntersectionToStartOfLine(c.getCollisionRectangle());
+            Point intersection = trajectory.closestIntersectionToStartOfLine(c.getCollisionRectangle());
+            if (intersection == null) {
+                continue;
+            }
+            if (info == null || comp.compare(info.collisionPoint(), intersection) > 0) {
+                info = new CollisionInfo(intersection, c);
+            }
         }
-        return null;
+        return info;
     }
 }

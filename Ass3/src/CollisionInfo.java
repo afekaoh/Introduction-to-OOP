@@ -1,10 +1,29 @@
+// ID 316044809
+//todo doc
+
 /**
  * The class Collision info.
  */
-//todo
+public final class CollisionInfo {
+    /**
+     * The Collision point.
+     */
+    private final Point collisionPoint;
+    /**
+     * The Collision object.
+     */
+    private final Collidable collisionObject;
 
-// ID 316044809
-public class CollisionInfo {
+    /**
+     * Instantiates a new Collision info.
+     *
+     * @param collisionPoint  the collision point
+     * @param collisionObject the collision object
+     */
+    public CollisionInfo(Point collisionPoint, Collidable collisionObject) {
+        this.collisionPoint = collisionPoint;
+        this.collisionObject = collisionObject;
+    }
 
     /**
      * Collision point point.
@@ -12,7 +31,7 @@ public class CollisionInfo {
      * @return the point at which the collision occurs.
      */
     public Point collisionPoint() {
-        return null;
+        return collisionPoint;
     }
 
     /**
@@ -21,7 +40,7 @@ public class CollisionInfo {
      * @return the collidable object involved in the collision.
      */
     public Collidable collisionObject() {
-        return null;
+        return collisionObject;
     }
 }
 
