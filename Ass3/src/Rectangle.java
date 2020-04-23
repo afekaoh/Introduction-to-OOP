@@ -9,9 +9,17 @@ import java.util.List;
 public class Rectangle {
 
     /**
-     * The Rectangle.
+     * The Width.
      */
-    private final Line boundaryLine;
+    private final int width;
+    /**
+     * The Height.
+     */
+    private final int height;
+    /**
+     * The Center.
+     */
+    private Point center;
 
     /**
      * Instantiates a new Rectangle.
@@ -20,18 +28,10 @@ public class Rectangle {
      * @param width     the width
      * @param height    the height
      */
-    public Rectangle(Point upperLeft, double width, double height) {
-        this(upperLeft, new Point(upperLeft.getX() + width, upperLeft.getY() + height));
-    }
-
-    /**
-     * Instantiates a new Rectangle.
-     *
-     * @param upperLeft the upper left
-     * @param downRight the down right
-     */
-    public Rectangle(Point upperLeft, Point downRight) {
-        this.boundaryLine = new Line(upperLeft, downRight);
+    public Rectangle(Point upperLeft, int width, int height) {
+        this.width = width;
+        this.height = height;
+        this.center = new Point(upperLeft.getX() + (width / 2), upperLeft.getY() + height / 2);
     }
 
     /**
@@ -41,62 +41,44 @@ public class Rectangle {
      * @param v the v
      */
     public void move(Velocity v) {
-        this.boundaryLine.setStart(v.applyToPoint(boundaryLine.start()));
-        this.boundaryLine.setEnd(v.applyToPoint(boundaryLine.end()));
+        this.center = v.applyToPoint(center);
     }
 
     /**
-     * Bottom point.
+     * Bottom int.
      *
-     * @return the point
+     * @return the int
      */
-    public Point bottomPoint() {
-        return boundaryLine.end();
+    public int bottom() {
+        return (int) this.center.getY() + height / 2;
     }
 
     /**
-     * Top point.
+     * Top int.
      *
-     * @return the point
+     * @return the int
      */
-    public Point topPoint() {
-        return boundaryLine.start();
+    public int top() {
+        return (int) this.center.getY() - height / 2;
     }
 
     /**
-     * Bottom point.
+     * Right double.
      *
-     * @return the point
+     * @return the double
      */
-    public double bottom() {
-        return boundaryLine.end().getY();
+    public int right() {
+        return (int) this.center.getX() + width / 2;
+
     }
 
     /**
-     * Bottom point.
+     * Left double.
      *
-     * @return the point
+     * @return the double
      */
-    public double top() {
-        return boundaryLine.start().getY();
-    }
-
-    /**
-     * Bottom point.
-     *
-     * @return the point
-     */
-    public double right() {
-        return boundaryLine.end().getX();
-    }
-
-    /**
-     * Bottom point.
-     *
-     * @return the point
-     */
-    public double left() {
-        return boundaryLine.start().getX();
+    public int left() {
+        return (int) this.center.getX() - width / 2;
     }
 
     /**
@@ -131,32 +113,26 @@ public class Rectangle {
      * @return the upper left
      */
     public Point getUpperLeft() {
-        return boundaryLine.start();
+        return this.center.translate(width / 2, height / 2);
     }
 
     /**
+     * todo
      * Gets frame width.
      *
      * @return the frame width
      */
     public int getWidth() {
-        return (int) (boundaryLine.end().getX() - boundaryLine.start().getX());
+        return this.width;
     }
 
     /**
+     * todo
      * Gets frame height.
      *
      * @return the frame height
      */
     public int getHeight() {
-        return (int) (boundaryLine.end().getY() - boundaryLine.start().getY());
-    }
-
-    public double middle() {
-        return (right() + left()) / 2;
-    }
-
-    public Line getTopLine() {
-        return new Line(left(), top(), right(), top());
+        return this.height;
     }
 }

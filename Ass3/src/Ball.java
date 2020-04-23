@@ -5,8 +5,6 @@ import biuoop.DrawSurface;
 import java.awt.Color;
 import java.util.Random;
 
-import static java.util.concurrent.ThreadLocalRandom.current;
-
 /**
  * The class Ball representing a 2D ball.
  */
@@ -30,7 +28,6 @@ public class Ball implements Sprite {
      * defaults to (0,0) if not set otherwise
      */
     private Velocity velocity;
-    //todo add game environment
 
     /**
      * Instantiates a new Ball with center radius and color.
@@ -44,7 +41,10 @@ public class Ball implements Sprite {
         this.center = center;
         this.radius = radius;
         this.color = color;
-        this.velocity = new Velocity((current().nextBoolean() ? 1 : -1) * 10, -10);
+        final int x = (int) center.getX();
+        final int y = (int) center.getY();
+        setVelocityFromRadius();
+//        this.velocity = new Velocity(0, 0);
         this.environment = environment;
     }
 
@@ -54,23 +54,29 @@ public class Ball implements Sprite {
     private void setVelocityFromRadius() {
         Random rand = new Random();
         // generating a random angle
-        final double maxAngle = 70;
-        final double minAngle = 12.5;
+        final double maxAngle = 0;
+        final double minAngle = 30;
         // generating a random quadrant for the speed to point to
-        final int quadrant = rand.nextInt(4) * 90;
-        final double angle = quadrant + (rand.nextDouble() * (maxAngle - minAngle) + minAngle);
+        final int quadrant = rand.nextInt(2) * 90;
+        final double angle = 45 * (rand.nextBoolean() ? 1 : -1);
 
         // generating the speed
-        final int maxRadius = 50;
+        final int maxRadius = 20;
         final int maxRadiusSq = maxRadius * maxRadius;
         final int minRadius = 1;
-        final int maxSpeed = 15;
-        final int minSpeed = 7;
+        final int maxSpeed = 5;
+        final int minSpeed = 1;
         final int radiusToMap = Math.min(this.radius * this.radius, maxRadiusSq);
         final double speed = Velocity.map(radiusToMap, minRadius, maxRadiusSq, maxSpeed, minSpeed);
         this.velocity = Velocity.fromAngleAndSpeed(angle, speed);
     }
 
+    /**
+     * todo
+     * Add to game.
+     *
+     * @param game the game
+     */
     public void addToGame(Game game) {
         game.addSprite(this);
     }
@@ -90,16 +96,6 @@ public class Ball implements Sprite {
      */
     public void setRadius(final int r) {
         this.radius = r;
-    }
-
-    /**
-     * Sets velocity.
-     *
-     * @param xSpeed the x speed
-     * @param ySpeed the y speed
-     */
-    public void setVelocity(final double xSpeed, final double ySpeed) {
-        this.velocity = new Velocity(xSpeed, ySpeed);
     }
 
     /**
@@ -139,24 +135,15 @@ public class Ball implements Sprite {
     }
 
     /**
-     * Gets color.
-     *
-     * @return the color
-     */
-    public Color getColor() {
-        return color;
-    }
-
-    /**
      * draw the ball on the given DrawSurface.
      *
      * @param canvas the DrawSurface to draw the ball on
      */
     public void drawOn(final DrawSurface canvas) {
         canvas.setColor(this.color);
-        canvas.fillCircle((int) this.center.getX(), (int) this.center.getY(), this.radius);
+        canvas.fillCircle(getX(), getY(), this.radius);
         canvas.setColor(Color.black);
-        canvas.drawCircle((int) this.center.getX(), (int) this.center.getY(), this.radius);
+        canvas.drawCircle(getX(), getY(), this.radius);
     }
 
     /**
@@ -176,8 +163,8 @@ public class Ball implements Sprite {
         if (collision == null) {
             this.center = trajectory.end();
         } else {
-            Point p = null;
             this.velocity = collision.collisionObject().hit(collision.collisionPoint(), velocity);
+            Point p = null;
             while (collision != null) {
                 p = trajectory.middle();
                 trajectory.setEnd(p);

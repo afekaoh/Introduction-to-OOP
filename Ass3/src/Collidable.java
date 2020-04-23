@@ -1,5 +1,4 @@
 // ID 316044809
-//todo doc
 
 /**
  * The interface Collidable.
@@ -13,14 +12,13 @@ public interface Collidable {
     Rectangle getCollisionRectangle();
 
     /**
-     * Notify the object that we collided with it at collisionPoint with
-     * a given velocity.
-     * The return is the new velocity expected after the hit (based on
-     * the force the object inflicted on us). .
+     * Notify the object that we collided with it at collisionPoint with a given velocity.
+     * The return is the new velocity expected after the hit
+     * (based on the force the object inflicted on us).
      *
      * @param collisionPoint  the collision point
      * @param currentVelocity the current velocity
-     * @return the velocity
+     * @return the new velocity
      */
     Velocity hit(Point collisionPoint, Velocity currentVelocity);
 }

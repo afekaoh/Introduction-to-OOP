@@ -69,21 +69,6 @@ public class Game {
     }
 
     /**
-     * Map values from one range to another.
-     *
-     * @param value  the incoming value to be converted
-     * @param start1 lower bound of the value's current range
-     * @param stop1  upper bound of the value's current range
-     * @param start2 lower bound of the value's target range
-     * @param stop2  upper bound of the value's target range
-     * @return value mapped to the new range
-     */
-    public static double map(final double value, final double start1, final double stop1, final double start2,
-                             final double stop2) {
-        return (value - start1) / (stop1 - start1) * (stop2 - start2) + start2;
-    }
-
-    /**
      * Sets a new DrawSurface.
      */
     public void setNewCanvas() {
@@ -98,7 +83,7 @@ public class Game {
      *
      * @param startTime the start time
      */
-    public void showFrame(long startTime) {
+    public void drawFrame(long startTime) {
         final int framesPerSecond = 60;
         final int millisecondsPerFrame = 1000 / framesPerSecond;
         gui.show(canvas);
@@ -106,7 +91,6 @@ public class Game {
         long milliSecondLeftToSleep = millisecondsPerFrame - usedTime;
         if (milliSecondLeftToSleep > 0) {
             sleeper.sleepFor(milliSecondLeftToSleep);
-            sleeper.sleepFor(SLEEPING_TIME);
         }
     }
 
@@ -136,37 +120,38 @@ public class Game {
     public void initialize() {
         Block[] edges = {
                 //left edge
-                new Block(new Point(-100, 0), 100, height),
+                new Block(new Point(-97, 0), 100, height, 0),
                 //right edge
-                new Block(new Point(width, 0), 100, height),
+                new Block(new Point(width - 3, 0), 100, height, 0),
                 //top edge
-                new Block(new Point(0, -100), width, 100),
+                new Block(new Point(0, -97), width, 100, 0),
+                //bottom edge
+                new Block(new Point(0, height - 3), width, 100, 0),
         };
         for (Block edge : edges) {
             addCollidable(edge);
         }
-
-        int blocksPerRow = 15;
-        int blockWidth = 30;
-        int numOfRows = 5;
-        int blockHeight = 10;
-        int startX = 100;
+        // todo fix numbers
+        int startX = 190;
         int startY = 100;
+        int blocksPerRow = 15;
+        int blockWidth = (width - startX) / blocksPerRow;
+        int numOfRows = 5;
+        int blockHeight = (int) (height * 0.03);
 
         for (int i = 0; i < numOfRows; i++) {
             for (int j = 0; j < blocksPerRow; j++) {
                 Block block = new Block(new Point(j * blockWidth + startX, i * blockHeight + startY), blockWidth,
-                                        blockHeight);
+                                        blockHeight, i);
                 block.addToGame(this);
             }
-
+            blocksPerRow--;
+            startX += blockWidth;
         }
         //todo fix magic numbers
         Paddle player = new Paddle(width / 2, height - 23, 100, 20, keyboardSensor);
         player.addToGame(this);
-        Ball ball = new Ball(new Point(player.getCollisionRectangle().middle(),
-                                       player.getCollisionRectangle().top() - 3),
-                             3, Color.YELLOW, environment);
+        Ball ball = new Ball(new Point(width / 2, height / 2), 3, Color.YELLOW, environment);
         this.addSprite(ball);
         run();
     }
@@ -181,7 +166,7 @@ public class Game {
             setNewCanvas();
             sprites.drawAllOn(canvas);
             sprites.notifyAllTimePassed();
-            showFrame(startTime);
+            drawFrame(startTime);
         }
     }
 }

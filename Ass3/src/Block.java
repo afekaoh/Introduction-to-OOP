@@ -1,3 +1,6 @@
+// ID 316044809
+//todo doc
+
 import biuoop.DrawSurface;
 
 import java.awt.Color;
@@ -5,25 +8,53 @@ import java.awt.Color;
 /**
  * The class Block.
  */
-// ID 316044809
 public class Block implements Collidable, Sprite {
 
+    /**
+     * The constant DIFFICULTY_COLORS.
+     */
+    private static final Color[] DIFFICULTY_COLORS = {Color.MAGENTA, Color.YELLOW, Color.RED, Color.CYAN, Color.GREEN};
     /**
      * The Boundary.
      */
     private final Rectangle boundary;
+    /**
+     * The Difficulty.
+     */
+    private final int difficulty;
+    /**
+     * The Color.
+     */
     private Color color;
 
     /**
      * Instantiates a new Block.
      *
-     * @param topLeft the top left
-     * @param width   the width
-     * @param height  the height
+     * @param topLeft    the top left
+     * @param width      the width
+     * @param height     the height
+     * @param difficulty the color
      */
-    public Block(Point topLeft, int width, int height) {
+    public Block(Point topLeft, int width, int height, int difficulty) {
         this.boundary = new Rectangle(topLeft, width, height);
-        this.color = Color.BLACK;
+        this.difficulty = difficulty;
+        setColor();
+    }
+
+    /**
+     * Sets color.
+     */
+    public void setColor() {
+        this.color = getColor();
+    }
+
+    /**
+     * Gets color.
+     *
+     * @return the color
+     */
+    private Color getColor() {
+        return DIFFICULTY_COLORS[difficulty % 5];
     }
 
     /**
@@ -37,13 +68,16 @@ public class Block implements Collidable, Sprite {
         canvas.fillRectangle((int) boundary.left(), (int) boundary.top(), boundary.getWidth(), boundary.getHeight());
 
         // drawing the stroke
-        canvas.setColor(Color.WHITE);
+        canvas.setColor(Color.BLACK);
         canvas.drawRectangle((int) boundary.left(), (int) boundary.top(), boundary.getWidth(), boundary.getHeight());
     }
 
+    /**
+     * Time passed.
+     */
     @Override
     public void timePassed() {
-        // do nothing
+        setColor();
     }
 
     /**

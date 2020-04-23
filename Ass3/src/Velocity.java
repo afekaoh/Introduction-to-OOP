@@ -130,13 +130,14 @@ public class Velocity {
     public String toString() {
         return "Velocity{" + "xSpeed=" + xSpeed + ", ySpeed=" + ySpeed + '}';
     }
-
+    //todo
     public double getMag() {
         return new Line(0, 0, xSpeed, ySpeed).length();
     }
 
+    //todo
     public double getAngle() {
-        return Math.atan(ySpeed / xSpeed);
+        return Math.atan(ySpeed / (xSpeed == 0 ? 1 : xSpeed));
     }
 
     /**

@@ -1,11 +1,13 @@
+// ID 316044809
+//todo doc
+
 import java.util.ArrayList;
 import java.util.List;
-//todo doc
+
 /**
  * The class Game environment.
  */
-// ID 316044809
-public class GameEnvironment {
+public final class GameEnvironment {
     private final List<Collidable> collidables;
 
     /**

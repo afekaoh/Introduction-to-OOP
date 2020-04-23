@@ -11,6 +11,10 @@ import java.awt.Color;
  */
 public class Paddle implements Sprite, Collidable {
     /**
+     * The constant PADDLE_SPEED.
+     */
+    public static final int PADDLE_SPEED = 5;
+    /**
      * The Boundary.
      */
     private final Rectangle boundary;
@@ -49,14 +53,14 @@ public class Paddle implements Sprite, Collidable {
      * Move left.
      */
     public void moveLeft() {
-        this.velocity.setXSpeed(-5);
+        this.velocity.setXSpeed(-PADDLE_SPEED);
     }
 
     /**
      * Move right.
      */
     public void moveRight() {
-        this.velocity.setXSpeed(5);
+        this.velocity.setXSpeed(PADDLE_SPEED);
     }
 
     /**

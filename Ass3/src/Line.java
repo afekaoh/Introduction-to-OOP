@@ -42,17 +42,6 @@ public class Line {
     }
 
     /**
-     * Instantiates a random Line from (0,0) to (xRange,yRange).
-     *
-     * @param xRange the x range
-     * @param yRange the y range
-     */
-    public Line(final double xRange, final double yRange) {
-        this.start = Point.getRandomPoint(xRange, yRange);
-        this.end = Point.getRandomPoint(xRange, yRange);
-    }
-
-    /**
      * Check edges.
      * check if 2 coincident lines are parallel or have 1 intersection point
      *

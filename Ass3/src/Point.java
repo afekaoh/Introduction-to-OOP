@@ -152,10 +152,12 @@ public class Point {
      *
      * @param deltaX the delta x
      * @param deltaY the delta y
+     * @return the point
      */
-    public void movePoint(double deltaX, double deltaY) {
-        this.x += deltaX;
-        this.y += deltaY;
+    public Point translate(double deltaX, double deltaY) {
+        double newX = this.x + deltaX;
+        double newY = this.y + deltaY;
+        return new Point(newX, newY);
     }
 
     @Override
