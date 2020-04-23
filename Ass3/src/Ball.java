@@ -8,9 +8,9 @@ import java.util.Random;
 /**
  * The class Ball representing a 2D ball.
  */
-public class Ball {
+public class Ball implements Sprite {
 
-    private final GameEnvironment environment = new GameEnvironment();
+    private GameEnvironment environment;
     /**
      * The Center point.
      */
@@ -91,6 +91,16 @@ public class Ball {
     }
 
     /**
+     * todo
+     * Sets environment.
+     *
+     * @param gameEnvironment the game environment
+     */
+    public void setEnvironment(GameEnvironment gameEnvironment) {
+        this.environment = gameEnvironment;
+    }
+
+    /**
      * Sets a new velocity based on the ball radius.
      */
     private void setVelocityFromRadius() {
@@ -109,7 +119,7 @@ public class Ball {
         final int maxSpeed = 15;
         final int minSpeed = 7;
         final int radiusToMap = Math.min(this.radius * this.radius, maxRadiusSq);
-        final double speed = Animation.map(radiusToMap, minRadius, maxRadiusSq, maxSpeed, minSpeed);
+        final double speed = Velocity.map(radiusToMap, minRadius, maxRadiusSq, maxSpeed, minSpeed);
         this.velocity = Velocity.fromAngleAndSpeed(angle, speed);
     }
 
@@ -198,7 +208,17 @@ public class Ball {
     }
 
     /**
+     * Time passed.
+     */
+    @Override
+    public void timePassed() {
+        moveOneStep();
+    }
+
+    /**
      * Move one step.
+     *
+     * @param canvas
      */
     public void moveOneStep() {
         final Line trajectory = new Line(center, this.velocity.applyToPoint(this.center));

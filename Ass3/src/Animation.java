@@ -5,7 +5,7 @@ import biuoop.GUI;
 import biuoop.Sleeper;
 
 import java.awt.Color;
-import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * The class Animation.
@@ -37,7 +37,7 @@ public class Animation {
     private DrawSurface canvas;
 
     /**
-     * Instantiates a new Bouncing ball animation.
+     * Instantiates a new Animation.
      *
      * @param width  the width of the animation
      * @param height the height of the animation
@@ -113,13 +113,18 @@ public class Animation {
     /**
      * Draw ball to the given canvas.
      *
-     * @param rectangle a line representing the boundaries of the rectangle
-     * @param ball      the ball to draw
+     * @param ball the ball to draw
      */
-    public void drawBall(final Rectangle rectangle, final Ball ball) {
-        ball.moveOneStep(rectangle);
+    public void drawBall(final Ball ball) {
+        ball.moveOneStep();
         ball.drawOn(canvas);
     }
+
+    public void drawSprite(final Sprite sprite) {
+        sprite.timePassed();
+        sprite.drawOn(canvas);
+    }
+
 
     /**
      * Draw point.
@@ -153,90 +158,19 @@ public class Animation {
     }
 
     /**
-     * Create balls.
-     * gets an string array of radii and creates an array of balls with the corresponding radii
+     * todo
+     * Draw game.
      *
-     * @param radii     the balls radii
-     * @param rectangle the rectangle
-     * @return an array of Balls
+     * @param list the list
      */
-    public Ball[] createBallsFromCMD(final String[] radii, final Rectangle rectangle) {
-        //parsing the radii from the array.
-        final int[] ballsRadii = getRadii(radii);
-
-        // creating the balls.
-        Ball[] balls = new Ball[ballsRadii.length];
-        for (int i = 0; i < balls.length; i++) {
-            balls[i] = new Ball(ballsRadii[i], rectangle);
-        }
-
-        return balls;
-    }
-
-    /**
-     * Get radii.
-     * converting an array of radii in string format to an int
-     *
-     * @param radii the radii
-     * @return the array of balls radii
-     */
-    private int[] getRadii(final String[] radii) {
-        try {
-            if (radii == null || radii.length < 1) {
-                throw new IOException("Error! enter radii");
+    public void drawGame(ArrayList<Sprite> list) {
+        while (true) {
+            setNewCanvas();
+            for (Sprite sprite : list) {
+                sprite.timePassed();
+                sprite.drawOn(canvas);
             }
-            final int[] ballsRadii = new int[radii.length];
-            // parsing the data.
-            for (int i = 0; i < radii.length; i++) {
-                ballsRadii[i] = Integer.parseInt(radii[i]);
-            }
-            return ballsRadii;
-        } catch (NumberFormatException e) {
-            // validity check.
-            System.out.println("Enter radii in integers numbers only");
-            e.printStackTrace();
-            gui.close();
-            throw new RuntimeException();
-        } catch (IOException e) {
-            e.printStackTrace();
-            gui.close();
-            throw new RuntimeException();
+            show();
         }
-    }
-
-    /**
-     * Draws a frame representing by a rectangle.
-     *
-     * @param rectangle the rectangle to draw
-     */
-    public void drawFrame(Rectangle rectangle) {
-        // drawing the fill
-        canvas.setColor(rectangle.getColor());
-
-        final int leftX = (int) rectangle.topPoint().getX();
-        final int topY = (int) rectangle.topPoint().getY();
-        final int frameWidth = rectangle.getBoundaryWidth();
-        final int frameHeight = rectangle.getBoundaryHeight();
-
-        //drawing the rectangle
-        canvas.fillRectangle(leftX, topY, frameWidth, frameHeight);
-
-        // drawing the stroke
-        canvas.setColor(Animation.BLACK);
-        canvas.drawRectangle(leftX, topY, frameWidth, frameHeight);
-    }
-
-    /**
-     * Create random lines on the screen.
-     *
-     * @param numOfLines the num of lines
-     * @return an array of random lines
-     */
-    public Line[] createRandomLines(final int numOfLines) {
-        final Line[] lines = new Line[numOfLines];
-        for (int i = 0; i < 10; i++) {
-            lines[i] = new Line(width, height);
-        }
-        return lines;
     }
 }

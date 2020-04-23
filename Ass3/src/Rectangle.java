@@ -1,5 +1,7 @@
 // ID 316044809
 
+import biuoop.DrawSurface;
+
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +18,8 @@ public class Rectangle {
     /**
      * The Color.
      */
-    private Color color = new Color(240, 240, 240);
+    private Color color = new Color(0, 0, 0);
+//    private Color color = new Color(240, 240, 240);
 
     /**
      * Instantiates a new Rectangle.
@@ -53,7 +56,7 @@ public class Rectangle {
      * @param height    the height
      */
     public Rectangle(Point upperLeft, double width, double height) {
-        this(upperLeft, new Point(width, height));
+        this(upperLeft, new Point(upperLeft.getX() + width, upperLeft.getY() + height));
     }
 
     /**
@@ -170,7 +173,7 @@ public class Rectangle {
      *
      * @return the frame width
      */
-    public int getBoundaryWidth() {
+    public int getWidth() {
         return (int) (boundaryLine.end().getX() - boundaryLine.start().getX());
     }
 
@@ -179,7 +182,23 @@ public class Rectangle {
      *
      * @return the frame height
      */
-    public int getBoundaryHeight() {
+    public int getHeight() {
         return (int) (boundaryLine.end().getY() - boundaryLine.start().getY());
+    }
+
+    /**
+     * Show.
+     * todo
+     *
+     * @param canvas the canvas
+     */
+    public void show(DrawSurface canvas) {
+        canvas.setColor(this.getColor());
+        //drawing the rectangle
+        canvas.fillRectangle((int) left(), (int) top(), getWidth(), getHeight());
+
+        // drawing the stroke
+        canvas.setColor(Color.BLACK);
+        canvas.drawRectangle((int) left(), (int) top(), getWidth(), getHeight());
     }
 }

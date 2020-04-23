@@ -111,8 +111,12 @@ public class Line {
      * @return the point by percentage
      */
     public Point getPointByPercentage(double percent) {
-        double x = end.getX() * percent;
-        double y = end.getY() * percent;
+        double xStart = start.getX() * (1 - percent);
+        double yStart = start.getY() * (1 - percent);
+        double xEnd = end.getX() * percent;
+        double yEnd = end.getY() * percent;
+        double x = xStart + xEnd;
+        double y = yStart + yEnd;
         return new Point(x, y);
     }
 
