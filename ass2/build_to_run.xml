@@ -17,13 +17,6 @@
         <delete dir="to_zip"/>
     </target>
 
-
-    <path id="build.classpath">
-        <dirset dir="bin">
-            <include name="AbstractArt Geometry"/>
-        </dirset>
-    </path>
-
     <property name="classpath" value="../General/biuoop-1.4.jar:bin"/>
     <!-- Compile all java files under `src`, and export .class files into `bin` -->
     <target name="compile">
