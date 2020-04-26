@@ -13,12 +13,10 @@ import java.awt.Color;
  * Implementing all the animation related methods to be used in the various animations classes.
  */
 public class Game {
-    /**
-     * The constant SLEEPING_TIME.
-     */
-// constants for the animation classes
-    public static final int SLEEPING_TIME = 40;
 
+
+    public static final int FRAMES_PER_SECOND = 60;
+    public static final int MILLISECONDS_PER_FRAME = 1000 / FRAMES_PER_SECOND;
     /**
      * The Width of the animation.
      */
@@ -35,7 +33,6 @@ public class Game {
      * The Sleeper of the animation.
      */
     private final Sleeper sleeper;
-
     private final KeyboardSensor keyboardSensor;
     /**
      * The Sprites.
@@ -84,14 +81,13 @@ public class Game {
      * @param startTime the start time
      */
     public void drawFrame(long startTime) {
-        final int framesPerSecond = 60;
-        final int millisecondsPerFrame = 1000 / framesPerSecond;
         gui.show(canvas);
         long usedTime = System.currentTimeMillis() - startTime;
-        long milliSecondLeftToSleep = millisecondsPerFrame - usedTime;
+        long milliSecondLeftToSleep = MILLISECONDS_PER_FRAME - usedTime;
         if (milliSecondLeftToSleep > 0) {
             sleeper.sleepFor(milliSecondLeftToSleep);
         }
+        setNewCanvas();
     }
 
     /**
@@ -120,24 +116,23 @@ public class Game {
     public void initialize() {
         Block[] edges = {
                 //left edge
-                new Block(new Point(-97, 0), 100, height, 0),
+                new Block(new Point(-100, 0), 100, height, 0),
                 //right edge
-                new Block(new Point(width - 3, 0), 100, height, 0),
+                new Block(new Point(width, 0), 100, height, 0),
                 //top edge
-                new Block(new Point(0, -97), width, 100, 0),
+                new Block(new Point(0, -100), width, 100, 0),
                 //bottom edge
-                new Block(new Point(0, height - 3), width, 100, 0),
+                new Block(new Point(0, height), width, 100, 0),
         };
         for (Block edge : edges) {
             addCollidable(edge);
         }
-        // todo fix numbers
-        int startX = 190;
-        int startY = 100;
-        int blocksPerRow = 15;
-        int blockWidth = (width - startX) / blocksPerRow;
-        int numOfRows = 5;
-        int blockHeight = (int) (height * 0.03);
+        final int numOfRows = 5;
+        int blocksPerRow = 10;
+        int startX = width / 4;
+        final int startY = width / 9;
+        final int blockWidth = (width - startX) / blocksPerRow;
+        final int blockHeight = (int) (height * 0.05);
 
         for (int i = 0; i < numOfRows; i++) {
             for (int j = 0; j < blocksPerRow; j++) {
@@ -149,10 +144,16 @@ public class Game {
             startX += blockWidth;
         }
         //todo fix magic numbers
-        Paddle player = new Paddle(width / 2, height - 23, 100, 20, keyboardSensor);
+        final int paddleWidth = 100;
+        final int paddleHeight = 20;
+        Paddle player = new Paddle(width / 2, height - paddleHeight - 2, paddleWidth, paddleHeight, keyboardSensor,
+                                   environment);
         player.addToGame(this);
-        Ball ball = new Ball(new Point(width / 2, height / 2), 3, Color.YELLOW, environment);
-        this.addSprite(ball);
+        Ball[] balls = new Ball[2];
+        for (int i = 0; i < balls.length; i++) {
+            balls[i] = new Ball(new Point(width / (i + 2), 3 * height / 4), 3, Color.YELLOW, environment);
+            balls[i].addToGame(this);
+        }
         run();
     }
 
@@ -163,7 +164,6 @@ public class Game {
     public void run() {
         while (true) {
             long startTime = System.currentTimeMillis(); // timing
-            setNewCanvas();
             sprites.drawAllOn(canvas);
             sprites.notifyAllTimePassed();
             drawFrame(startTime);

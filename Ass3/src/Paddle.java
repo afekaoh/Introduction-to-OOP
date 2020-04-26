@@ -14,6 +14,7 @@ public class Paddle implements Sprite, Collidable {
      * The constant PADDLE_SPEED.
      */
     public static final int PADDLE_SPEED = 5;
+    public static final int NUM_OF_REGIONS = 5;
     /**
      * The Boundary.
      */
@@ -31,17 +32,24 @@ public class Paddle implements Sprite, Collidable {
      */
     private final KeyboardSensor keyboard;
 
+    /**
+     * The Environment.
+     */
+    private final GameEnvironment environment;
+
 
     /**
      * Instantiates a new Paddle.
      *
-     * @param x        the x
-     * @param y        the y
-     * @param width    the width
-     * @param height   the height
-     * @param keyboard the keyboard
+     * @param x           the x
+     * @param y           the y
+     * @param width       the width
+     * @param height      the height
+     * @param keyboard    the keyboard
+     * @param environment the environment
      */
-    public Paddle(int x, int y, int width, int height, KeyboardSensor keyboard) {
+    public Paddle(int x, int y, int width, int height, KeyboardSensor keyboard, GameEnvironment environment) {
+        this.environment = environment;
         this.color = Color.WHITE;
         // todo fix magic numbers
         this.boundary = new Rectangle(new Point(x, y), width, height);
@@ -54,6 +62,15 @@ public class Paddle implements Sprite, Collidable {
      */
     public void moveLeft() {
         this.velocity.setXSpeed(-PADDLE_SPEED);
+        final Point upperLeft = this.boundary.getUpperLeft();
+        Line trajectory = new Line(upperLeft, velocity.applyToPoint(upperLeft));
+        CollisionInfo info = environment.getClosestCollision(trajectory);
+        if (info != null) {
+            final int edgeRight = info.collisionObject().getCollisionRectangle().right();
+            if (edgeRight <= this.boundary.left()) {
+                velocity.setXSpeed(0);
+            }
+        }
     }
 
     /**
@@ -61,6 +78,15 @@ public class Paddle implements Sprite, Collidable {
      */
     public void moveRight() {
         this.velocity.setXSpeed(PADDLE_SPEED);
+        final Point downRight = this.boundary.getDownRight().translate(1, 0);
+        Line trajectory = new Line(velocity.applyToPoint(downRight), downRight);
+        CollisionInfo info = environment.getClosestCollision(trajectory);
+        if (info != null) {
+            final int edgeLeft = info.collisionObject().getCollisionRectangle().left();
+            if (edgeLeft > this.boundary.left()) {
+                velocity.setXSpeed(0);
+            }
+        }
     }
 
     /**
@@ -93,11 +119,11 @@ public class Paddle implements Sprite, Collidable {
     public void drawOn(DrawSurface canvas) {
         canvas.setColor(this.color);
         //drawing the rectangle
-        canvas.fillRectangle((int) boundary.left(), (int) boundary.top(), boundary.getWidth(), boundary.getHeight());
+        canvas.fillRectangle(boundary.left(), boundary.top(), boundary.getWidth(), boundary.getHeight());
 
         // drawing the stroke
         canvas.setColor(Color.BLACK);
-        canvas.drawRectangle((int) boundary.left(), (int) boundary.top(), boundary.getWidth(), boundary.getHeight());
+        canvas.drawRectangle(boundary.left(), boundary.top(), boundary.getWidth(), boundary.getHeight());
     }
 
     /**
@@ -118,24 +144,10 @@ public class Paddle implements Sprite, Collidable {
      * @return the velocity
      */
     public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
-        if (collisionPoint.getY() == boundary.top()) {
-            int region = getRegion(collisionPoint);
-            switch (region) {
-                case 1:
-                    return Velocity.fromAngleAndSpeed(-60, currentVelocity.getMag());
-                case 2:
-                    return Velocity.fromAngleAndSpeed(-30, currentVelocity.getMag());
-                case 3:
-                    return new Velocity(currentVelocity.getXSpeed(), -currentVelocity.getYSpeed());
-                case 4:
-                    return Velocity.fromAngleAndSpeed(30, currentVelocity.getMag());
-                case 5:
-                    return Velocity.fromAngleAndSpeed(60, currentVelocity.getMag());
-                default:
-                    return new Velocity(0, 0);
-            }
-        }
-        return currentVelocity;
+        int region = getRegion(collisionPoint, NUM_OF_REGIONS);
+        double angle = Velocity.map(region, 1, NUM_OF_REGIONS, -60, 60);
+        return angle == 0 ? new Velocity(currentVelocity.getXSpeed(), -currentVelocity.getYSpeed())
+                : Velocity.fromAngleAndSpeed(angle, currentVelocity.getMag());
     }
 
     /**
@@ -143,21 +155,17 @@ public class Paddle implements Sprite, Collidable {
      * Gets region.
      *
      * @param collisionPoint the collision point
+     * @param numOfRegions   the num of regions
      * @return the region
      */
-    private int getRegion(Point collisionPoint) {
-        double percentege = (collisionPoint.getX() - boundary.left()) / boundary.getWidth();
-        if (percentege <= 0.2) {
-            return 1;
-        } else if (percentege <= 0.4) {
-            return 2;
-        } else if (percentege <= 0.6) {
-            return 3;
-        } else if (percentege <= 0.8) {
-            return 4;
-        } else {
-            return 5;
+    private int getRegion(Point collisionPoint, int numOfRegions) {
+        double percentage = (collisionPoint.getX() - boundary.left()) / boundary.getWidth();
+        for (double i = 1; i < numOfRegions; i++) {
+            if (percentage <= i / numOfRegions) {
+                return (int) i;
+            }
         }
+        return numOfRegions;
     }
 
     /**

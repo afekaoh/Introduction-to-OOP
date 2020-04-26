@@ -1,5 +1,6 @@
 // ID 316044809
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -139,8 +140,7 @@ public class Line {
         if (intersectionPoints.isEmpty()) {
             return null;
         }
-        intersectionPoints.sort(new PointsComparator(this.start));
-        return intersectionPoints.get(0);
+        return Collections.min(intersectionPoints, new PointsComparator(this.start));
     }
 
     /**

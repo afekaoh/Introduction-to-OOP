@@ -65,11 +65,11 @@ public class Block implements Collidable, Sprite {
     public void drawOn(DrawSurface canvas) {
         canvas.setColor(this.color);
         //drawing the rectangle
-        canvas.fillRectangle((int) boundary.left(), (int) boundary.top(), boundary.getWidth(), boundary.getHeight());
+        canvas.fillRectangle(boundary.left(), boundary.top(), boundary.getWidth(), boundary.getHeight());
 
         // drawing the stroke
         canvas.setColor(Color.BLACK);
-        canvas.drawRectangle((int) boundary.left(), (int) boundary.top(), boundary.getWidth(), boundary.getHeight());
+        canvas.drawRectangle(boundary.left(), boundary.top(), boundary.getWidth(), boundary.getHeight());
     }
 
     /**

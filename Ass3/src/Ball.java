@@ -82,59 +82,6 @@ public class Ball implements Sprite {
     }
 
     /**
-     * give the Ball a new random color.
-     */
-    private void setRandomColor() {
-        Random rand = new Random();
-        this.color = Color.getHSBColor(rand.nextFloat(), 0.9f, 1f);
-    }
-
-    /**
-     * Sets radius.
-     *
-     * @param r the radius
-     */
-    public void setRadius(final int r) {
-        this.radius = r;
-    }
-
-    /**
-     * Gets velocity.
-     *
-     * @return the velocity
-     */
-    public Velocity getVelocity() {
-        return velocity;
-    }
-
-    /**
-     * Sets velocity.
-     *
-     * @param v the new velocity
-     */
-    public void setVelocity(final Velocity v) {
-        this.velocity = v;
-    }
-
-    /**
-     * Gets center.
-     *
-     * @return the center
-     */
-    public Point getCenter() {
-        return center;
-    }
-
-    /**
-     * Gets radius.
-     *
-     * @return the radius
-     */
-    public int getSize() {
-        return radius;
-    }
-
-    /**
      * draw the ball on the given DrawSurface.
      *
      * @param canvas the DrawSurface to draw the ball on

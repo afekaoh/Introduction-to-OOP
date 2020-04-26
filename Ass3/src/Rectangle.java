@@ -95,13 +95,15 @@ public class Rectangle {
                 new Line(right(), top(), right(), bottom()),
                 //left line
                 new Line(left(), top(), left(), bottom()),
-                //bottomt line
+                //bottom line
                 new Line(right(), bottom(), left(), bottom())
         };
         List<Point> points = new ArrayList<>();
         for (Line edge : edges) {
             if (edge.isIntersecting(line)) {
-                points.add(edge.intersectionWith(line));
+                if (!points.contains(edge.intersectionWith(line))) {
+                    points.add(edge.intersectionWith(line));
+                }
             }
         }
         return points;
@@ -113,7 +115,7 @@ public class Rectangle {
      * @return the upper left
      */
     public Point getUpperLeft() {
-        return this.center.translate(width / 2, height / 2);
+        return this.center.translate(-width / 2, -height / 2);
     }
 
     /**
@@ -134,5 +136,34 @@ public class Rectangle {
      */
     public int getHeight() {
         return this.height;
+    }
+
+    /**
+     * todo
+     * Gets down right.
+     *
+     * @return the down right
+     */
+    public Point getDownRight() {
+        return new Point(this.center.getX() + width / 2, this.center.getY() + height / 2);
+    }
+
+    /**
+     * Gets center.
+     *
+     * @return the center
+     */
+    public Point getCenter() {
+        return this.center;
+    }
+
+    /**
+     * Gets center.
+     *
+     * @return the center
+     */
+    public void setCenter(int x, int y) {
+        this.center.setX(x);
+        this.center.setY(y);
     }
 }

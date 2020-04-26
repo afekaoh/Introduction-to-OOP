@@ -35,8 +35,8 @@
 
     <!-- Run checkstyle on all our source files -->
     <target name="check">
-        <java jar="../General/checkstyle-5.7-all.jar" fork="true">
-            <arg line="-c biuoop.xml"/>
+        <java jar="../General/checkstyle-8.0-all.jar" fork="true">
+            <arg line="-c ../General/biuoop.xml"/>
             <arg line="src/*.java"/>
         </java>
     </target>
