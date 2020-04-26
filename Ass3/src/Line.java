@@ -94,7 +94,6 @@ public class Line {
     }
 
     /**
-     * todo
      * Get point by percentage.
      *
      * @param percent the percent

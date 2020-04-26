@@ -74,7 +74,6 @@ public class Game {
     }
 
     /**
-     * todo
      * draws the canvas to the gui and suspends the animation.
      *
      * @param startTime the start time
@@ -166,8 +165,7 @@ public class Game {
     }
 
     /**
-     * todo
-     * Draw game.
+     * run the game.
      */
     public void run() {
         while (true) {

@@ -34,7 +34,6 @@ public class Rectangle {
         this.center = new Point(upperLeft.getX() + (width / 2), upperLeft.getY() + height / 2);
     }
 
-
     /**
      * Bottom int.
      *
@@ -108,33 +107,21 @@ public class Rectangle {
     }
 
     /**
-     * todo
-     * Gets frame width.
+     * Gets  width.
      *
-     * @return the frame width
+     * @return the width of the rectangle
      */
     public int getWidth() {
         return this.width;
     }
 
     /**
-     * todo
-     * Gets frame height.
+     * Gets height.
      *
-     * @return the frame height
+     * @return the height of the rectangle
      */
     public int getHeight() {
         return this.height;
-    }
-
-    /**
-     * todo
-     * Gets down right.
-     *
-     * @return the down right
-     */
-    public Point getDownRight() {
-        return this.center.translate(width / 2, height / 2);
     }
 
     /**

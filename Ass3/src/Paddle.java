@@ -1,5 +1,4 @@
 // ID 316044809
-//todo doc
 
 import biuoop.DrawSurface;
 import biuoop.KeyboardSensor;
