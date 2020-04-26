@@ -3,7 +3,7 @@
 import java.util.Comparator;
 
 /**
- * The class Points comparator.
+ * The class Points comparator - to compare 2 points based on their distance to a third point.
  */
 public final class PointsComparator implements Comparator<Point> {
 

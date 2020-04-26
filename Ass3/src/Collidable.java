@@ -21,4 +21,11 @@ public interface Collidable {
      * @return the new velocity
      */
     Velocity hit(Point collisionPoint, Velocity currentVelocity);
+
+    /**
+     * Adding the collidable into the game.
+     *
+     * @param game the game
+     */
+    void addToGame(Game game);
 }

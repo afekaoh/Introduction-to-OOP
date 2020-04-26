@@ -12,20 +12,19 @@ public class Ball implements Sprite {
 
     private final GameEnvironment environment;
     /**
+     * The Radius of the ball.
+     */
+    private final int radius;
+    /**
+     * The Color of the ball.
+     */
+    private final Color color;
+    /**
      * The Center point.
      */
     private Point center;
     /**
-     * The Radius of the ball.
-     */
-    private int radius;
-    /**
-     * The Color of the ball.
-     */
-    private Color color;
-    /**
      * The Velocity of the ball.
-     * defaults to (0,0) if not set otherwise
      */
     private Velocity velocity;
 
@@ -44,7 +43,6 @@ public class Ball implements Sprite {
         final int x = (int) center.getX();
         final int y = (int) center.getY();
         setVelocityFromRadius();
-//        this.velocity = new Velocity(0, 0);
         this.environment = environment;
     }
 
@@ -53,12 +51,7 @@ public class Ball implements Sprite {
      */
     private void setVelocityFromRadius() {
         Random rand = new Random();
-        // generating a random angle
-        final double maxAngle = 0;
-        final double minAngle = 30;
-        // generating a random quadrant for the speed to point to
-        final int quadrant = rand.nextInt(2) * 90;
-        final double angle = 45 * (rand.nextBoolean() ? 1 : -1);
+        final double angle = 30 * (rand.nextBoolean() ? 1 : -1);
 
         // generating the speed
         final int maxRadius = 20;
@@ -71,12 +64,7 @@ public class Ball implements Sprite {
         this.velocity = Velocity.fromAngleAndSpeed(angle, speed);
     }
 
-    /**
-     * todo
-     * Add to game.
-     *
-     * @param game the game
-     */
+    @Override
     public void addToGame(Game game) {
         game.addSprite(this);
     }
@@ -93,36 +81,48 @@ public class Ball implements Sprite {
         canvas.drawCircle(getX(), getY(), this.radius);
     }
 
-    /**
-     * Time passed.
-     */
     @Override
     public void timePassed() {
         moveOneStep();
     }
 
     /**
-     * Move one step.
+     * Moving the ball one step.
      */
     public void moveOneStep() {
+        // checking if there is an obstacle
         final Line trajectory = new Line(center, this.velocity.applyToPoint(this.center));
         CollisionInfo collision = environment.getClosestCollision(trajectory);
         if (collision == null) {
+            // there is no collision
             this.center = trajectory.end();
         } else {
-            this.velocity = collision.collisionObject().hit(collision.collisionPoint(), velocity);
+            // getting the new velocity
+            final Collidable obstacle = collision.collisionObject();
+            this.velocity = obstacle.hit(collision.collisionPoint(), velocity);
+
+            // checking where to move the ball
             Point p = null;
+            final int maxTries = 100;
+            int counter = 0;
+            // moving the ball to a place where there isn't any obstacles
             while (collision != null) {
-                p = trajectory.middle();
+                p = trajectory.getPointByPercentage(0.8);
                 trajectory.setEnd(p);
+                if (counter > maxTries) {
+                    // to make sure we don't get into infinite loop
+                    p.setY(obstacle.getCollisionRectangle().top() - radius);
+                    break;
+                }
                 collision = environment.getClosestCollision(trajectory);
+                counter++;
             }
             this.center = p;
         }
     }
 
     /**
-     * Get x int.
+     * Get x.
      *
      * @return the X
      */
@@ -131,7 +131,7 @@ public class Ball implements Sprite {
     }
 
     /**
-     * Get y int.
+     * Get y.
      *
      * @return the Y
      */

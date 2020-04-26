@@ -78,7 +78,7 @@
         <METHOD>
           <KEY>^.*(public|protected|private)*\s*.*(\w(\s*&lt;.+&gt;)*)+\s+get\w+\s*\(.*\).+</KEY>
           <VALUE>/**\n
- * Gets ${partName}.\n
+ * Get ${partName}.\n
 &lt;#if element.typeParameters?has_content&gt;         * \n
 &lt;/#if&gt;
 &lt;#list element.typeParameters as typeParameter&gt;

@@ -20,10 +20,10 @@ public final class GameEnvironment {
     /**
      * add the given collidable to the environment..
      *
-     * @param c the c
+     * @param collidable the collidable
      */
-    public void addCollidable(Collidable c) {
-        collidables.add(c);
+    public void addCollidable(Collidable collidable) {
+        collidables.add(collidable);
     }
 
     /**
@@ -33,18 +33,18 @@ public final class GameEnvironment {
      * about the closest collision that is going to occur.
      *
      * @param trajectory the trajectory
-     * @return the closest collision
+     * @return the closest collision info or null if none happened
      */
     public CollisionInfo getClosestCollision(Line trajectory) {
         final PointsComparator comp = new PointsComparator(trajectory.start());
         CollisionInfo info = null;
-        for (Collidable c : collidables) {
-            Point intersection = trajectory.closestIntersectionToStartOfLine(c.getCollisionRectangle());
+        for (Collidable collidable : collidables) {
+            Point intersection = trajectory.closestIntersectionToStartOfLine(collidable.getCollisionRectangle());
             if (intersection == null) {
                 continue;
             }
             if (info == null || comp.compare(info.collisionPoint(), intersection) > 0) {
-                info = new CollisionInfo(intersection, c);
+                info = new CollisionInfo(intersection, collidable);
             }
         }
         return info;

@@ -1,6 +1,5 @@
 //ID 316044809
 
-
 /**
  * The class Velocity.
  */
@@ -126,29 +125,31 @@ public class Velocity {
         this.ySpeed *= -1;
     }
 
+    /**
+     * To string string.
+     *
+     * @return the string
+     */
     @Override
     public String toString() {
         return "Velocity{" + "xSpeed=" + xSpeed + ", ySpeed=" + ySpeed + '}';
     }
-    //todo
+
+    /**
+     * Get magnitude.
+     *
+     * @return the magnitude of the velocity
+     */
     public double getMag() {
         return new Line(0, 0, xSpeed, ySpeed).length();
     }
 
-    //todo
+    /**
+     * Get angle.
+     *
+     * @return the angle of the velocity
+     */
     public double getAngle() {
         return Math.atan(ySpeed / (xSpeed == 0 ? 1 : xSpeed));
-    }
-
-    /**
-     * Sets speed.
-     * todo doc
-     *
-     * @param newXSpeed the new x speed
-     * @param newYSpeed the new y speed
-     */
-    public void setSpeed(int newXSpeed, int newYSpeed) {
-        setXSpeed(newXSpeed);
-        setYSpeed(newYSpeed);
     }
 }

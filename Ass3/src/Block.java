@@ -15,25 +15,25 @@ public class Block implements Collidable, Sprite {
      */
     private static final Color[] DIFFICULTY_COLORS = {Color.MAGENTA, Color.YELLOW, Color.RED, Color.CYAN, Color.GREEN};
     /**
-     * The Boundary.
+     * The Boundary of the block.
      */
     private final Rectangle boundary;
     /**
-     * The Difficulty.
+     * The Difficulty of the block.
      */
     private final int difficulty;
     /**
-     * The Color.
+     * The Color of the block.
      */
     private Color color;
 
     /**
      * Instantiates a new Block.
      *
-     * @param topLeft    the top left
-     * @param width      the width
-     * @param height     the height
-     * @param difficulty the color
+     * @param topLeft    the top left point of the block
+     * @param width      the width of the block
+     * @param height     the height of the block
+     * @param difficulty the difficulty of the block
      */
     public Block(Point topLeft, int width, int height, int difficulty) {
         this.boundary = new Rectangle(topLeft, width, height);
@@ -58,13 +58,13 @@ public class Block implements Collidable, Sprite {
     }
 
     /**
-     * Show.
+     * draw the block on the given DrawSurface.
      *
-     * @param canvas the canvas
+     * @param canvas the DrawSurface to draw the block on
      */
     public void drawOn(DrawSurface canvas) {
-        canvas.setColor(this.color);
         //drawing the rectangle
+        canvas.setColor(this.color);
         canvas.fillRectangle(boundary.left(), boundary.top(), boundary.getWidth(), boundary.getHeight());
 
         // drawing the stroke
@@ -72,43 +72,23 @@ public class Block implements Collidable, Sprite {
         canvas.drawRectangle(boundary.left(), boundary.top(), boundary.getWidth(), boundary.getHeight());
     }
 
-    /**
-     * Time passed.
-     */
     @Override
     public void timePassed() {
         setColor();
     }
 
-    /**
-     * todo
-     * Add to game.
-     *
-     * @param game the game
-     */
+    @Override
     public void addToGame(Game game) {
         game.addCollidable(this);
         game.addSprite(this);
     }
 
-    /**
-     * Gets collision rectangle.
-     *
-     * @return the collision rectangle
-     */
     @Override
     public Rectangle getCollisionRectangle() {
         return boundary;
     }
 
-    /**
-     * todo
-     * Hit velocity.
-     *
-     * @param collisionPoint  the collision point
-     * @param currentVelocity the current velocity
-     * @return the velocity
-     */
+
     @Override
     public Velocity hit(final Point collisionPoint, final Velocity currentVelocity) {
         Velocity newV = new Velocity(currentVelocity);

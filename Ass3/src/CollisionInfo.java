@@ -1,16 +1,15 @@
 // ID 316044809
-//todo doc
 
 /**
- * The class Collision info.
+ * The class Collision info - an object that holding the information needed about the collision.
  */
 public final class CollisionInfo {
     /**
-     * The Collision point.
+     * The Collision point - the of intersection point.
      */
     private final Point collisionPoint;
     /**
-     * The Collision object.
+     * The object which the Collision happened with.
      */
     private final Collidable collisionObject;
 

@@ -1,5 +1,4 @@
 // ID 316044809
-//todo add doc
 
 import biuoop.DrawSurface;
 import biuoop.GUI;
@@ -10,49 +9,49 @@ import java.awt.Color;
 
 /**
  * The class Game.
- * Implementing all the animation related methods to be used in the various animations classes.
  */
 public class Game {
 
 
     public static final int FRAMES_PER_SECOND = 60;
     public static final int MILLISECONDS_PER_FRAME = 1000 / FRAMES_PER_SECOND;
+    public static final Color SCREEN_COLOR = Color.black;
     /**
-     * The Width of the animation.
+     * The Width of the game.
      */
     private final int width;
     /**
-     * The Height of the animation.
+     * The Height of the game.
      */
     private final int height;
     /**
-     * The Gui for the animation.
+     * The Gui for the game.
      */
     private final GUI gui;
     /**
-     * The Sleeper of the animation.
+     * The Sleeper of the game.
      */
     private final Sleeper sleeper;
     private final KeyboardSensor keyboardSensor;
     /**
-     * The Sprites.
+     * the collection of all the Sprites in the game.
      */
     private final SpriteCollection sprites;
     /**
-     * The Environment.
+     * The Environment - includes all the collidables of the game.
      */
     private final GameEnvironment environment;
     /**
-     * The Canvas.
+     * The Draw Surface of the game.
      */
     private DrawSurface canvas;
 
     /**
      * Instantiates a new Game.
      *
-     * @param width  the width of the animation
-     * @param height the height of the animation
-     * @param title  the title of the animation
+     * @param width  the width of the game
+     * @param height the height of the game
+     * @param title  the title of the game
      */
     public Game(final int width, final int height, final String title) {
         this.width = width;
@@ -70,7 +69,7 @@ public class Game {
      */
     public void setNewCanvas() {
         this.canvas = gui.getDrawSurface();
-        canvas.setColor(Color.WHITE);
+        canvas.setColor(SCREEN_COLOR);
         canvas.fillRectangle(0, 0, width, height);
     }
 
@@ -87,34 +86,38 @@ public class Game {
         if (milliSecondLeftToSleep > 0) {
             sleeper.sleepFor(milliSecondLeftToSleep);
         }
+        // getting ready for the next frame of the game
         setNewCanvas();
     }
 
     /**
-     * Add collidable.
+     * Add collidable to the game.
      *
-     * @param c the c
+     * @param c the Collidable to add to the game
      */
     public void addCollidable(Collidable c) {
         this.environment.addCollidable(c);
     }
 
     /**
-     * Add sprite.
+     * Add sprite to the game.
      *
-     * @param s the s
+     * @param s the Sprite to add to the game
      */
     public void addSprite(Sprite s) {
         this.sprites.addSprite(s);
     }
 
     /**
-     * todo
-     * Initialize a new game: create the Blocks and Ball (and Paddle)
-     * and add them to the game.
+     * Initialize a new game: create all the component of the game
+     * i.e Blocks, Balls and Paddle add them to the game, and sta.
      */
     public void initialize() {
-        Block[] edges = {
+        // the boundary of the game
+        final Rectangle gameEdge = new Rectangle(new Point(0, 0), width, height);
+
+        // creating blocks that blocks the edges of the screen
+        final Block[] edges = {
                 //left edge
                 new Block(new Point(-100, 0), 100, height, 0),
                 //right edge
@@ -124,9 +127,12 @@ public class Game {
                 //bottom edge
                 new Block(new Point(0, height), width, 100, 0),
         };
+        // adding the blocs to the environment
         for (Block edge : edges) {
             addCollidable(edge);
         }
+
+        // creating the game blocks which the ball interact with
         final int numOfRows = 5;
         int blocksPerRow = 10;
         int startX = width / 4;
@@ -143,18 +149,20 @@ public class Game {
             blocksPerRow--;
             startX += blockWidth;
         }
-        //todo fix magic numbers
+
+        //creating the paddle which the player is playing with
         final int paddleWidth = 100;
         final int paddleHeight = 20;
-        Paddle player = new Paddle(width / 2, height - paddleHeight - 2, paddleWidth, paddleHeight, keyboardSensor,
-                                   environment);
+        Paddle player = new Paddle(width / 2, height - paddleHeight - 2, paddleWidth, paddleHeight,
+                                   new GameSettings(gameEdge, keyboardSensor));
         player.addToGame(this);
+
+        // creating the balls
         Ball[] balls = new Ball[2];
         for (int i = 0; i < balls.length; i++) {
             balls[i] = new Ball(new Point(width / (i + 2), 3 * height / 4), 3, Color.YELLOW, environment);
             balls[i].addToGame(this);
         }
-        run();
     }
 
     /**

@@ -13,63 +13,55 @@ public class Paddle implements Sprite, Collidable {
     /**
      * The constant PADDLE_SPEED.
      */
-    public static final int PADDLE_SPEED = 5;
+    public static final int PADDLE_SPEED = 8;
+    /**
+     * The constant NUM_OF_REGIONS.
+     */
     public static final int NUM_OF_REGIONS = 5;
     /**
-     * The Boundary.
+     * The Boundary of the paddle.
      */
     private final Rectangle boundary;
     /**
-     * The Velocity.
-     */
-    private final Velocity velocity;
-    /**
-     * The Color.
+     * The Color of the paddle.
      */
     private final Color color;
-    /**
-     * The Keyboard.
-     */
-    private final KeyboardSensor keyboard;
 
     /**
-     * The Environment.
+     * The game Settings.
      */
-    private final GameEnvironment environment;
+    private final GameSettings settings;
+
+    /**
+     * The Velocity of the paddle.
+     */
+    private final Velocity velocity;
 
 
     /**
      * Instantiates a new Paddle.
      *
-     * @param x           the x
-     * @param y           the y
-     * @param width       the width
-     * @param height      the height
-     * @param keyboard    the keyboard
-     * @param environment the environment
+     * @param x        the x coordinate of the paddle
+     * @param y        the y coordinate of the paddle
+     * @param width    the width of the paddle
+     * @param height   the height of the paddle
+     * @param settings the settings of the game
      */
-    public Paddle(int x, int y, int width, int height, KeyboardSensor keyboard, GameEnvironment environment) {
-        this.environment = environment;
+    public Paddle(int x, int y, int width, int height, GameSettings settings) {
         this.color = Color.WHITE;
-        // todo fix magic numbers
         this.boundary = new Rectangle(new Point(x, y), width, height);
         this.velocity = new Velocity(0, 0);
-        this.keyboard = keyboard;
+        this.settings = settings;
     }
 
     /**
      * Move left.
      */
     public void moveLeft() {
-        this.velocity.setXSpeed(-PADDLE_SPEED);
-        final Point upperLeft = this.boundary.getUpperLeft();
-        Line trajectory = new Line(upperLeft, velocity.applyToPoint(upperLeft));
-        CollisionInfo info = environment.getClosestCollision(trajectory);
-        if (info != null) {
-            final int edgeRight = info.collisionObject().getCollisionRectangle().right();
-            if (edgeRight <= this.boundary.left()) {
-                velocity.setXSpeed(0);
-            }
+        final Rectangle gameEdge = settings.getGameEdge();
+        if (boundary.left() > gameEdge.left()) {
+            // if it haven't reached the edge of the screen
+            this.velocity.setXSpeed(-PADDLE_SPEED);
         }
     }
 
@@ -77,45 +69,35 @@ public class Paddle implements Sprite, Collidable {
      * Move right.
      */
     public void moveRight() {
-        this.velocity.setXSpeed(PADDLE_SPEED);
-        final Point downRight = this.boundary.getDownRight().translate(1, 0);
-        Line trajectory = new Line(velocity.applyToPoint(downRight), downRight);
-        CollisionInfo info = environment.getClosestCollision(trajectory);
-        if (info != null) {
-            final int edgeLeft = info.collisionObject().getCollisionRectangle().left();
-            if (edgeLeft > this.boundary.left()) {
-                velocity.setXSpeed(0);
-            }
+        final Rectangle gameEdge = settings.getGameEdge();
+        if (boundary.right() < gameEdge.right()) {
+            // if it haven't reached the edge of the screen
+            this.velocity.setXSpeed(PADDLE_SPEED);
         }
     }
 
-    /**
-     * Time passed.
-     */
-// Sprite
+    @Override
     public void timePassed() {
         move();
     }
 
     /**
      * Move.
+     * moving the paddle left or right depending on the player
      */
     public void move() {
+        KeyboardSensor keyboard = settings.getKeyboard();
         if (keyboard.isPressed(KeyboardSensor.LEFT_KEY)) {
             moveLeft();
         }
         if (keyboard.isPressed(KeyboardSensor.RIGHT_KEY)) {
             moveRight();
         }
-        this.boundary.move(velocity);
-        this.velocity.setSpeed(0, 0);
+        this.boundary.setCenter(velocity.applyToPoint(boundary.getCenter()));
+        this.velocity.setXSpeed(0);
     }
 
-    /**
-     * Draw on.
-     *
-     * @param canvas the canvas
-     */
+    @Override
     public void drawOn(DrawSurface canvas) {
         canvas.setColor(this.color);
         //drawing the rectangle
@@ -126,55 +108,38 @@ public class Paddle implements Sprite, Collidable {
         canvas.drawRectangle(boundary.left(), boundary.top(), boundary.getWidth(), boundary.getHeight());
     }
 
-    /**
-     * Gets collision rectangle.
-     *
-     * @return the collision rectangle
-     */
-// Collidable
+
+    @Override
     public Rectangle getCollisionRectangle() {
         return this.boundary;
     }
 
-    /**
-     * Hit velocity.
-     *
-     * @param collisionPoint  the collision point
-     * @param currentVelocity the current velocity
-     * @return the velocity
-     */
+    @Override
     public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
-        int region = getRegion(collisionPoint, NUM_OF_REGIONS);
+        int region = getRegion(collisionPoint);
         double angle = Velocity.map(region, 1, NUM_OF_REGIONS, -60, 60);
         return angle == 0 ? new Velocity(currentVelocity.getXSpeed(), -currentVelocity.getYSpeed())
                 : Velocity.fromAngleAndSpeed(angle, currentVelocity.getMag());
     }
 
     /**
-     * todo
-     * Gets region.
+     * Get region.
+     * returning the region on the paddle of which the ball has landed
      *
      * @param collisionPoint the collision point
-     * @param numOfRegions   the num of regions
      * @return the region
      */
-    private int getRegion(Point collisionPoint, int numOfRegions) {
+    private int getRegion(Point collisionPoint) {
         double percentage = (collisionPoint.getX() - boundary.left()) / boundary.getWidth();
-        for (double i = 1; i < numOfRegions; i++) {
-            if (percentage <= i / numOfRegions) {
+        for (double i = 1; i < Paddle.NUM_OF_REGIONS; i++) {
+            if (percentage <= i / Paddle.NUM_OF_REGIONS) {
                 return (int) i;
             }
         }
-        return numOfRegions;
+        return Paddle.NUM_OF_REGIONS;
     }
 
-    /**
-     * todo
-     * Add to game.
-     *
-     * @param g the g
-     */
-// Add this paddle to the game.
+    @Override
     public void addToGame(Game g) {
         g.addCollidable(this);
         g.addSprite(this);

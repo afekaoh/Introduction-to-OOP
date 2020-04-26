@@ -34,15 +34,6 @@ public class Rectangle {
         this.center = new Point(upperLeft.getX() + (width / 2), upperLeft.getY() + height / 2);
     }
 
-    /**
-     * todo
-     * Move.
-     *
-     * @param v the v
-     */
-    public void move(Velocity v) {
-        this.center = v.applyToPoint(center);
-    }
 
     /**
      * Bottom int.
@@ -101,9 +92,7 @@ public class Rectangle {
         List<Point> points = new ArrayList<>();
         for (Line edge : edges) {
             if (edge.isIntersecting(line)) {
-                if (!points.contains(edge.intersectionWith(line))) {
-                    points.add(edge.intersectionWith(line));
-                }
+                points.add(edge.intersectionWith(line));
             }
         }
         return points;
@@ -145,7 +134,7 @@ public class Rectangle {
      * @return the down right
      */
     public Point getDownRight() {
-        return new Point(this.center.getX() + width / 2, this.center.getY() + height / 2);
+        return this.center.translate(width / 2, height / 2);
     }
 
     /**
@@ -160,10 +149,9 @@ public class Rectangle {
     /**
      * Gets center.
      *
-     * @return the center
+     * @param newCenter the new center
      */
-    public void setCenter(int x, int y) {
-        this.center.setX(x);
-        this.center.setY(y);
+    public void setCenter(Point newCenter) {
+        this.center = newCenter;
     }
 }

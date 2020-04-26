@@ -95,10 +95,10 @@ public class Line {
 
     /**
      * todo
-     * Gets point by percentage.
+     * Get point by percentage.
      *
      * @param percent the percent
-     * @return the point by percentage
+     * @return a point on the line located at the given percentage from the start
      */
     public Point getPointByPercentage(double percent) {
         double xStart = start.getX() * (1 - percent);
@@ -243,22 +243,12 @@ public class Line {
         return new Point(x1 + t * (x2 - x1), y1 + t * (y2 - y1));
     }
 
-    /**
-     * Hash code int.
-     *
-     * @return the int
-     */
+
     @Override
     public int hashCode() {
         return Objects.hash(start, end);
     }
 
-    /**
-     * Equals boolean.
-     *
-     * @param o the o
-     * @return the boolean
-     */
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -274,12 +264,6 @@ public class Line {
         return (start.equals(line.start) && end.equals(line.end));
     }
 
-    /**
-     * todo
-     * To string string.
-     *
-     * @return the string
-     */
     @Override
     public String toString() {
         return "Line{" + "start=" + start + ", end=" + end + '}';
@@ -302,12 +286,22 @@ public class Line {
         return Math.abs(this.length() - (this.start.distance(point) + this.end.distance(point))) <= epsilon;
     }
 
-    public void setStart(Point p) {
-        this.start = p;
+    /**
+     * Sets start.
+     *
+     * @param newStart the new start point
+     */
+    public void setStart(Point newStart) {
+        this.start = newStart;
     }
 
-    public void setEnd(Point p) {
-        this.end = p;
+    /**
+     * Set end.
+     *
+     * @param newEnd the new end point
+     */
+    public void setEnd(Point newEnd) {
+        this.end = newEnd;
     }
 
 

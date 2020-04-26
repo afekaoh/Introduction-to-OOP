@@ -2,8 +2,6 @@
 
 import java.util.Objects;
 
-import static java.util.concurrent.ThreadLocalRandom.current;
-
 /**
  * The class Point.
  * representing a point in 2D space.
@@ -30,40 +28,13 @@ public class Point {
     }
 
     /**
-     * todo
-     * Instantiates a new Point.
+     * Instantiates identical to a given point.
      *
-     * @param p the p
+     * @param p the point to copy
      */
-    public Point(Point p) {
+    public Point(final Point p) {
         this.x = p.getX();
         this.y = p.getY();
-    }
-
-    /**
-     * Get random point.
-     *
-     * @param xRange the x range
-     * @param yRange the y range
-     * @return a point in a random location between (0,0) to (xRange,yRange)
-     */
-    public static Point getRandomPoint(final double xRange, final double yRange) {
-        final double x = current().nextDouble(xRange);
-        final double y = current().nextDouble(yRange);
-        return new Point(x, y);
-    }
-
-    /**
-     * Gets random point. between 2 points
-     *
-     * @param start the start of the range
-     * @param end   the end of the range
-     * @return random point between the start and the end
-     */
-    public static Point getRandomPoint(final Point start, final Point end) {
-        final double x = current().nextDouble(start.getX(), end.getX());
-        final double y = current().nextDouble(start.getY(), end.getY());
-        return new Point(x, y);
     }
 
     /**
@@ -112,22 +83,13 @@ public class Point {
         return Math.sqrt(Math.pow(this.x - other.getX(), 2) + Math.pow(this.y - other.getY(), 2));
     }
 
-    /**
-     * Hash code int.
-     *
-     * @return the int
-     */
+
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
     }
 
-    /**
-     * Equals boolean.
-     *
-     * @param o an object to determent equality to
-     * @return true is the points are equal, false otherwise
-     */
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -147,12 +109,12 @@ public class Point {
     }
 
     /**
-     * todo
-     * Move point.
+     * translate point.
+     * the method gets a x and a y and returns an new point moved by that x and a y
      *
      * @param deltaX the delta x
      * @param deltaY the delta y
-     * @return the point
+     * @return the point translated to a new location
      */
     public Point translate(double deltaX, double deltaY) {
         double newX = this.x + deltaX;
