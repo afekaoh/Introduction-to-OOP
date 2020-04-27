@@ -9,9 +9,9 @@ import java.awt.Color;
 
 /**
  * The class Game.
+ * the main class of the game itself creating and running all the elements of the game
  */
 public class Game {
-
 
     public static final int FRAMES_PER_SECOND = 60;
     public static final int MILLISECONDS_PER_FRAME = 1000 / FRAMES_PER_SECOND;
@@ -111,12 +111,12 @@ public class Game {
                 //bottom edge
                 new Block(new Point(0, height), width, 100, -1),
         };
-        // adding the blocs to the environment
+        // adding the blocks to the environment
         for (Block edge : edges) {
             this.elements.addElement(edge);
         }
 
-        // creating the game blocks which the ball interact with
+        // creating the game blocks
         final int numOfRows = 5;
         int blocksPerRow = 10;
         int startX = width / 4;
@@ -134,7 +134,7 @@ public class Game {
             startX += blockWidth;
         }
 
-        //creating the paddle which the player is playing with
+        //creating the paddle that the player is playing with
         final int paddleWidth = 100;
         final int paddleHeight = 20;
         Paddle player = new Paddle(width / 2, height - paddleHeight - 2, paddleWidth, paddleHeight,
@@ -157,7 +157,6 @@ public class Game {
         while (true) {
             long startTime = System.currentTimeMillis();
             elements.runSprites(canvas);
-            elements.checkDeath();
             drawFrame(startTime);
         }
     }

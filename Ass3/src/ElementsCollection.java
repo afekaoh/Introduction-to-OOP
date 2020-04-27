@@ -42,31 +42,12 @@ public class ElementsCollection {
     }
 
     /**
-     * Remove collidable.
-     *
-     * @param collidable the collidable
-     */
-    public void removeCollidable(Collidable collidable) {
-        this.environment.removeCollidable(collidable);
-    }
-
-
-    /**
      * Add sprite to the game.
      *
      * @param sprite the sprite to add
      */
     public void addSprite(Sprite sprite) {
         this.sprites.addSprite(sprite);
-    }
-
-    /**
-     * Remove sprite from the game.
-     *
-     * @param sprite the sprite to remove
-     */
-    public void removeSprite(Sprite sprite) {
-        this.sprites.removeSprite(sprite);
     }
 
     /**
@@ -93,14 +74,6 @@ public class ElementsCollection {
     public void runSprites(DrawSurface canvas) {
         sprites.drawAllOn(canvas);
         sprites.notifyAllTimePassed();
-    }
-
-    /**
-     * Check if an element has died and removed it if so.
-     */
-    public void checkDeath() {
-        elements.stream().filter(GameElement::isDead).forEach(e -> e.removeFromGame(this));
-        elements.removeIf(GameElement::isDead);
     }
 
     /**

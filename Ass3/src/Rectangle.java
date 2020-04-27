@@ -35,10 +35,11 @@ public class Rectangle {
     }
 
     /**
-     * Intersection points list.
+     * Intersection points.
+     * find all the intersection points between the line and the rectangle
      *
-     * @param line the line
-     * @return the list
+     * @param line the line to check intersection with
+     * @return a list of all the intersection points between the line given and the rectangle
      */
     public List<Point> intersectionPoints(Line line) {
         Line[] edges = {
@@ -61,9 +62,9 @@ public class Rectangle {
     }
 
     /**
-     * Right double.
+     * the Right of the rectangle.
      *
-     * @return the double
+     * @return X of the rightmost point in the rectangle
      */
     public int right() {
         return (int) this.center.getX() + width / 2;
@@ -71,27 +72,27 @@ public class Rectangle {
     }
 
     /**
-     * Top int.
+     * the Top of the rectangle.
      *
-     * @return the int
+     * @return Y of the topmost point in the rectangle
      */
     public int top() {
         return (int) this.center.getY() - height / 2;
     }
 
     /**
-     * Left double.
+     * the Left of the rectangle.
      *
-     * @return the double
+     * @return X of the leftmost point in the rectangle
      */
     public int left() {
         return (int) this.center.getX() - width / 2;
     }
 
     /**
-     * Bottom int.
+     * the Bottom of the rectangle.
      *
-     * @return the int
+     * @return Y of the bottommost point in the rectangle
      */
     public int bottom() {
         return (int) this.center.getY() + height / 2;
@@ -100,7 +101,7 @@ public class Rectangle {
     /**
      * Gets upper left.
      *
-     * @return the upper left
+     * @return the upper left point of the rectangle
      */
     public Point getUpperLeft() {
         return this.center.translate(-width / 2, -height / 2);

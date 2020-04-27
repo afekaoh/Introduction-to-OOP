@@ -13,7 +13,7 @@ public class Block implements Collidable, Sprite {
      * The constant DIFFICULTY_COLORS.
      */
     private static final Color[] DIFFICULTY_COLORS = {
-            Color.BLACK, Color.MAGENTA, Color.YELLOW, Color.RED, Color.CYAN, Color.GREEN
+            Color.MAGENTA, Color.YELLOW, Color.RED, Color.CYAN, Color.GREEN
     };
     /**
      * The Boundary of the block.
@@ -55,7 +55,7 @@ public class Block implements Collidable, Sprite {
      * @return the color
      */
     private Color getColor() {
-        return DIFFICULTY_COLORS[(difficulty % (DIFFICULTY_COLORS.length - 1)) + 1];
+        return DIFFICULTY_COLORS[Math.abs(difficulty % DIFFICULTY_COLORS.length)];
     }
 
 
@@ -64,17 +64,6 @@ public class Block implements Collidable, Sprite {
     public void addToGame(ElementsCollection e) {
         e.addCollidable(this);
         e.addSprite(this);
-    }
-
-    @Override
-    public void removeFromGame(ElementsCollection e) {
-        e.removeSprite(this);
-        e.removeCollidable(this);
-    }
-
-    @Override
-    public boolean isDead() {
-        return this.difficulty == 0;
     }
 
 
@@ -111,9 +100,7 @@ public class Block implements Collidable, Sprite {
         if (collisionPoint.getY() == boundary.top() || collisionPoint.getY() == boundary.bottom()) {
             newV.reverseY();
         }
-        if (this.difficulty > 0) {
-            this.difficulty--;
-        }
+        this.difficulty--;
         return newV;
     }
 }

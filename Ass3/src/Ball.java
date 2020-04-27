@@ -71,16 +71,6 @@ public class Ball implements Sprite {
         e.addSprite(this);
     }
 
-    @Override
-    public void removeFromGame(ElementsCollection e) {
-        // do nothing
-    }
-
-    @Override
-    public boolean isDead() {
-        return false;
-    }
-
 
     // sprite methods
     @Override

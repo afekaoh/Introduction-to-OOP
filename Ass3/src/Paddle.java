@@ -60,17 +60,6 @@ public class Paddle implements Sprite, Collidable {
         e.addSprite(this);
     }
 
-    @Override
-    public void removeFromGame(ElementsCollection e) {
-        e.removeCollidable(this);
-        e.removeSprite(this);
-    }
-
-    @Override
-    public boolean isDead() {
-        return false;
-    }
-
 
     // sprite methods
     @Override
