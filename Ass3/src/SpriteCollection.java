@@ -51,4 +51,13 @@ public class SpriteCollection {
             sprite.drawOn(canvas);
         }
     }
+
+    /**
+     * Remove sprite.
+     *
+     * @param sprite the sprite to remove
+     */
+    public void removeSprite(Sprite sprite) {
+        this.sprites.remove(sprite);
+    }
 }

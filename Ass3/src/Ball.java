@@ -64,16 +64,26 @@ public class Ball implements Sprite {
         this.velocity = Velocity.fromAngleAndSpeed(angle, speed);
     }
 
+
+    // GameElement methods
     @Override
-    public void addToGame(Game game) {
-        game.addSprite(this);
+    public void addToGame(ElementsCollection e) {
+        e.addSprite(this);
     }
 
-    /**
-     * draw the ball on the given DrawSurface.
-     *
-     * @param canvas the DrawSurface to draw the ball on
-     */
+    @Override
+    public void removeFromGame(ElementsCollection e) {
+        // do nothing
+    }
+
+    @Override
+    public boolean isDead() {
+        return false;
+    }
+
+
+    // sprite methods
+    @Override
     public void drawOn(final DrawSurface canvas) {
         canvas.setColor(this.color);
         canvas.fillCircle(getX(), getY(), this.radius);

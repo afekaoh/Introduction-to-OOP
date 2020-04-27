@@ -108,6 +108,11 @@ public class Point {
         return deltaX <= epsilon && epsilon >= deltaY;
     }
 
+    @Override
+    public String toString() {
+        return "Point{" + "x=" + x + ", y=" + y + '}';
+    }
+
     /**
      * translate point.
      * the method gets a x and a y and returns an new point moved by that x and a y
@@ -120,10 +125,5 @@ public class Point {
         double newX = this.x + deltaX;
         double newY = this.y + deltaY;
         return new Point(newX, newY);
-    }
-
-    @Override
-    public String toString() {
-        return "Point{" + "x=" + x + ", y=" + y + '}';
     }
 }

@@ -242,7 +242,6 @@ public class Line {
         return new Point(x1 + t * (x2 - x1), y1 + t * (y2 - y1));
     }
 
-
     @Override
     public int hashCode() {
         return Objects.hash(start, end);

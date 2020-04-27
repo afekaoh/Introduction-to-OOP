@@ -53,26 +53,35 @@ public class Paddle implements Sprite, Collidable {
         this.settings = settings;
     }
 
-    /**
-     * Move left.
-     */
-    public void moveLeft() {
-        final Rectangle gameEdge = settings.getGameEdge();
-        if (boundary.left() > gameEdge.left()) {
-            // if it haven't reached the edge of the screen
-            this.velocity.setXSpeed(-PADDLE_SPEED);
-        }
+    // GameElement methods
+    @Override
+    public void addToGame(ElementsCollection e) {
+        e.addCollidable(this);
+        e.addSprite(this);
     }
 
-    /**
-     * Move right.
-     */
-    public void moveRight() {
-        final Rectangle gameEdge = settings.getGameEdge();
-        if (boundary.right() < gameEdge.right()) {
-            // if it haven't reached the edge of the screen
-            this.velocity.setXSpeed(PADDLE_SPEED);
-        }
+    @Override
+    public void removeFromGame(ElementsCollection e) {
+        e.removeCollidable(this);
+        e.removeSprite(this);
+    }
+
+    @Override
+    public boolean isDead() {
+        return false;
+    }
+
+
+    // sprite methods
+    @Override
+    public void drawOn(DrawSurface canvas) {
+        canvas.setColor(this.color);
+        //drawing the rectangle
+        canvas.fillRectangle(boundary.left(), boundary.top(), boundary.getWidth(), boundary.getHeight());
+
+        // drawing the stroke
+        canvas.setColor(Color.BLACK);
+        canvas.drawRectangle(boundary.left(), boundary.top(), boundary.getWidth(), boundary.getHeight());
     }
 
     @Override
@@ -96,18 +105,29 @@ public class Paddle implements Sprite, Collidable {
         this.velocity.setXSpeed(0);
     }
 
-    @Override
-    public void drawOn(DrawSurface canvas) {
-        canvas.setColor(this.color);
-        //drawing the rectangle
-        canvas.fillRectangle(boundary.left(), boundary.top(), boundary.getWidth(), boundary.getHeight());
-
-        // drawing the stroke
-        canvas.setColor(Color.BLACK);
-        canvas.drawRectangle(boundary.left(), boundary.top(), boundary.getWidth(), boundary.getHeight());
+    /**
+     * Move left.
+     */
+    public void moveLeft() {
+        final Rectangle gameEdge = settings.getGameEdge();
+        if (boundary.left() > gameEdge.left()) {
+            // if it haven't reached the edge of the screen
+            this.velocity.setXSpeed(-PADDLE_SPEED);
+        }
     }
 
+    /**
+     * Move right.
+     */
+    public void moveRight() {
+        final Rectangle gameEdge = settings.getGameEdge();
+        if (boundary.right() < gameEdge.right()) {
+            // if it haven't reached the edge of the screen
+            this.velocity.setXSpeed(PADDLE_SPEED);
+        }
+    }
 
+    // collidable methods
     @Override
     public Rectangle getCollisionRectangle() {
         return this.boundary;
@@ -138,10 +158,5 @@ public class Paddle implements Sprite, Collidable {
         return Paddle.NUM_OF_REGIONS;
     }
 
-    @Override
-    public void addToGame(Game g) {
-        g.addCollidable(this);
-        g.addSprite(this);
-    }
 }
 

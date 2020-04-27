@@ -6,7 +6,7 @@ import biuoop.DrawSurface;
 /**
  * The interface Sprite.
  */
-public interface Sprite {
+public interface Sprite extends GameElement {
     /**
      * Draw on.
      * draw the sprite to the screen
@@ -20,12 +20,5 @@ public interface Sprite {
      * notify the sprite that time has passed
      */
     void timePassed();
-
-    /**
-     * Adding the sprite into the game.
-     *
-     * @param game the game
-     */
-    void addToGame(Game game);
 }
 

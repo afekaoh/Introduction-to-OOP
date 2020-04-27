@@ -36,11 +36,13 @@ public class Game {
     /**
      * the collection of all the Sprites in the game.
      */
-    private final SpriteCollection sprites;
+    private final SpriteCollection sprites = null;
     /**
      * The Environment - includes all the collidables of the game.
      */
-    private final GameEnvironment environment;
+    private final GameEnvironment environment = null;
+
+    private final ElementsCollection elements;
     /**
      * The Draw Surface of the game.
      */
@@ -58,8 +60,7 @@ public class Game {
         this.height = height;
         this.gui = new GUI(title, this.width, this.height);
         this.sleeper = new Sleeper();
-        this.sprites = new SpriteCollection();
-        this.environment = new GameEnvironment();
+        this.elements = new ElementsCollection();
         keyboardSensor = gui.getKeyboardSensor();
         setNewCanvas();
     }
@@ -74,28 +75,12 @@ public class Game {
     }
 
     /**
-     * draws the canvas to the gui and suspends the animation.
-     *
-     * @param startTime the start time
-     */
-    public void drawFrame(long startTime) {
-        gui.show(canvas);
-        long usedTime = System.currentTimeMillis() - startTime;
-        long milliSecondLeftToSleep = MILLISECONDS_PER_FRAME - usedTime;
-        if (milliSecondLeftToSleep > 0) {
-            sleeper.sleepFor(milliSecondLeftToSleep);
-        }
-        // getting ready for the next frame of the game
-        setNewCanvas();
-    }
-
-    /**
      * Add collidable to the game.
      *
      * @param c the Collidable to add to the game
      */
     public void addCollidable(Collidable c) {
-        this.environment.addCollidable(c);
+        this.elements.addCollidable(c);
     }
 
     /**
@@ -104,7 +89,7 @@ public class Game {
      * @param s the Sprite to add to the game
      */
     public void addSprite(Sprite s) {
-        this.sprites.addSprite(s);
+        this.elements.addSprite(s);
     }
 
     /**
@@ -118,17 +103,17 @@ public class Game {
         // creating blocks that blocks the edges of the screen
         final Block[] edges = {
                 //left edge
-                new Block(new Point(-100, 0), 100, height, 0),
+                new Block(new Point(-100, 0), 100, height, -1),
                 //right edge
-                new Block(new Point(width, 0), 100, height, 0),
+                new Block(new Point(width, 0), 100, height, -1),
                 //top edge
-                new Block(new Point(0, -100), width, 100, 0),
+                new Block(new Point(0, -100), width, 100, -1),
                 //bottom edge
-                new Block(new Point(0, height), width, 100, 0),
+                new Block(new Point(0, height), width, 100, -1),
         };
         // adding the blocs to the environment
         for (Block edge : edges) {
-            addCollidable(edge);
+            this.elements.addElement(edge);
         }
 
         // creating the game blocks which the ball interact with
@@ -142,8 +127,8 @@ public class Game {
         for (int i = 0; i < numOfRows; i++) {
             for (int j = 0; j < blocksPerRow; j++) {
                 Block block = new Block(new Point(j * blockWidth + startX, i * blockHeight + startY), blockWidth,
-                                        blockHeight, i);
-                block.addToGame(this);
+                                        blockHeight, i + 1);
+                elements.addElement(block);
             }
             blocksPerRow--;
             startX += blockWidth;
@@ -154,14 +139,15 @@ public class Game {
         final int paddleHeight = 20;
         Paddle player = new Paddle(width / 2, height - paddleHeight - 2, paddleWidth, paddleHeight,
                                    new GameSettings(gameEdge, keyboardSensor));
-        player.addToGame(this);
+        elements.addElement(player);
 
         // creating the balls
         Ball[] balls = new Ball[2];
         for (int i = 0; i < balls.length; i++) {
-            balls[i] = new Ball(new Point(width / (i + 2), 3 * height / 4), 3, Color.YELLOW, environment);
-            balls[i].addToGame(this);
+            balls[i] = new Ball(new Point(width / (i + 2), 3 * height / 4), 3, Color.YELLOW, elements.getEnvironment());
+            elements.addElement(balls[i]);
         }
+        elements.addAll();
     }
 
     /**
@@ -169,10 +155,26 @@ public class Game {
      */
     public void run() {
         while (true) {
-            long startTime = System.currentTimeMillis(); // timing
-            sprites.drawAllOn(canvas);
-            sprites.notifyAllTimePassed();
+            long startTime = System.currentTimeMillis();
+            elements.runSprites(canvas);
+            elements.checkDeath();
             drawFrame(startTime);
         }
+    }
+
+    /**
+     * draws the canvas to the gui and suspends the animation.
+     *
+     * @param startTime the time the frame has begun
+     */
+    public void drawFrame(long startTime) {
+        gui.show(canvas);
+        long usedTime = System.currentTimeMillis() - startTime;
+        long milliSecondLeftToSleep = MILLISECONDS_PER_FRAME - usedTime;
+        if (milliSecondLeftToSleep > 0) {
+            sleeper.sleepFor(milliSecondLeftToSleep);
+        }
+        // getting ready for the next frame of the game
+        setNewCanvas();
     }
 }

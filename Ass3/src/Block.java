@@ -12,7 +12,9 @@ public class Block implements Collidable, Sprite {
     /**
      * The constant DIFFICULTY_COLORS.
      */
-    private static final Color[] DIFFICULTY_COLORS = {Color.MAGENTA, Color.YELLOW, Color.RED, Color.CYAN, Color.GREEN};
+    private static final Color[] DIFFICULTY_COLORS = {
+            Color.BLACK, Color.MAGENTA, Color.YELLOW, Color.RED, Color.CYAN, Color.GREEN
+    };
     /**
      * The Boundary of the block.
      */
@@ -20,7 +22,7 @@ public class Block implements Collidable, Sprite {
     /**
      * The Difficulty of the block.
      */
-    private final int difficulty;
+    private int difficulty;
     /**
      * The Color of the block.
      */
@@ -53,14 +55,31 @@ public class Block implements Collidable, Sprite {
      * @return the color
      */
     private Color getColor() {
-        return DIFFICULTY_COLORS[difficulty % 5];
+        return DIFFICULTY_COLORS[(difficulty % (DIFFICULTY_COLORS.length - 1)) + 1];
     }
 
-    /**
-     * draw the block on the given DrawSurface.
-     *
-     * @param canvas the DrawSurface to draw the block on
-     */
+
+    // GameElement methods
+    @Override
+    public void addToGame(ElementsCollection e) {
+        e.addCollidable(this);
+        e.addSprite(this);
+    }
+
+    @Override
+    public void removeFromGame(ElementsCollection e) {
+        e.removeSprite(this);
+        e.removeCollidable(this);
+    }
+
+    @Override
+    public boolean isDead() {
+        return this.difficulty == 0;
+    }
+
+
+    // sprite methods
+    @Override
     public void drawOn(DrawSurface canvas) {
         //drawing the rectangle
         canvas.setColor(this.color);
@@ -76,17 +95,12 @@ public class Block implements Collidable, Sprite {
         setColor();
     }
 
-    @Override
-    public void addToGame(Game game) {
-        game.addCollidable(this);
-        game.addSprite(this);
-    }
 
+    // collidable methods
     @Override
     public Rectangle getCollisionRectangle() {
         return boundary;
     }
-
 
     @Override
     public Velocity hit(final Point collisionPoint, final Velocity currentVelocity) {
@@ -96,6 +110,9 @@ public class Block implements Collidable, Sprite {
         }
         if (collisionPoint.getY() == boundary.top() || collisionPoint.getY() == boundary.bottom()) {
             newV.reverseY();
+        }
+        if (this.difficulty > 0) {
+            this.difficulty--;
         }
         return newV;
     }

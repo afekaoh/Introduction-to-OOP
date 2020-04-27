@@ -35,43 +35,6 @@ public class Rectangle {
     }
 
     /**
-     * Bottom int.
-     *
-     * @return the int
-     */
-    public int bottom() {
-        return (int) this.center.getY() + height / 2;
-    }
-
-    /**
-     * Top int.
-     *
-     * @return the int
-     */
-    public int top() {
-        return (int) this.center.getY() - height / 2;
-    }
-
-    /**
-     * Right double.
-     *
-     * @return the double
-     */
-    public int right() {
-        return (int) this.center.getX() + width / 2;
-
-    }
-
-    /**
-     * Left double.
-     *
-     * @return the double
-     */
-    public int left() {
-        return (int) this.center.getX() - width / 2;
-    }
-
-    /**
      * Intersection points list.
      *
      * @param line the line
@@ -95,6 +58,43 @@ public class Rectangle {
             }
         }
         return points;
+    }
+
+    /**
+     * Right double.
+     *
+     * @return the double
+     */
+    public int right() {
+        return (int) this.center.getX() + width / 2;
+
+    }
+
+    /**
+     * Top int.
+     *
+     * @return the int
+     */
+    public int top() {
+        return (int) this.center.getY() - height / 2;
+    }
+
+    /**
+     * Left double.
+     *
+     * @return the double
+     */
+    public int left() {
+        return (int) this.center.getX() - width / 2;
+    }
+
+    /**
+     * Bottom int.
+     *
+     * @return the int
+     */
+    public int bottom() {
+        return (int) this.center.getY() + height / 2;
     }
 
     /**

@@ -15,11 +15,10 @@ public final class GameSettings {
      */
     private final KeyboardSensor keyboard;
 
-
     /**
      * Instantiates a new Game settings.
      *
-     * @param gameEdge the game edge
+     * @param gameEdge the game edges
      * @param keyboard the keyboard Sensor
      */
     public GameSettings(Rectangle gameEdge, KeyboardSensor keyboard) {
