@@ -98,8 +98,8 @@ public class Ball implements Sprite {
             this.center = trajectory.end();
         } else {
             // getting the new velocity
-            final Collidable obstacle = collision.collisionObject();
-            this.velocity = obstacle.hit(collision.collisionPoint(), velocity);
+            this.velocity = collision.collisionObject()
+                                     .hit(collision.collisionPoint(), velocity);
 
             // checking where to move the ball
             Point p = null;
@@ -111,7 +111,10 @@ public class Ball implements Sprite {
                 trajectory.setEnd(p);
                 if (counter > maxTries) {
                     // to make sure we don't get into infinite loop
-                    p.setY(obstacle.getCollisionRectangle().top() - radius);
+                    final int obstacleTop = collision.collisionObject()
+                                                     .getCollisionRectangle()
+                                                     .top();
+                    p.setY(obstacleTop - radius);
                     break;
                 }
                 collision = environment.getClosestCollision(trajectory);

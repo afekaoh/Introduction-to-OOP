@@ -60,8 +60,7 @@ public class Velocity {
      * @param stop2  upper bound of the value's target range
      * @return value mapped to the new range
      */
-    public static double map(final double value, final double start1, final double stop1, final double start2,
-                             final double stop2) {
+    public static double map(double value, double start1, double stop1, double start2, double stop2) {
         return (value - start1) / (stop1 - start1) * (stop2 - start2) + start2;
     }
 
@@ -72,7 +71,7 @@ public class Velocity {
      * @return the point after the applied
      */
     public Point applyToPoint(final Point p) {
-        return new Point(p.getX() + this.xSpeed, p.getY() + this.ySpeed);
+        return p.translate(xSpeed, ySpeed);
     }
 
     /**
@@ -150,6 +149,6 @@ public class Velocity {
      * @return the angle of the velocity
      */
     public double getAngle() {
-        return Math.atan(ySpeed / (xSpeed == 0 ? 1 : xSpeed));
+        return Math.toDegrees(Math.atan(ySpeed / (xSpeed == 0 ? 1 : xSpeed)) + Math.PI / 2);
     }
 }

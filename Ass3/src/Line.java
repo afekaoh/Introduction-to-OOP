@@ -1,8 +1,9 @@
 // ID 316044809
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+
+import static java.util.Collections.min;
 
 /**
  * The class Line.
@@ -10,13 +11,13 @@ import java.util.Objects;
  */
 public class Line {
     /**
-     * The End point.
-     */
-    private Point end;
-    /**
      * The Start point.
      */
     private Point start;
+    /**
+     * The End point.
+     */
+    private Point end;
 
     /**
      * Instantiates a new Line using points.
@@ -50,7 +51,7 @@ public class Line {
      * @param line2 the other line to check
      * @return the line result
      */
-    private static LineResult checkEdges(final Line line1, final Line line2) {
+    private LineResult checkEdges(final Line line1, final Line line2) {
         // if they coincident but have only 1 intersection point
 
         if (line1.start.equals(line2.start()) && !line1.isPointOn(line2.end())) {
@@ -83,14 +84,16 @@ public class Line {
     }
 
     /**
-     * Middle point.
+     * Is point on the line.
+     * gets a point and checking if the point on the line.
      *
-     * @return the middle point of the line
+     * @param p the point to check
+     * @return if the point is on the line
      */
-    public Point middle() {
-        final double xMiddle = (this.start.getX() + this.end.getX()) / 2;
-        final double yMiddle = (this.start.getY() + this.end.getY()) / 2;
-        return new Point(xMiddle, yMiddle);
+    public boolean isPointOn(Point p) {
+        final double epsilon = 10e-12;
+        // if the point is on the line the distance between it and the edges of the line is the length of the line
+        return Math.abs(length() - (start.distance(p) + end.distance(p))) <= epsilon;
     }
 
     /**
@@ -127,19 +130,13 @@ public class Line {
         return end;
     }
 
-
     /**
-     * Closest intersection to start of line point.
+     * Middle point.
      *
-     * @param rect the rect
-     * @return the point
+     * @return the middle point of the line
      */
-    public Point closestIntersectionToStartOfLine(Rectangle rect) {
-        List<Point> intersectionPoints = rect.intersectionPoints(this);
-        if (intersectionPoints.isEmpty()) {
-            return null;
-        }
-        return Collections.min(intersectionPoints, new PointsComparator(this.start));
+    public Point middle() {
+        return getPointByPercentage(0.5);
     }
 
     /**
@@ -221,7 +218,6 @@ public class Line {
         if (!isIntersecting(other)) {
             return null;
         }
-
         // checking the case that one of lines is a point
         if (this.length() == 0) {
             return this.start;
@@ -268,20 +264,14 @@ public class Line {
     }
 
     /**
-     * Is point on the line.
-     * gets a point and checking if the point on the line.
+     * Closest intersection to start of line point.
      *
-     * @param point the point to check
-     * @return if the point is on the line
+     * @param rect the rect
+     * @return the point
      */
-    public boolean isPointOn(Point point) {
-        if (length() == 0) {
-            // checking the case the line is point as well
-            return point.equals(this.end);
-        }
-        final double epsilon = 10e-12;
-        // if the point is on the line the distance between it and the edges of the line is the length of the line
-        return Math.abs(this.length() - (this.start.distance(point) + this.end.distance(point))) <= epsilon;
+    public Point closestIntersectionToStartOfLine(final Rectangle rect) {
+        List<Point> intersectionPoints = rect.intersectionPoints(this);
+        return intersectionPoints.isEmpty() ? null : min(intersectionPoints, new PointsComparator(this.start));
     }
 
     /**

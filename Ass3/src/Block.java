@@ -13,7 +13,11 @@ public class Block implements Collidable, Sprite {
      * The constant DIFFICULTY_COLORS.
      */
     private static final Color[] DIFFICULTY_COLORS = {
-            Color.MAGENTA, Color.YELLOW, Color.RED, Color.CYAN, Color.GREEN
+            Color.MAGENTA,
+            Color.YELLOW,
+            Color.RED,
+            Color.CYAN,
+            Color.GREEN
     };
     /**
      * The Boundary of the block.

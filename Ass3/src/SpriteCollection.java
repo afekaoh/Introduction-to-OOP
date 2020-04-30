@@ -35,9 +35,7 @@ public class SpriteCollection {
      * call timePassed() on all sprites.
      */
     public void notifyAllTimePassed() {
-        for (Sprite sprite : sprites) {
-            sprite.timePassed();
-        }
+        sprites.forEach(Sprite::timePassed);
     }
 
     /**
@@ -47,8 +45,6 @@ public class SpriteCollection {
      * @param canvas the canvas
      */
     public void drawAllOn(DrawSurface canvas) {
-        for (Sprite sprite : sprites) {
-            sprite.drawOn(canvas);
-        }
+        sprites.forEach(s -> s.drawOn(canvas));
     }
 }

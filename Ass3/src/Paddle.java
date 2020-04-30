@@ -32,6 +32,11 @@ public class Paddle implements Sprite, Collidable {
     private final GameSettings settings;
 
     /**
+     * a keyboard reference.
+     */
+    private final KeyboardSensor keyboard;
+
+    /**
      * The Velocity of the paddle.
      */
     private final Velocity velocity;
@@ -51,6 +56,7 @@ public class Paddle implements Sprite, Collidable {
         this.boundary = new Rectangle(new Point(x, y), width, height);
         this.velocity = new Velocity(0, 0);
         this.settings = settings;
+        this.keyboard = settings.getKeyboard();
     }
 
     // GameElement methods
@@ -83,7 +89,6 @@ public class Paddle implements Sprite, Collidable {
      * moving the paddle left or right depending on the player
      */
     public void move() {
-        KeyboardSensor keyboard = settings.getKeyboard();
         if (keyboard.isPressed(KeyboardSensor.LEFT_KEY)) {
             moveLeft();
         }
@@ -126,7 +131,8 @@ public class Paddle implements Sprite, Collidable {
     public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
         int region = getRegion(collisionPoint);
         double angle = Velocity.map(region, 1, NUM_OF_REGIONS, -60, 60);
-        return angle == 0 ? new Velocity(currentVelocity.getXSpeed(), -currentVelocity.getYSpeed())
+        return angle == 0
+                ? new Velocity(currentVelocity.getXSpeed(), -currentVelocity.getYSpeed())
                 : Velocity.fromAngleAndSpeed(angle, currentVelocity.getMag());
     }
 

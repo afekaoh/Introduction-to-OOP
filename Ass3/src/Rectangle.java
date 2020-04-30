@@ -1,7 +1,9 @@
 // ID 316044809
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * The class Rectangle.
@@ -42,7 +44,7 @@ public class Rectangle {
      * @return a list of all the intersection points between the line given and the rectangle
      */
     public List<Point> intersectionPoints(Line line) {
-        Line[] edges = {
+        Stream<Line> edges = Stream.of(
                 // top line
                 new Line(right(), top(), left(), top()),
                 //right line
@@ -51,14 +53,10 @@ public class Rectangle {
                 new Line(left(), top(), left(), bottom()),
                 //bottom line
                 new Line(right(), bottom(), left(), bottom())
-        };
-        List<Point> points = new ArrayList<>();
-        for (Line edge : edges) {
-            if (edge.isIntersecting(line)) {
-                points.add(edge.intersectionWith(line));
-            }
-        }
-        return points;
+                                      );
+        return edges.filter(line::isIntersecting)
+                    .map(line::intersectionWith)
+                    .collect(toList());
     }
 
     /**

@@ -18,6 +18,7 @@
 
     <target name="clean">
         <delete dir="bin"/>
+        <delete file="ass3.zip"/>
     </target>
 
     <target name="zip" depends="compile">

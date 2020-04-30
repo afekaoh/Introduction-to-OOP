@@ -37,12 +37,9 @@ public final class GameEnvironment {
     public CollisionInfo getClosestCollision(Line trajectory) {
         final PointsComparator comp = new PointsComparator(trajectory.start());
         CollisionInfo info = null;
-        for (Collidable collidable : collidables) {
+        for (final Collidable collidable : collidables) {
             Point intersection = trajectory.closestIntersectionToStartOfLine(collidable.getCollisionRectangle());
-            if (intersection == null) {
-                continue;
-            }
-            if (info == null || comp.compare(info.collisionPoint(), intersection) > 0) {
+            if ((intersection != null) && (info == null || comp.compare(info.collisionPoint(), intersection) > 0)) {
                 info = new CollisionInfo(intersection, collidable);
             }
         }

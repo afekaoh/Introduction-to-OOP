@@ -6,6 +6,7 @@ import biuoop.KeyboardSensor;
 import biuoop.Sleeper;
 
 import java.awt.Color;
+import java.util.stream.Stream;
 
 /**
  * The class Game.
@@ -80,7 +81,8 @@ public class Game {
      * @param c the Collidable to add to the game
      */
     public void addCollidable(Collidable c) {
-        this.elements.addCollidable(c);
+        //noinspection ConstantConditions
+        environment.addCollidable(c);
     }
 
     /**
@@ -89,7 +91,8 @@ public class Game {
      * @param s the Sprite to add to the game
      */
     public void addSprite(Sprite s) {
-        this.elements.addSprite(s);
+        //noinspection ConstantConditions
+        sprites.addSprite(s);
     }
 
     /**
@@ -97,11 +100,9 @@ public class Game {
      * i.e Blocks, Balls and Paddle add them to the game, and sta.
      */
     public void initialize() {
-        // the boundary of the game
-        final Rectangle gameEdge = new Rectangle(new Point(0, 0), width, height);
-
+        //creating the edges blocks
         // creating blocks that blocks the edges of the screen
-        final Block[] edges = {
+        final Stream<Block> edges = Stream.of(
                 //left edge
                 new Block(new Point(-100, 0), 100, height, -1),
                 //right edge
@@ -109,44 +110,57 @@ public class Game {
                 //top edge
                 new Block(new Point(0, -100), width, 100, -1),
                 //bottom edge
-                new Block(new Point(0, height), width, 100, -1),
-        };
-        // adding the blocks to the environment
-        for (Block edge : edges) {
-            this.elements.addElement(edge);
-        }
+                new Block(new Point(0, height), width, 100, -1)
+                                             );
+        // adding the edges to the environment
+        edges.forEach(elements::addElement);
 
         // creating the game blocks
         final int numOfRows = 5;
-        int blocksPerRow = 10;
-        int startX = width / 4;
+        final int blocksPerRow = 10;
+        final int startX = width / 4;
         final int startY = width / 9;
         final int blockWidth = (width - startX) / blocksPerRow;
         final int blockHeight = (int) (height * 0.05);
-
         for (int i = 0; i < numOfRows; i++) {
-            for (int j = 0; j < blocksPerRow; j++) {
-                Block block = new Block(new Point(j * blockWidth + startX, i * blockHeight + startY), blockWidth,
-                                        blockHeight, i + 1);
-                elements.addElement(block);
+            for (int j = blocksPerRow - 1; j >= i; j--) {
+                elements.addElement(new Block(
+                        new Point(j * blockWidth + startX, i * blockHeight + startY),
+                        blockWidth,
+                        blockHeight,
+                        i + 1
+                ));
             }
-            blocksPerRow--;
-            startX += blockWidth;
         }
 
-        //creating the paddle that the player is playing with
-        final int paddleWidth = 100;
+        // creating the paddle that the player will play with
         final int paddleHeight = 20;
-        Paddle player = new Paddle(width / 2, height - paddleHeight - 2, paddleWidth, paddleHeight,
-                                   new GameSettings(gameEdge, keyboardSensor));
-        elements.addElement(player);
+        // the paddle is extra length to better see region interaction
+        final int paddleWidth = 200;
+        final GameSettings settings = new GameSettings(
+                new Rectangle(new Point(0, 0), width, height),
+                keyboardSensor
+        );
+        elements.addElement(new Paddle(
+                width / 2,
+                height - (paddleHeight + 2),
+                paddleWidth,
+                paddleHeight,
+                settings
+        ));
 
         // creating the balls
-        Ball[] balls = new Ball[2];
-        for (int i = 0; i < balls.length; i++) {
-            balls[i] = new Ball(new Point(width / (i + 2), 3 * height / 4), 3, Color.YELLOW, elements.getEnvironment());
-            elements.addElement(balls[i]);
+        final int numOfBalls = 2;
+        for (int i = 0; i < numOfBalls; i++) {
+            elements.addElement(new Ball(
+                    new Point(width / (i + 2), 3 * height / 4),
+                    3,
+                    Color.YELLOW,
+                    elements.getEnvironment()
+            ));
         }
+
+        // adding all the elements to the game
         elements.addAll();
     }
 
@@ -154,6 +168,7 @@ public class Game {
      * run the game.
      */
     public void run() {
+        //noinspection InfiniteLoopStatement
         while (true) {
             long startTime = System.currentTimeMillis();
             elements.runSprites(canvas);

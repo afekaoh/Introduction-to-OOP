@@ -14,12 +14,12 @@ public final class PointsComparator implements Comparator<Point> {
      *
      * @param compareTo the compare to
      */
-    public PointsComparator(Point compareTo) {
+    public PointsComparator(final Point compareTo) {
         this.compareTo = compareTo;
     }
 
     @Override
-    public int compare(Point p1, Point p2) {
+    public int compare(final Point p1, final Point p2) {
         return Double.compare(compareTo.distance(p1), compareTo.distance(p2));
     }
 }
