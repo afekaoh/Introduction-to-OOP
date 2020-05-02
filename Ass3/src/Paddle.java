@@ -27,14 +27,11 @@ public class Paddle implements Sprite, Collidable {
     private final Color color;
 
     /**
-     * The game Settings.
-     */
-    private final GameSettings settings;
-
-    /**
      * a keyboard reference.
      */
     private final KeyboardSensor keyboard;
+
+    private final GameEnvironment environment;
 
     /**
      * The Velocity of the paddle.
@@ -45,18 +42,19 @@ public class Paddle implements Sprite, Collidable {
     /**
      * Instantiates a new Paddle.
      *
-     * @param x        the x coordinate of the paddle
-     * @param y        the y coordinate of the paddle
-     * @param width    the width of the paddle
-     * @param height   the height of the paddle
-     * @param settings the settings of the game
+     * @param x           the x coordinate of the paddle
+     * @param y           the y coordinate of the paddle
+     * @param width       the width of the paddle
+     * @param height      the height of the paddle
+     * @param keyboard    the keyboard
+     * @param environment the environment
      */
-    public Paddle(int x, int y, int width, int height, GameSettings settings) {
+    public Paddle(int x, int y, int width, int height, KeyboardSensor keyboard, final GameEnvironment environment) {
         this.color = Color.WHITE;
         this.boundary = new Rectangle(new Point(x, y), width, height);
         this.velocity = new Velocity(0, 0);
-        this.settings = settings;
-        this.keyboard = settings.getKeyboard();
+        this.keyboard = keyboard;
+        this.environment = environment;
     }
 
     // GameElement methods
@@ -103,9 +101,12 @@ public class Paddle implements Sprite, Collidable {
      * Move left.
      */
     public void moveLeft() {
-        final Rectangle gameEdge = settings.getGameEdge();
-        if (boundary.left() > gameEdge.left()) {
-            // if it haven't reached the edge of the screen
+        final Point upperLeft = boundary.getUpperLeft().translate(0, -1);
+        Line trajectory = new Line(upperLeft, upperLeft);
+        CollisionInfo info = environment.getClosestCollision(trajectory);
+        if (info != null) {
+            this.velocity.setXSpeed(0);
+        } else {
             this.velocity.setXSpeed(-PADDLE_SPEED);
         }
     }
@@ -114,9 +115,12 @@ public class Paddle implements Sprite, Collidable {
      * Move right.
      */
     public void moveRight() {
-        final Rectangle gameEdge = settings.getGameEdge();
-        if (boundary.right() < gameEdge.right()) {
-            // if it haven't reached the edge of the screen
+        final Point upperRight = boundary.getUpperLeft().translate(boundary.getWidth(), -1);
+        Line trajectory = new Line(upperRight, upperRight);
+        CollisionInfo info = environment.getClosestCollision(trajectory);
+        if (info != null) {
+            this.velocity.setXSpeed(0);
+        } else {
             this.velocity.setXSpeed(PADDLE_SPEED);
         }
     }

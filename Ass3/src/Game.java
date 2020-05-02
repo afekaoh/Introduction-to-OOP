@@ -14,7 +14,7 @@ import java.util.stream.Stream;
  */
 public class Game {
 
-    public static final int FRAMES_PER_SECOND = 60;
+    public static final int FRAMES_PER_SECOND = 30;
     public static final int MILLISECONDS_PER_FRAME = 1000 / FRAMES_PER_SECOND;
     public static final Color SCREEN_COLOR = Color.black;
     /**
@@ -146,7 +146,8 @@ public class Game {
                 height - (paddleHeight + 2),
                 paddleWidth,
                 paddleHeight,
-                settings
+                keyboardSensor,
+                this.elements.getEnvironment()
         ));
 
         // creating the balls
