@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * The class Game environment.
  */
-public final class GameEnvironment {
+public class GameEnvironment {
     private final List<Collidable> collidables;
 
     /**

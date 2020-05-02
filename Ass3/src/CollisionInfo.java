@@ -3,7 +3,7 @@
 /**
  * The class Collision info - an object that holding the information needed about the collision.
  */
-public final class CollisionInfo {
+public class CollisionInfo {
     /**
      * The Collision point - the of intersection point.
      */

@@ -5,7 +5,7 @@ import biuoop.KeyboardSensor;
 /**
  * The class Game settings.
  */
-public final class GameSettings {
+public class GameSettings {
     /**
      * The Game boundary.
      */

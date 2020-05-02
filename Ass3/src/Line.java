@@ -97,22 +97,6 @@ public class Line {
     }
 
     /**
-     * Get point by percentage.
-     *
-     * @param percent the percent
-     * @return a point on the line located at the given percentage from the start
-     */
-    public Point getPointByPercentage(double percent) {
-        double xStart = start.getX() * (1 - percent);
-        double yStart = start.getY() * (1 - percent);
-        double xEnd = end.getX() * percent;
-        double yEnd = end.getY() * percent;
-        double x = xStart + xEnd;
-        double y = yStart + yEnd;
-        return new Point(x, y);
-    }
-
-    /**
      * Start point.
      *
      * @return the start point of the line
@@ -137,6 +121,22 @@ public class Line {
      */
     public Point middle() {
         return getPointByPercentage(0.5);
+    }
+
+    /**
+     * Get point by percentage.
+     *
+     * @param percent the percent
+     * @return a point on the line located at the given percentage from the start
+     */
+    public Point getPointByPercentage(double percent) {
+        double xStart = start.getX() * (1 - percent);
+        double yStart = start.getY() * (1 - percent);
+        double xEnd = end.getX() * percent;
+        double yEnd = end.getY() * percent;
+        double x = xStart + xEnd;
+        double y = yStart + yEnd;
+        return new Point(x, y);
     }
 
     /**
