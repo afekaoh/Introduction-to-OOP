@@ -31,6 +31,9 @@ public class Paddle implements Sprite, Collidable {
      */
     private final KeyboardSensor keyboard;
 
+    /**
+     * The Environment of the game.
+     */
     private final GameEnvironment environment;
 
     /**
@@ -42,19 +45,18 @@ public class Paddle implements Sprite, Collidable {
     /**
      * Instantiates a new Paddle.
      *
-     * @param x           the x coordinate of the paddle
-     * @param y           the y coordinate of the paddle
-     * @param width       the width of the paddle
-     * @param height      the height of the paddle
-     * @param keyboard    the keyboard
-     * @param environment the environment
+     * @param x        the x coordinate of the paddle
+     * @param y        the y coordinate of the paddle
+     * @param width    the width of the paddle
+     * @param height   the height of the paddle
+     * @param settings the settings of the game
      */
-    public Paddle(int x, int y, int width, int height, KeyboardSensor keyboard, final GameEnvironment environment) {
+    public Paddle(int x, int y, int width, int height, final GameSettings settings) {
         this.color = Color.WHITE;
         this.boundary = new Rectangle(new Point(x, y), width, height);
         this.velocity = new Velocity(0, 0);
-        this.keyboard = keyboard;
-        this.environment = environment;
+        this.keyboard = settings.getKeyboard();
+        this.environment = settings.getEnvironment();
     }
 
     // GameElement methods
@@ -94,6 +96,7 @@ public class Paddle implements Sprite, Collidable {
             moveRight();
         }
         this.boundary.setCenter(velocity.applyToPoint(boundary.getCenter()));
+        // resetting the velocity for the next frame
         this.velocity.setXSpeed(0);
     }
 
@@ -101,13 +104,20 @@ public class Paddle implements Sprite, Collidable {
      * Move left.
      */
     public void moveLeft() {
+        // giving the paddle a velocity in the left direction
+        this.velocity.setXSpeed(-PADDLE_SPEED);
+        // checking it it got to the edge of the screen
         final Point upperLeft = boundary.getUpperLeft().translate(0, -1);
-        Line trajectory = new Line(upperLeft, upperLeft);
+        // take a line in the X as the paddle but higher on the Y to avoid collision with himself
+        Line trajectory = new Line(upperLeft, velocity.applyToPoint(upperLeft));
         CollisionInfo info = environment.getClosestCollision(trajectory);
+
+        // there is only one block in this side of the paddle
         if (info != null) {
+            // moving the paddle to the appropriate position
+            boundary.setCenter(info.collisionPoint().translate(boundary.getWidth() / 2, boundary.getHeight() / 2 + 1));
+            // stopping the paddle
             this.velocity.setXSpeed(0);
-        } else {
-            this.velocity.setXSpeed(-PADDLE_SPEED);
         }
     }
 
@@ -115,13 +125,21 @@ public class Paddle implements Sprite, Collidable {
      * Move right.
      */
     public void moveRight() {
+        // giving the paddle a velocity in the right direction
+        this.velocity.setXSpeed(PADDLE_SPEED);
+
+        // checking it it got to the edge of the screen
         final Point upperRight = boundary.getUpperLeft().translate(boundary.getWidth(), -1);
-        Line trajectory = new Line(upperRight, upperRight);
+        // take a line in the X as the paddle but higher on the Y to avoid collision with himself
+        Line trajectory = new Line(upperRight, velocity.applyToPoint(upperRight));
         CollisionInfo info = environment.getClosestCollision(trajectory);
+        // there is only one block in this side of the paddle
         if (info != null) {
+            // moving the paddle to the appropriate position
+            boundary.setCenter(info.collisionPoint()
+                                   .translate(-(boundary.getWidth() / 2), (boundary.getHeight() / 2) + 1));
+            // stopping the paddle
             this.velocity.setXSpeed(0);
-        } else {
-            this.velocity.setXSpeed(PADDLE_SPEED);
         }
     }
 

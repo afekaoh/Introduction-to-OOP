@@ -45,7 +45,21 @@ public class TriangleCheck {
             if (isRightAngle(triangle)) {
                 System.out.println("right angled!");
             }
+        } else {
+            System.out.println("not triangle");
         }
+    }
+
+    /**
+     * is Triangle.
+     *
+     * @param triangle an array representing 3 edges
+     * @return true if the the edges represents a triangle and false if not
+     */
+    public static boolean isTriangle(final double[] triangle) {
+        // checking if the edges makes a triangle with the triangle inequality
+        Arrays.sort(triangle);
+        return triangle[0] + triangle[1] > triangle[2];
     }
 
     /**
@@ -64,17 +78,5 @@ public class TriangleCheck {
 
         // a^2 + b^2 == c^2
         return a.pow(2).add(b.pow(2)).equals(c.pow(2));
-    }
-
-    /**
-     * is Triangle.
-     *
-     * @param triangle an array representing 3 edges
-     * @return true if the the edges represents a triangle and false if not
-     */
-    public static boolean isTriangle(final double[] triangle) {
-        // checking if the edges makes a triangle with the triangle inequality
-        Arrays.sort(triangle);
-        return triangle[0] + triangle[1] > triangle[2];
     }
 }

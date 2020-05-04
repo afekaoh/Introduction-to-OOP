@@ -122,8 +122,6 @@ public class Point {
      * @return the point translated to a new location
      */
     public Point translate(double deltaX, double deltaY) {
-        double newX = this.x + deltaX;
-        double newY = this.y + deltaY;
-        return new Point(newX, newY);
+        return new Point(this.x + deltaX, this.y + deltaY);
     }
 }

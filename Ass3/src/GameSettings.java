@@ -9,7 +9,7 @@ public class GameSettings {
     /**
      * The Game boundary.
      */
-    private final Rectangle gameEdge;
+    private final GameEnvironment environment;
     /**
      * The Keyboard.
      */
@@ -18,11 +18,11 @@ public class GameSettings {
     /**
      * Instantiates a new Game settings.
      *
-     * @param gameEdge the game edges
-     * @param keyboard the keyboard Sensor
+     * @param environment the game edges
+     * @param keyboard    the keyboard Sensor
      */
-    public GameSettings(Rectangle gameEdge, KeyboardSensor keyboard) {
-        this.gameEdge = gameEdge;
+    public GameSettings(GameEnvironment environment, KeyboardSensor keyboard) {
+        this.environment = environment;
         this.keyboard = keyboard;
     }
 
@@ -40,7 +40,7 @@ public class GameSettings {
      *
      * @return the game boundary
      */
-    public Rectangle getGameEdge() {
-        return gameEdge;
+    public GameEnvironment getEnvironment() {
+        return environment;
     }
 }

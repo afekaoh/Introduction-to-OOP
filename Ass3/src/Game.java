@@ -14,7 +14,7 @@ import java.util.stream.Stream;
  */
 public class Game {
 
-    public static final int FRAMES_PER_SECOND = 30;
+    public static final int FRAMES_PER_SECOND = 60;
     public static final int MILLISECONDS_PER_FRAME = 1000 / FRAMES_PER_SECOND;
     public static final Color SCREEN_COLOR = Color.black;
     /**
@@ -134,11 +134,11 @@ public class Game {
         }
 
         // creating the paddle that the player will play with
-        final int paddleHeight = 20;
+        final int paddleHeight = (int) (height * 0.03);
         // the paddle is extra length to better see region interaction
-        final int paddleWidth = 200;
+        final int paddleWidth = width / 8;
         final GameSettings settings = new GameSettings(
-                new Rectangle(new Point(0, 0), width, height),
+                elements.getEnvironment(),
                 keyboardSensor
         );
         elements.addElement(new Paddle(
@@ -146,8 +146,7 @@ public class Game {
                 height - (paddleHeight + 2),
                 paddleWidth,
                 paddleHeight,
-                keyboardSensor,
-                this.elements.getEnvironment()
+                settings
         ));
 
         // creating the balls
