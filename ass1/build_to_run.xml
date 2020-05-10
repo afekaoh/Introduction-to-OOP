@@ -28,6 +28,49 @@
         </java>
     </target>
 
+    <target name="run1.1" depends="compile">
+        <property name="args" value="11"/>
+        <java classname="AveragePrimes" classpath="bin" fork="true">
+            <!-- This specifies to pass the arguments from the `ant` command into the `java` execution command -->
+            <arg line="${args}"/>
+        </java>
+    </target>
+    <target name="run1.2" depends="compile">
+        <property name="args" value="0"/>
+        <java classname="AveragePrimes" classpath="bin" fork="true">
+            <!-- This specifies to pass the arguments from the `ant` command into the `java` execution command -->
+            <arg line="${args}"/>
+        </java>
+    </target>
+    <target name="run1.3" depends="compile">
+        <property name="args" value="-8"/>
+        <java classname="AveragePrimes" classpath="bin" fork="true">
+            <!-- This specifies to pass the arguments from the `ant` command into the `java` execution command -->
+            <arg line="${args}"/>
+        </java>
+    </target>
+    <target name="run1.4" depends="compile">
+        <property name="args" value="101"/>
+        <java classname="AveragePrimes" classpath="bin" fork="true">
+            <!-- This specifies to pass the arguments from the `ant` command into the `java` execution command -->
+            <arg line="${args}"/>
+        </java>
+    </target>
+    <target name="run1.5" depends="compile">
+        <property name="args" value="102"/>
+        <java classname="AveragePrimes" classpath="bin" fork="true">
+            <!-- This specifies to pass the arguments from the `ant` command into the `java` execution command -->
+            <arg line="${args}"/>
+        </java>
+    </target>
+    <target name="run1.6" depends="compile">
+        <property name="args" value="103"/>
+        <java classname="AveragePrimes" classpath="bin" fork="true">
+            <!-- This specifies to pass the arguments from the `ant` command into the `java` execution command -->
+            <arg line="${args}"/>
+        </java>
+    </target>
+
     <target name="run2" depends="compile">
         <property name="args" value="5 15 23"/>
         <java classname="TriangleCheck" classpath="bin" fork="true">
@@ -36,6 +79,48 @@
         </java>
     </target>
 
+    <target name="run2.1" depends="compile">
+        <property name="args" value="5 12 13"/>
+        <java classname="TriangleCheck" classpath="bin" fork="true">
+            <!-- This specifies to pass the arguments from the `ant` command into the `java` execution command -->
+            <arg line="${args}"/>
+        </java>
+    </target>
+    <target name="run2.2" depends="compile">
+        <property name="args" value="5 13 13"/>
+        <java classname="TriangleCheck" classpath="bin" fork="true">
+            <!-- This specifies to pass the arguments from the `ant` command into the `java` execution command -->
+            <arg line="${args}"/>
+        </java>
+    </target>
+    <target name="run2.3" depends="compile">
+        <property name="args" value="5 13 23"/>
+        <java classname="TriangleCheck" classpath="bin" fork="true">
+            <!-- This specifies to pass the arguments from the `ant` command into the `java` execution command -->
+            <arg line="${args}"/>
+        </java>
+    </target>
+    <target name="run2.4" depends="compile">
+        <property name="args" value="2 3"/>
+        <java classname="TriangleCheck" classpath="bin" fork="true">
+            <!-- This specifies to pass the arguments from the `ant` command into the `java` execution command -->
+            <arg line="${args}"/>
+        </java>
+    </target>
+    <target name="run2.5" depends="compile">
+        <property name="args" value="5 2 3"/>
+        <java classname="TriangleCheck" classpath="bin" fork="true">
+            <!-- This specifies to pass the arguments from the `ant` command into the `java` execution command -->
+            <arg line="${args}"/>
+        </java>
+    </target>
+    <target name="run2.6" depends="compile">
+        <property name="args" value="8 6 10"/>
+        <java classname="TriangleCheck" classpath="bin" fork="true">
+            <!-- This specifies to pass the arguments from the `ant` command into the `java` execution command -->
+            <arg line="${args}"/>
+        </java>
+    </target>
     <target name="run3" depends="compile">
         <property name="args" value="My name is inigo montoya youve killed my father prepare to die  "/>
         <java classname="CharCount" classpath="bin" fork="true">
@@ -43,7 +128,48 @@
             <arg line="${args}"/>
         </java>
     </target>
-
+    <target name="run3.1" depends="compile">
+        <property name="args" value="lfasd fggds asd sf l as as dll a sadll l"/>
+        <java classname="CharCount" classpath="bin" fork="true">
+            <!-- This specifies to pass the arguments from the `ant` command into the `java` execution command -->
+            <arg line="${args}"/>
+        </java>
+    </target>
+    <target name="run3.2" depends="compile">
+        <property name="args" value="gg g"/>
+        <java classname="CharCount" classpath="bin" fork="true">
+            <!-- This specifies to pass the arguments from the `ant` command into the `java` execution command -->
+            <arg line="${args}"/>
+        </java>
+    </target>
+    <target name="run3.3" depends="compile">
+        <property name="args" value="gg f"/>
+        <java classname="CharCount" classpath="bin" fork="true">
+            <!-- This specifies to pass the arguments from the `ant` command into the `java` execution command -->
+            <arg line="${args}"/>
+        </java>
+    </target>
+    <target name="run3.4" depends="compile">
+        <property name="args" value="g"/>
+        <java classname="CharCount" classpath="bin" fork="true">
+            <!-- This specifies to pass the arguments from the `ant` command into the `java` execution command -->
+            <arg line="${args}"/>
+        </java>
+    </target>
+    <target name="run3.5" depends="compile">
+        <property name="args" value="go to the gate when the gate is open"/>
+        <java classname="CharCount" classpath="bin" fork="true">
+            <!-- This specifies to pass the arguments from the `ant` command into the `java` execution command -->
+            <arg line="${args}"/>
+        </java>
+    </target>
+    <target name="run3.6" depends="compile">
+        <property name="args" value="go to the gate when the gate is open g"/>
+        <java classname="CharCount" classpath="bin" fork="true">
+            <!-- This specifies to pass the arguments from the `ant` command into the `java` execution command -->
+            <arg line="${args}"/>
+        </java>
+    </target>
     <!-- Run checkstyle on all our source files -->
     <target name="check">
         <java jar="../General/checkstyle-8.0-all.jar" fork="true">
