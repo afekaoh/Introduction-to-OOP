@@ -16,8 +16,8 @@ public class Div extends BinaryExpression {
     }
 
     @Override
-    public double applyOperator(final double num1, final double num2) {
-        if (num2 <= Const.EPSILON) {
+    public double applyOperator(final double num1, final double num2) throws Exception {
+        if (Const.doubleEquals(num2, 0)) {
             throw new DivideByZeroException("cannot divide by 0");
         }
         return num1 / num2;

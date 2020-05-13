@@ -3,6 +3,7 @@ import static java.lang.Math.toRadians;
 
 /**
  * The class Sin.
+ * representing the mathematical operation of sine.
  */
 public class Sin extends UnaryExpression {
 

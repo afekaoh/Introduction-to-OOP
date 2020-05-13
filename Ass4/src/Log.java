@@ -2,24 +2,18 @@
 
 /**
  * The class Log.
+ * representing the mathematical operation of logarithm.
  */
 public class Log extends BinaryExpression {
+
     /**
-     * Instantiates a new Binary expression.
+     * Instantiates a new Log Expression.
      *
-     * @param expression1 the exp 1
-     * @param expression2 the exp 2
+     * @param expression1 the first expression
+     * @param expression2 the second expression
      */
     public Log(final Expression expression1, final Expression expression2) {
         super(expression1, expression2);
-    }
-
-    @Override
-    public double applyOperator(final double num1, final double num2) {
-        if (-Const.EPSILON <= num2 && num2 <= Const.EPSILON) {
-            throw new DivideByZeroException("cannot compute Log of 0");
-        }
-        return Math.log(num2) / Math.log(num1);
     }
 
     @Override
@@ -36,6 +30,17 @@ public class Log extends BinaryExpression {
     }
 
     @Override
+    public double applyOperator(final double num1, final double num2) throws Exception {
+        if (Const.doubleEquals(num2, 0)) {
+            throw new DivideByZeroException("cannot compute Log of 0");
+        }
+        if (Const.doubleEquals(num1, 1) || num1 <= 0) {
+            throw new LogBaseException("the base of the log must be grater then 0 and different then 1");
+        }
+        return Math.log(num2) / Math.log(num1);
+    }
+
+    @Override
     protected Expression simplifyRules(final Expression exp1, final Expression exp2) {
         if (exp1.equals(exp2)) {
             return new Num(1);
@@ -48,11 +53,11 @@ public class Log extends BinaryExpression {
 
     /**
      * To ln expression.
-     * converting the log to
+     * converting the log to be ln based
      *
-     * @param exp1 the exp 1
-     * @param exp2 the exp 2
-     * @return the expression
+     * @param exp1 the first expression
+     * @param exp2 the second expression
+     * @return the ln based expression
      */
     private Expression toLn(final Expression exp1, final Expression exp2) {
         return new Div(

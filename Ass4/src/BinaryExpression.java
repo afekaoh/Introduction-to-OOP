@@ -17,33 +17,17 @@ public abstract class BinaryExpression extends BaseExpression {
         super(expression1, expression2);
     }
 
-
-    @Override
-    protected double applyOperator(final double... nums) throws Exception {
-        return applyOperator(nums[0], nums[1]);
-    }
-
-    /**
-     * Apply operator double.
-     *
-     * @param num1 the num 1
-     * @param num2 the num 2
-     * @return the double
-     * @throws Exception the exception
-     */
-    protected abstract double applyOperator(double num1, double num2) throws Exception;
-
     @Override
     public Expression createNew(final Expression... exps) {
         return createNew(exps[0], exps[1]);
     }
 
     /**
-     * Create new expression.
+     * Create a new BinaryExpression.
      *
-     * @param exp1 the exp 1
-     * @param exp2 the exp 2
-     * @return the expression
+     * @param exp1 the first expression
+     * @param exp2 the second expression
+     * @return the new expression
      */
     protected abstract Expression createNew(Expression exp1, Expression exp2);
 
@@ -55,10 +39,10 @@ public abstract class BinaryExpression extends BaseExpression {
     /**
      * Differentiate logic expression.
      *
-     * @param exp1 the exp 1
-     * @param exp2 the exp 2
-     * @param var  the var
-     * @return the expression
+     * @param exp1 the first expression
+     * @param exp2 the second expression
+     * @param var  the variable of which we differentiate upon.
+     * @return the derivative expression
      */
     protected abstract Expression differentiateLogic(Expression exp1, Expression exp2, String var);
 
@@ -67,17 +51,32 @@ public abstract class BinaryExpression extends BaseExpression {
         return simplifyRules(exps[0], exps[1]);
     }
 
+    @Override
+    protected double applyOperator(final double... nums) throws Exception {
+        return applyOperator(nums[0], nums[1]);
+    }
+
     /**
-     * Simplify rules expression.
+     * Apply operator double.
      *
-     * @param exp1 the exp 1
-     * @param exp2 the exp 2
-     * @return the expression
+     * @param num1 the first number to apply the operator on
+     * @param num2 the second number to apply the operator on
+     * @return the value of the mathematical expression after the application of the operator
+     * @throws Exception an Arithmetic Exception - if it's imposable to compute the value.
      */
-    protected abstract Expression simplifyRules(Expression exp1, Expression exp2);
+    protected abstract double applyOperator(double num1, double num2) throws Exception;
 
     @Override
     public String getString(Expression... exps) {
         return "(" + exps[0].toString() + getOperator() + exps[1];
     }
+
+    /**
+     * Simplify rules expression.
+     *
+     * @param exp1 the first expression
+     * @param exp2 the second expression
+     * @return the simplified expression
+     */
+    protected abstract Expression simplifyRules(Expression exp1, Expression exp2);
 }

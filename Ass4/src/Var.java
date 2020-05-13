@@ -7,6 +7,7 @@ import java.util.Map;
 
 /**
  * The class Var.
+ * representing number
  */
 public class Var implements Expression {
 
@@ -26,13 +27,13 @@ public class Var implements Expression {
         if (assignment.containsKey(variable)) {
             return assignment.get(variable);
         } else {
-            throw new RuntimeException("the variable " + variable + " is not assigned");
+            throw new AssigmentException("the variable " + variable + " is not assigned");
         }
     }
 
     @Override
     public double evaluate() throws Exception {
-        throw new RuntimeException("the variable " + variable + " is not assigned");
+        throw new AssigmentException("the variable " + variable + " is not assigned");
     }
 
     @Override
@@ -47,7 +48,7 @@ public class Var implements Expression {
         if (var.equals(variable)) {
             return expression;
         }
-        return new Var(variable);
+        return this;
     }
 
     @Override

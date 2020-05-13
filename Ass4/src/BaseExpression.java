@@ -1,6 +1,5 @@
 // ID 316044809
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,8 +9,12 @@ import java.util.stream.Collectors;
 
 /**
  * The class Base expression.
+ * representing an abstract mathematical expression with an unknown number of expressions
  */
 public abstract class BaseExpression implements Expression {
+    /**
+     * all The Expressions in the BaseExpression.
+     */
     private final List<Expression> expressions;
 
     /**
@@ -27,7 +30,7 @@ public abstract class BaseExpression implements Expression {
     /**
      * Get operator.
      *
-     * @return the operator
+     * @return the string that representing operator
      */
     protected abstract String getOperator();
 
@@ -41,15 +44,6 @@ public abstract class BaseExpression implements Expression {
         }
         return applyOperator(arr);
     }
-
-    /**
-     * Operator double.
-     * apply the applyOperator base on the current Expression
-     *
-     * @param nums an unknown numbers of numbers to apply the applyOperator on
-     * @return the value of the expression after the evaluation
-     */
-    protected abstract double applyOperator(double... nums) throws Exception;
 
     @Override
     public double evaluate() throws Exception {
@@ -77,8 +71,8 @@ public abstract class BaseExpression implements Expression {
     /**
      * Create new expression.
      *
-     * @param exps the expressions
-     * @return the expression
+     * @param exps the expressions from which we create a new one
+     * @return the new expression
      */
     protected abstract Expression createNew(Expression... exps);
 
@@ -90,9 +84,9 @@ public abstract class BaseExpression implements Expression {
     /**
      * Differentiate logic expression.
      *
-     * @param var  the var
-     * @param exps the exps
-     * @return the expression
+     * @param var  the variable to differentiate upon.
+     * @param exps the expressions to differentiate.
+     * @return the derivative expression
      */
     protected abstract Expression differentiateLogic(String var, Expression... exps);
 
@@ -104,8 +98,8 @@ public abstract class BaseExpression implements Expression {
     /**
      * Simplify rules expression.
      *
-     * @param exps the exps
-     * @return the expression
+     * @param exps the Expressions which need to be simplified
+     * @return the simplified expression
      */
     protected abstract Expression simplifyRules(Expression... exps);
 
@@ -125,8 +119,8 @@ public abstract class BaseExpression implements Expression {
         }
         final Expression thisExp2 = this.expressions.get(1);
         final Expression otherExp2 = baseE.expressions.get(1);
-        return (thisExp1.equals(otherExp1) && thisExp2.equals(otherExp2)) || (thisExp1.equals(otherExp2) && thisExp2
-                .equals(otherExp1));
+        return (thisExp1.equals(otherExp1) && thisExp2.equals(otherExp2))
+                || (thisExp1.equals(otherExp2) && thisExp2.equals(otherExp1));
     }
 
     @Override
@@ -143,6 +137,16 @@ public abstract class BaseExpression implements Expression {
     public boolean isNeg() {
         return false;
     }
+
+    /**
+     * applyOperator.
+     * apply the Operator on the current Expression
+     *
+     * @param nums an unknown numbers of numbers to apply the applyOperator on
+     * @return the value of the expression after the evaluation
+     * @throws Exception an Arithmetic Exception - if it's imposable to compute the value.
+     */
+    protected abstract double applyOperator(double... nums) throws Exception;
 
     @Override
     public String toString() {

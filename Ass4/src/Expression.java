@@ -5,30 +5,26 @@ import java.util.Map;
 
 /**
  * The interface Expression.
+ * representing a mathematical Expression
  */
 public interface Expression {
     /**
-     * Evaluate the expression using the variable values provided
-     * in the assignment, and return the result.  If the expression
-     * contains a variable which is not in the assignment, an exception
-     * is thrown.
+     * Evaluate the expression using the variable values provided in the assignment.
      *
-     * @param assignment the assignment
+     * @param assignment a mapping of the assignment from strings to doubles
      * @return the expression evaluated
-     * @throws Exception the exception
+     * @throws Exception if the expression contains a variable which is not in the assignment
      */
     double evaluate(Map<String, Double> assignment) throws Exception;
 
     /**
      * Evaluate the expression and return the result.
-     * If the expression contains a variable which is not in the assignment,
      * an exception is thrown.
      *
      * @return the expression evaluated
-     * @throws Exception the exception
+     * @throws Exception if the expression contains a variable which is not in the assignment
      */
     double evaluate() throws Exception;
-
 
     /**
      * Get variables.
@@ -44,7 +40,6 @@ public interface Expression {
      */
     String toString();
 
-
     /**
      * Returns a new expression in which all occurrences of the variable
      * var are replaced with the provided expression (Does not modify the
@@ -56,13 +51,12 @@ public interface Expression {
      */
     Expression assign(String var, Expression expression);
 
-
     /**
      * Differentiate expression.
      *
-     * @param var the var
+     * @param var the variable of which we derived.
      * @return the expression tree resulting from differentiating
-     * * the current expression relative to variable `var`.
+     * the current expression relative to variable `var`.
      */
     Expression differentiate(String var);
 
@@ -76,29 +70,29 @@ public interface Expression {
     /**
      * Equals boolean.
      *
-     * @param e the e
-     * @return the boolean
+     * @param e the expression of which we check equality
+     * @return true if the expressions are equals and false otherwise
      */
     boolean equals(Expression e);
 
     /**
      * Is var boolean.
      *
-     * @return true if the Expression is Var
+     * @return true if the Expression is Var type
      */
     boolean isVar();
 
     /**
      * Is num boolean.
      *
-     * @return true if the Expression is Num
+     * @return true if the Expression is Num type
      */
     boolean isNum();
 
     /**
      * Is neg boolean.
      *
-     * @return true if the Expression is Neg
+     * @return true if the Expression is Neg type
      */
     boolean isNeg();
 }

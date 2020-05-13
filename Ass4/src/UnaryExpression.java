@@ -3,6 +3,7 @@
 
 /**
  * The class Unary expression.
+ * an abstract class of a single mathematical expression
  */
 public abstract class UnaryExpression extends BaseExpression {
 
@@ -13,11 +14,6 @@ public abstract class UnaryExpression extends BaseExpression {
      */
     public UnaryExpression(final Expression expression) {
         super(expression);
-    }
-
-    @Override
-    protected double applyOperator(final double... nums) {
-        return applyOperator(nums[0]);
     }
 
     @Override
@@ -35,13 +31,10 @@ public abstract class UnaryExpression extends BaseExpression {
         return simplifyRules(exps[0]);
     }
 
-    /**
-     * Simplify rules expression.
-     *
-     * @param exp the exp
-     * @return the expression
-     */
-    protected abstract Expression simplifyRules(Expression exp);
+    @Override
+    protected double applyOperator(final double... nums) throws Exception {
+        return applyOperator(nums[0]);
+    }
 
     @Override
     protected String getString(Expression... exps) {
@@ -49,27 +42,36 @@ public abstract class UnaryExpression extends BaseExpression {
     }
 
     /**
+     * Apply operator double.
+     *
+     * @param num the number to apply the operator on
+     * @return the value of the mathematical expression after the application of the operator
+     * @throws Exception an Arithmetic Exception - if it's imposable to compute the value.
+     */
+    protected abstract double applyOperator(double num) throws Exception;
+
+    /**
+     * Simplify rules expression.
+     *
+     * @param exp the expression
+     * @return the simplified expression
+     */
+    protected abstract Expression simplifyRules(Expression exp);
+
+    /**
      * Differentiate logic expression.
      *
      * @param expression the expression
-     * @param var        the var
-     * @return the expression
+     * @param var        the variable of which we differentiate upon.
+     * @return the derivative expression
      */
     protected abstract Expression differentiateLogic(Expression expression, String var);
 
     /**
      * Create new expression.
      *
-     * @param expression the expression
-     * @return the expression
+     * @param expression the second expression
+     * @return the new expression
      */
     protected abstract Expression createNew(Expression expression);
-
-    /**
-     * Apply operator double.
-     *
-     * @param num the num
-     * @return the double
-     */
-    protected abstract double applyOperator(double num);
 }

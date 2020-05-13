@@ -2,6 +2,7 @@
 
 /**
  * The class Mult.
+ * representing the mathematical operation of multiplication
  */
 public class Mult extends BinaryExpression {
     /**
@@ -28,6 +29,11 @@ public class Mult extends BinaryExpression {
     }
 
     @Override
+    protected double applyOperator(final double num1, final double num2) {
+        return num1 * num2;
+    }
+
+    @Override
     protected Expression simplifyRules(final Expression exp1, final Expression exp2) {
 
         if (exp1.equals(Const.ZERO) || exp2.equals(Const.ZERO)) {
@@ -40,11 +46,6 @@ public class Mult extends BinaryExpression {
             return exp1;
         }
         return new Mult(exp1, exp2);
-    }
-
-    @Override
-    protected double applyOperator(final double num1, final double num2) {
-        return num1 * num2;
     }
 
     @Override

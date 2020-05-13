@@ -21,6 +21,7 @@ public class Plus extends BinaryExpression {
         return num1 + num2;
     }
 
+    @Override
     public Expression createNew(Expression exp1, Expression exp2) {
         return new Plus(exp1, exp2);
     }

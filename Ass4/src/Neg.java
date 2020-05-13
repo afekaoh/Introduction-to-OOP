@@ -3,8 +3,7 @@
 
 /**
  * The class Neg.
- * <p>
- * turn an expresion to it's negative value
+ * representing a negative mathematical expression
  */
 public class Neg extends UnaryExpression {
 

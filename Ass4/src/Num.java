@@ -3,10 +3,10 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * The class Num.
+ * representing number
  */
 public class Num implements Expression {
 
@@ -55,7 +55,7 @@ public class Num implements Expression {
     public boolean equals(final Expression e) {
         if (e.isNum()) {
             Num other = (Num) e;
-            return Math.abs(other.num - this.num) <= Const.EPSILON;
+            return Const.doubleEquals(num, other.num);
         }
         return false;
     }
@@ -73,23 +73,6 @@ public class Num implements Expression {
     @Override
     public boolean isNeg() {
         return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(num);
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        final Num num1 = (Num) o;
-        return Double.compare(num1.num, num) == 0;
     }
 
     @Override

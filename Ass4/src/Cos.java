@@ -3,6 +3,7 @@ import static java.lang.Math.cos;
 
 /**
  * The class Cos.
+ * representing the mathematical operation of cosine.
  */
 public class Cos extends UnaryExpression {
 

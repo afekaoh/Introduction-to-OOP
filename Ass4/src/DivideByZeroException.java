@@ -1,5 +1,14 @@
 // ID 316044809
-public class DivideByZeroException extends ArithmeticException {
+
+/**
+ * The class Divide by zero exception.
+ */
+public class DivideByZeroException extends Exception {
+    /**
+     * Instantiates a new Divide by zero exception.
+     *
+     * @param s the s
+     */
     public DivideByZeroException(final String s) {
         super(s);
     }

@@ -2,12 +2,17 @@
 
 import static java.lang.Math.pow;
 
+/**
+ * The class Pow.
+ * representing the mathematical operation of power
+ */
 public class Pow extends BinaryExpression {
+
     /**
-     * Instantiates a new Binary expression.
+     * Instantiates a new Pow.
      *
-     * @param expression1 the exp 1
-     * @param expression2 the exp 2
+     * @param expression1 the first expression
+     * @param expression2 the second expression
      */
     public Pow(final Expression expression1, final Expression expression2) {
         super(expression1, expression2);
@@ -36,6 +41,11 @@ public class Pow extends BinaryExpression {
     }
 
     @Override
+    public double applyOperator(final double num1, final double num2) {
+        return pow(num1, num2);
+    }
+
+    @Override
     protected Expression simplifyRules(final Expression exp1, final Expression exp2) {
         if (exp2.equals(Const.ONE)) {
             return exp1.simplify();
@@ -47,11 +57,6 @@ public class Pow extends BinaryExpression {
             return new Num(0);
         }
         return new Pow(exp1, exp2);
-    }
-
-    @Override
-    public double applyOperator(final double num1, final double num2) {
-        return pow(num1, num2);
     }
 
     @Override
