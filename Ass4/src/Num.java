@@ -52,6 +52,30 @@ public class Num implements Expression {
     }
 
     @Override
+    public boolean equals(final Expression e) {
+        if (e.isNum()) {
+            Num other = (Num) e;
+            return Math.abs(other.num - this.num) <= Const.EPSILON;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isVar() {
+        return false;
+    }
+
+    @Override
+    public boolean isNum() {
+        return true;
+    }
+
+    @Override
+    public boolean isNeg() {
+        return false;
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(num);
     }

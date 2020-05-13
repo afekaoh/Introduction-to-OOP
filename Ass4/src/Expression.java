@@ -72,4 +72,33 @@ public interface Expression {
      * @return a simplified version of the current expression.
      */
     Expression simplify();
+
+    /**
+     * Equals boolean.
+     *
+     * @param e the e
+     * @return the boolean
+     */
+    boolean equals(Expression e);
+
+    /**
+     * Is var boolean.
+     *
+     * @return true if the Expression is Var
+     */
+    boolean isVar();
+
+    /**
+     * Is num boolean.
+     *
+     * @return true if the Expression is Num
+     */
+    boolean isNum();
+
+    /**
+     * Is neg boolean.
+     *
+     * @return true if the Expression is Neg
+     */
+    boolean isNeg();
 }

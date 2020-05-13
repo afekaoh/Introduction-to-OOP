@@ -1,3 +1,9 @@
+import static java.lang.Math.sin;
+import static java.lang.Math.toRadians;
+
+/**
+ * The class Sin.
+ */
 public class Sin extends UnaryExpression {
 
     /**
@@ -10,8 +16,8 @@ public class Sin extends UnaryExpression {
     }
 
     @Override
-    public Expression createNew(final Expression expression) {
-        return new Sin(expression);
+    protected Expression simplifyRules(final Expression exp) {
+        return new Sin(exp);
     }
 
     @Override
@@ -23,8 +29,13 @@ public class Sin extends UnaryExpression {
     }
 
     @Override
-    public double operator(final double num) {
-        return Math.sin(num);
+    public Expression createNew(final Expression expression) {
+        return new Sin(expression);
+    }
+
+    @Override
+    public double applyOperator(final double num) {
+        return sin(toRadians(num));
     }
 
     @Override

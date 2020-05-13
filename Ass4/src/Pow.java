@@ -50,7 +50,7 @@ public class Pow extends BinaryExpression {
     }
 
     @Override
-    public double operator(final double num1, final double num2) {
+    public double applyOperator(final double num1, final double num2) {
         return pow(num1, num2);
     }
 

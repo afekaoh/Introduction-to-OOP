@@ -18,8 +18,8 @@ public class Neg extends UnaryExpression {
     }
 
     @Override
-    public Expression createNew(Expression exp) {
-        return new Neg(exp);
+    protected Expression simplifyRules(final Expression exp) {
+        return isNeg() ? exp : new Neg(exp);
     }
 
     @Override
@@ -28,12 +28,22 @@ public class Neg extends UnaryExpression {
     }
 
     @Override
+    public Expression createNew(Expression exp) {
+        return new Neg(exp);
+    }
+
+    @Override
+    public double applyOperator(final double num) {
+        return -1 * num;
+    }
+
+    @Override
     public String getOperator() {
         return "(-";
     }
 
     @Override
-    public double operator(final double num, double num2) {
-        return -1 * num;
+    public boolean isNeg() {
+        return true;
     }
 }

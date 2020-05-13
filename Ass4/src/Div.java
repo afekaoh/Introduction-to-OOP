@@ -2,16 +2,25 @@
 
 /**
  * The class Div.
+ * representing the mathematical operation of division
  */
 public class Div extends BinaryExpression {
     /**
-     * Instantiates a new Binary expression.
+     * Instantiates a new Div expression.
      *
-     * @param expression1 the exp 1
-     * @param expression2 the exp 2
+     * @param expression1 the first expression
+     * @param expression2 the second expression
      */
     public Div(final Expression expression1, final Expression expression2) {
         super(expression1, expression2);
+    }
+
+    @Override
+    public double applyOperator(final double num1, final double num2) {
+        if (num2 <= Const.EPSILON) {
+            throw new DivideByZeroException("cannot divide by 0");
+        }
+        return num1 / num2;
     }
 
     @Override
@@ -45,11 +54,6 @@ public class Div extends BinaryExpression {
             return exp1;
         }
         return new Div(exp1, exp2);
-    }
-
-    @Override
-    public double operator(final double num1, final double num2) {
-        return num1 / num2;
     }
 
     @Override

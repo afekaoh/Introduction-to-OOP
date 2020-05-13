@@ -4,7 +4,6 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * The class Var.
@@ -62,20 +61,27 @@ public class Var implements Expression {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(variable);
+    public boolean equals(final Expression e) {
+        if (e.isVar()) {
+            Var other = (Var) e;
+            return other.variable.equals(this.variable);
+        }
+        return false;
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        final Var var = (Var) o;
-        return Objects.equals(variable, var.variable);
+    public boolean isVar() {
+        return true;
+    }
+
+    @Override
+    public boolean isNum() {
+        return false;
+    }
+
+    @Override
+    public boolean isNeg() {
+        return false;
     }
 
     @Override

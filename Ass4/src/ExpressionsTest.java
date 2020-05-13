@@ -16,9 +16,10 @@ public class ExpressionsTest {
      * @param args the input arguments
      */
     public static void main(String[] args) {
-        //(2x) + (sin(4y)) + (e^x).
         Var x = new Var("x");
         Var y = new Var("y");
+
+        //(2x) + (sin(4y)) + (e^x).
         Expression e = new Plus(
                 new Plus(
                         new Mult(new Num(2), x),
@@ -27,7 +28,13 @@ public class ExpressionsTest {
                 new Pow(Const.E, x)
         );
         System.out.println(e);
-        //x=2,y=0.25,e=2.71
+
+        Expression e2 = new Log(new Num(2), new Num(0));
+        try {
+            System.out.println(e2.evaluate());
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
         Map<String, Double> assign = new TreeMap<>();
         assign.put("x", 2.0);
         assign.put("y", 0.25);

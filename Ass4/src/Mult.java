@@ -43,7 +43,7 @@ public class Mult extends BinaryExpression {
     }
 
     @Override
-    protected double operator(final double num1, final double num2) {
+    protected double applyOperator(final double num1, final double num2) {
         return num1 * num2;
     }
 

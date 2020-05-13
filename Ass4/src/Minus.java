@@ -6,13 +6,13 @@
 public class Minus extends BinaryExpression implements Expression {
 
     /**
-     * Instantiates a new Minus.
+     * Instantiates a new Minus Expression.
      *
-     * @param exp1 the first expression
-     * @param exp2 the second expression
+     * @param expression1 the first expression
+     * @param expression2 the second expression
      */
-    public Minus(final Expression exp1, final Expression exp2) {
-        super(exp1, exp2);
+    public Minus(final Expression expression1, final Expression expression2) {
+        super(expression1, expression2);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class Minus extends BinaryExpression implements Expression {
     }
 
     @Override
-    public double operator(final double num1, final double num2) {
+    public double applyOperator(final double num1, final double num2) {
         return num1 - num2;
     }
 

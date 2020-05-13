@@ -16,8 +16,8 @@ public class Cos extends UnaryExpression {
     }
 
     @Override
-    public Expression createNew(final Expression expression) {
-        return new Cos(expression);
+    protected Expression simplifyRules(final Expression exp) {
+        return new Cos(exp);
     }
 
     @Override
@@ -29,8 +29,13 @@ public class Cos extends UnaryExpression {
     }
 
     @Override
-    public double operator(final double num) {
-        return cos(num);
+    public Expression createNew(final Expression expression) {
+        return new Cos(expression);
+    }
+
+    @Override
+    public double applyOperator(final double num) {
+        return cos(Math.toRadians(num));
     }
 
     @Override

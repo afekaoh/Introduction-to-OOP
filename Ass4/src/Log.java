@@ -1,5 +1,8 @@
 // ID 316044809
 
+/**
+ * The class Log.
+ */
 public class Log extends BinaryExpression {
     /**
      * Instantiates a new Binary expression.
@@ -9,6 +12,14 @@ public class Log extends BinaryExpression {
      */
     public Log(final Expression expression1, final Expression expression2) {
         super(expression1, expression2);
+    }
+
+    @Override
+    public double applyOperator(final double num1, final double num2) {
+        if (-Const.EPSILON <= num2 && num2 <= Const.EPSILON) {
+            throw new DivideByZeroException("cannot compute Log of 0");
+        }
+        return Math.log(num2) / Math.log(num1);
     }
 
     @Override
@@ -35,14 +46,19 @@ public class Log extends BinaryExpression {
         return new Log(exp1, exp2);
     }
 
-    @Override
-    public double operator(final double num1, final double num2) {
-        return Math.log(num2) / Math.log(num1);
-    }
-
-    @Override
-    public String toString() {
-        return "log" + super.toString();
+    /**
+     * To ln expression.
+     * converting the log to
+     *
+     * @param exp1 the exp 1
+     * @param exp2 the exp 2
+     * @return the expression
+     */
+    private Expression toLn(final Expression exp1, final Expression exp2) {
+        return new Div(
+                new Log(Const.E, exp2),
+                new Log(Const.E, exp1)
+        );
     }
 
     @Override
@@ -50,10 +66,8 @@ public class Log extends BinaryExpression {
         return ", ";
     }
 
-    private Expression toLn(final Expression exp1, final Expression exp2) {
-        return new Div(
-                new Log(Const.E, exp2),
-                new Log(Const.E, exp1)
-        );
+    @Override
+    public String toString() {
+        return "log" + super.toString();
     }
 }

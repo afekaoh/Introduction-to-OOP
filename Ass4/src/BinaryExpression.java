@@ -1,73 +1,83 @@
 // ID 316044809
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
-
 /**
  * The class Binary expression.
+ * an abstract class of a mathematical expression between 2 expressions
  */
 public abstract class BinaryExpression extends BaseExpression {
-    private final Expression expression1;
-    private final Expression expression2;
 
     /**
      * Instantiates a new Binary expression.
      *
-     * @param expression1 the exp 1
-     * @param expression2 the exp 2
+     * @param expression1 the first expression
+     * @param expression2 the second expression
      */
     public BinaryExpression(final Expression expression1, final Expression expression2) {
-        this.expression1 = expression1;
-        this.expression2 = expression2;
+        super(expression1, expression2);
     }
+
 
     @Override
-    public double evaluate(final Map<String, Double> assignment) throws Exception {
-        return operator(expression1.evaluate(assignment), expression2.evaluate(assignment));
+    protected double applyOperator(final double... nums) throws Exception {
+        return applyOperator(nums[0], nums[1]);
     }
+
+    /**
+     * Apply operator double.
+     *
+     * @param num1 the num 1
+     * @param num2 the num 2
+     * @return the double
+     * @throws Exception the exception
+     */
+    protected abstract double applyOperator(double num1, double num2) throws Exception;
 
     @Override
-    public double evaluate() throws Exception {
-        return operator(expression1.evaluate(), expression2.evaluate());
+    public Expression createNew(final Expression... exps) {
+        return createNew(exps[0], exps[1]);
     }
 
-    @Override
-    public List<String> getVariables() {
-        List<String> variables = new ArrayList<>();
-        Stream.of(expression1.getVariables(), expression2.getVariables()).distinct().forEach(variables::addAll);
-        return variables;
-    }
-
-    @Override
-    public Expression assign(final String var, final Expression expression) {
-        return createNew(this.expression1.assign(var, expression), expression2.assign(var, expression));
-    }
-
+    /**
+     * Create new expression.
+     *
+     * @param exp1 the exp 1
+     * @param exp2 the exp 2
+     * @return the expression
+     */
     protected abstract Expression createNew(Expression exp1, Expression exp2);
 
     @Override
-    public Expression differentiate(final String var) {
-        return differentiateLogic(expression1, expression2, var);
+    protected Expression differentiateLogic(final String var, final Expression... exps) {
+        return differentiateLogic(exps[0], exps[1], var);
     }
 
+    /**
+     * Differentiate logic expression.
+     *
+     * @param exp1 the exp 1
+     * @param exp2 the exp 2
+     * @param var  the var
+     * @return the expression
+     */
     protected abstract Expression differentiateLogic(Expression exp1, Expression exp2, String var);
 
     @Override
-    public Expression simplify() {
-        return simplifyRules(expression1.simplify(), expression2.simplify());
+    protected Expression simplifyRules(final Expression... exps) {
+        return simplifyRules(exps[0], exps[1]);
     }
 
+    /**
+     * Simplify rules expression.
+     *
+     * @param exp1 the exp 1
+     * @param exp2 the exp 2
+     * @return the expression
+     */
     protected abstract Expression simplifyRules(Expression exp1, Expression exp2);
 
-    protected abstract double operator(double num1, double num2);
-
     @Override
-    public String toString() {
-        return "(" + expression1.toString() + getOperator() + expression2.toString() + ")";
+    public String getString(Expression... exps) {
+        return "(" + exps[0].toString() + getOperator() + exps[1];
     }
-
-    protected abstract String getOperator();
 }
