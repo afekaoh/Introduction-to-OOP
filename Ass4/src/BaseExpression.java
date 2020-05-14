@@ -136,10 +136,6 @@ public abstract class BaseExpression implements Expression {
         return false;
     }
 
-    @Override
-    public boolean isNeg() {
-        return false;
-    }
 
     /**
      * applyOperator.

@@ -88,11 +88,4 @@ public interface Expression {
      * @return true if the Expression is Num type
      */
     boolean isNum();
-
-    /**
-     * Is neg boolean.
-     *
-     * @return true if the Expression is Neg type
-     */
-    boolean isNeg();
 }

@@ -71,11 +71,6 @@ public class Num implements Expression {
     }
 
     @Override
-    public boolean isNeg() {
-        return false;
-    }
-
-    @Override
     public String toString() {
         return String.valueOf(num);
     }

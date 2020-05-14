@@ -35,9 +35,4 @@ public class Neg extends UnaryExpression {
     public String getOperator() {
         return "(-";
     }
-
-    @Override
-    public boolean isNeg() {
-        return true;
-    }
 }

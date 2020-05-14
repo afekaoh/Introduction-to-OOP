@@ -81,11 +81,6 @@ public class Var implements Expression {
     }
 
     @Override
-    public boolean isNeg() {
-        return false;
-    }
-
-    @Override
     public String toString() {
         return variable;
     }
