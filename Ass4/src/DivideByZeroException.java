@@ -3,7 +3,7 @@
 /**
  * The class Divide by zero exception.
  */
-public class DivideByZeroException extends Exception {
+public class DivideByZeroException extends ArithmeticException {
     /**
      * Instantiates a new Divide by zero exception.
      *

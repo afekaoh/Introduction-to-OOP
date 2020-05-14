@@ -30,7 +30,7 @@ public class Log extends BinaryExpression {
     }
 
     @Override
-    public double applyOperator(final double num1, final double num2) throws Exception {
+    public double applyOperator(final double num1, final double num2) {
         if (Const.doubleEquals(num2, 0)) {
             throw new DivideByZeroException("cannot compute Log of 0");
         }
@@ -42,11 +42,11 @@ public class Log extends BinaryExpression {
 
     @Override
     protected Expression simplifyRules(final Expression exp1, final Expression exp2) {
+        if (exp1.equals(Const.ONE) || exp1.equals(Const.ZERO)) {
+            throw new LogBaseException("cannot simplify Log with base " + exp1);
+        }
         if (exp1.equals(exp2)) {
             return new Num(1);
-        }
-        if (exp2.equals(Const.ONE)) {
-            return new Num(0);
         }
         return new Log(exp1, exp2);
     }

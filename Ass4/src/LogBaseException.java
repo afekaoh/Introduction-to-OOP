@@ -3,7 +3,7 @@
 /**
  * The class Log base exception.
  */
-public class LogBaseException extends Exception {
+public class LogBaseException extends ArithmeticException {
     /**
      * Instantiates a new Log base exception.
      *

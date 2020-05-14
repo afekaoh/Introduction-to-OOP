@@ -1,10 +1,10 @@
 // ID 316044809
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -23,8 +23,7 @@ public abstract class BaseExpression implements Expression {
      * @param expressions the expressions
      */
     protected BaseExpression(Expression... expressions) {
-        this.expressions = new ArrayList<>();
-        this.expressions.addAll(Arrays.asList(expressions));
+        this.expressions = Stream.of(expressions).collect(Collectors.toUnmodifiableList());
     }
 
     /**
@@ -60,12 +59,16 @@ public abstract class BaseExpression implements Expression {
     public List<String> getVariables() {
         List<String> vars = new ArrayList<>();
         expressions.forEach(e -> vars.addAll(e.getVariables()));
-        return vars.stream().distinct().collect(Collectors.toList());
+        return vars.stream()
+                   .distinct()
+                   .collect(Collectors.toList());
     }
 
     @Override
     public Expression assign(final String var, final Expression expression) {
-        return createNew(expressions.stream().map(e -> e.assign(var, expression)).toArray(Expression[]::new));
+        return createNew(expressions.stream()
+                                    .map(e -> e.assign(var, expression))
+                                    .toArray(Expression[]::new));
     }
 
     /**

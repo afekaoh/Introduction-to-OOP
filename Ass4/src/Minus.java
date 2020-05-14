@@ -34,7 +34,7 @@ public class Minus extends BinaryExpression {
     @Override
     protected Expression simplifyRules(final Expression exp1, final Expression exp2) {
         if (exp1.equals(exp2)) {
-            return Const.ZERO;
+            return new Num(0);
         }
         if (exp1.equals(Const.ZERO)) {
             return new Neg(exp2);

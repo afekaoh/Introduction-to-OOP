@@ -48,12 +48,22 @@ public abstract class BinaryExpression extends BaseExpression {
 
     @Override
     protected Expression simplifyRules(final Expression... exps) {
-        return simplifyRules(exps[0], exps[1]);
+        final Expression exp1 = exps[0];
+        final Expression exp2 = exps[1];
+        try {
+            return new Num(createNew(exp1, exp2).evaluate());
+        } catch (AssigmentException e) {
+            return simplifyRules(exp1, exp2);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    protected double applyOperator(final double... nums) throws Exception {
-        return applyOperator(nums[0], nums[1]);
+    protected double applyOperator(final double... nums) {
+        final double num1 = nums[0];
+        final double num2 = nums[1];
+        return applyOperator(num1, num2);
     }
 
     /**
@@ -62,9 +72,8 @@ public abstract class BinaryExpression extends BaseExpression {
      * @param num1 the first number to apply the operator on
      * @param num2 the second number to apply the operator on
      * @return the value of the mathematical expression after the application of the operator
-     * @throws Exception an Arithmetic Exception - if it's imposable to compute the value.
      */
-    protected abstract double applyOperator(double num1, double num2) throws Exception;
+    protected abstract double applyOperator(double num1, double num2);
 
     @Override
     public String getString(Expression... exps) {

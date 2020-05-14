@@ -17,11 +17,6 @@ public class Neg extends UnaryExpression {
     }
 
     @Override
-    protected Expression simplifyRules(final Expression exp) {
-        return isNeg() ? exp : new Neg(exp);
-    }
-
-    @Override
     protected Expression differentiateLogic(final Expression expression, final String var) {
         return new Neg(expression.differentiate(var));
     }

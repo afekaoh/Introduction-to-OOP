@@ -17,8 +17,8 @@ public class Sin extends UnaryExpression {
     }
 
     @Override
-    protected Expression simplifyRules(final Expression exp) {
-        return new Sin(exp);
+    public double applyOperator(final double num) {
+        return sin(toRadians(num));
     }
 
     @Override
@@ -32,11 +32,6 @@ public class Sin extends UnaryExpression {
     @Override
     public Expression createNew(final Expression expression) {
         return new Sin(expression);
-    }
-
-    @Override
-    public double applyOperator(final double num) {
-        return sin(toRadians(num));
     }
 
     @Override

@@ -29,12 +29,9 @@ public class ExpressionsTest {
         );
         System.out.println(e);
 
-        Expression e2 = new Log(new Num(2), new Num(0));
-        try {
-            System.out.println(e2.evaluate());
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
+        Expression e2 = new Log(new Num(2), new Num(4));
+        e2 = e2.simplify();
+        System.out.println(e2);
         Map<String, Double> assign = new TreeMap<>();
         assign.put("x", 2.0);
         assign.put("y", 0.25);

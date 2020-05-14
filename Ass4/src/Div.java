@@ -16,14 +16,6 @@ public class Div extends BinaryExpression {
     }
 
     @Override
-    public double applyOperator(final double num1, final double num2) throws Exception {
-        if (Const.doubleEquals(num2, 0)) {
-            throw new DivideByZeroException("cannot divide by 0");
-        }
-        return num1 / num2;
-    }
-
-    @Override
     public Expression createNew(final Expression exp1, final Expression exp2) {
         return new Div(exp1, exp2);
     }
@@ -40,15 +32,23 @@ public class Div extends BinaryExpression {
     }
 
     @Override
+    public double applyOperator(final double num1, final double num2) {
+        if (Const.doubleEquals(num2, 0)) {
+            throw new DivideByZeroException("cannot divide by 0");
+        }
+        return num1 / num2;
+    }
+
+    @Override
     protected Expression simplifyRules(final Expression exp1, final Expression exp2) {
+        if (exp2.equals(Const.ZERO)) {
+            throw new DivideByZeroException("cannot simplify division by Zero");
+        }
         if (exp1.equals(exp2)) {
             return new Num(1);
         }
         if (exp1.equals(Const.ZERO)) {
             return new Num(0);
-        }
-        if (exp1.equals(Const.ONE)) {
-            return exp2;
         }
         if (exp2.equals(Const.ONE)) {
             return exp1;

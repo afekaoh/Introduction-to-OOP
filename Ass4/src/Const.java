@@ -5,7 +5,6 @@
  */
 public class Const {
     public static final Var E = new Var("e");
-    public static final Var PI = new Var("pi");
     public static final Num ZERO = new Num(0);
     public static final Num ONE = new Num(1);
     public static final double EPSILON = 10e-12;
