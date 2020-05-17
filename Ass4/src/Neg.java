@@ -17,22 +17,17 @@ public class Neg extends UnaryExpression {
     }
 
     @Override
-    protected Expression differentiateLogic(final Expression expression, final String var) {
-        return new Neg(expression.differentiate(var));
-    }
-
-    @Override
-    public Expression createNew(Expression exp) {
+    protected Expression createNew(Expression exp) {
         return new Neg(exp);
     }
 
     @Override
-    public double applyOperator(final double num) {
+    protected double applyOperator(final double num) {
         return -1 * num;
     }
 
     @Override
-    public String getOperator() {
+    protected String getOperator() {
         return "(-";
     }
 }

@@ -1,7 +1,9 @@
 // ID 316044809
+package exceptions;
 
 /**
- * The class Assigment exception.
+ * The Exception Assigment exception.
+ * thrown if while trying to evaluate an expression, one of the variables was not assigned.
  */
 public class AssigmentException extends Exception {
     /**
@@ -10,6 +12,6 @@ public class AssigmentException extends Exception {
      * @param message the message
      */
     public AssigmentException(final String message) {
-        super(message);
+        super("the variable " + message + " is not assigned");
     }
 }

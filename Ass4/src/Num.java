@@ -1,6 +1,5 @@
 // ID 316044809
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,41 +32,25 @@ public class Num implements Expression {
 
     @Override
     public List<String> getVariables() {
-        return new ArrayList<>();
+        // return empty list
+        return List.of();
     }
 
     @Override
     public Expression assign(final String var, final Expression expression) {
-        return new Num(num);
+        return this;
     }
 
     @Override
     public Expression differentiate(final String var) {
+        // c' = 0
         return new Num(0);
     }
 
     @Override
     public Expression simplify() {
-        return new Num(num);
-    }
-
-    @Override
-    public boolean equals(final Expression e) {
-        if (e.isNum()) {
-            Num other = (Num) e;
-            return Const.doubleEquals(num, other.num);
-        }
-        return false;
-    }
-
-    @Override
-    public boolean isVar() {
-        return false;
-    }
-
-    @Override
-    public boolean isNum() {
-        return true;
+        // it is the most simplified version already
+        return this;
     }
 
     @Override

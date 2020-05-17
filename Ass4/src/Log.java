@@ -1,5 +1,8 @@
 // ID 316044809
 
+import exceptions.LogBaseException;
+import exceptions.LogPowerException;
+
 /**
  * The class Log.
  * representing the mathematical operation of logarithm.
@@ -17,38 +20,39 @@ public class Log extends BinaryExpression {
     }
 
     @Override
-    public Expression createNew(final Expression exp1, final Expression exp2) {
+    protected Expression createNew(final Expression exp1, final Expression exp2) {
         return new Log(exp1, exp2);
-    }
-
-    @Override
-    protected Expression differentiateLogic(final Expression exp1, final Expression exp2, final String var) {
-        if (exp1.equals(Const.E)) {
-            return new Div(exp2.differentiate(var), exp2);
-        }
-        return toLn(exp1, exp2).differentiate(var);
-    }
-
-    @Override
-    public double applyOperator(final double num1, final double num2) {
-        if (Const.doubleEquals(num2, 0)) {
-            throw new DivideByZeroException("cannot compute Log of 0");
-        }
-        if (Const.doubleEquals(num1, 1) || num1 <= 0) {
-            throw new LogBaseException("the base of the log must be grater then 0 and different then 1");
-        }
-        return Math.log(num2) / Math.log(num1);
     }
 
     @Override
     protected Expression simplifyRules(final Expression exp1, final Expression exp2) {
-        if (exp1.equals(Const.ONE) || exp1.equals(Const.ZERO)) {
-            throw new LogBaseException("cannot simplify Log with base " + exp1);
-        }
-        if (exp1.equals(exp2)) {
+        // log(x, x)
+        if (exp1.toString().equals(exp2.toString())) {
             return new Num(1);
         }
-        return new Log(exp1, exp2);
+        return super.simplifyRules(exp1, exp2);
+    }
+
+    @Override
+    protected Expression differentiateLogic(final Expression exp1, final Expression exp2, final String var) {
+        // we know how to differentiate ln easily
+        if (exp1.toString().equals("e")) {
+            // (ln(f(x)))' = f'/f
+            return new Div(exp2.differentiate(var), exp2);
+        }
+        // converting the base to ln and then differentiate with the easier base
+        return toLn(exp1, exp2).differentiate(var);
+    }
+
+    @Override
+    protected double applyOperator(final double num1, final double num2) {
+        if (num2 <= EPSILON) {
+            throw new LogPowerException("of " + num2);
+        }
+        if (doubleEquals(num1, 1) || num1 <= 0) {
+            throw new LogBaseException("in a base" + num1);
+        }
+        return Math.log(num2) / Math.log(num1);
     }
 
     /**
@@ -60,9 +64,10 @@ public class Log extends BinaryExpression {
      * @return the ln based expression
      */
     private Expression toLn(final Expression exp1, final Expression exp2) {
+        final Var e = new Var("e");
         return new Div(
-                new Log(Const.E, exp2),
-                new Log(Const.E, exp1)
+                new Log(e, exp2),
+                new Log(e, exp1)
         );
     }
 

@@ -17,25 +17,26 @@ public class Sin extends UnaryExpression {
     }
 
     @Override
-    public double applyOperator(final double num) {
-        return sin(toRadians(num));
-    }
-
-    @Override
     protected Expression differentiateLogic(final Expression expression, final String var) {
+        // (sin(f(x))' = f' * cos(f)
         return new Mult(
-                new Cos(expression),
-                expression.differentiate(var)
+                expression.differentiate(var),
+                new Cos(expression)
         );
     }
 
     @Override
-    public Expression createNew(final Expression expression) {
+    protected Expression createNew(final Expression expression) {
         return new Sin(expression);
     }
 
     @Override
-    public String getOperator() {
+    protected double applyOperator(final double num) {
+        return sin(toRadians(num));
+    }
+
+    @Override
+    protected String getOperator() {
         return "sin(";
     }
 }

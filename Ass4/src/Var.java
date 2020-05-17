@@ -1,7 +1,8 @@
 // ID 316044809
 
 
-import java.util.ArrayList;
+import exceptions.AssigmentException;
+
 import java.util.List;
 import java.util.Map;
 
@@ -25,22 +26,23 @@ public class Var implements Expression {
     @Override
     public double evaluate(final Map<String, Double> assignment) throws Exception {
         if (assignment.containsKey(variable)) {
+            // if it if the right var return it's value
             return assignment.get(variable);
         } else {
-            throw new AssigmentException("the variable " + variable + " is not assigned");
+            // the variable does not exist in the map
+            throw new AssigmentException(variable);
         }
     }
 
     @Override
     public double evaluate() throws Exception {
-        throw new AssigmentException("the variable " + variable + " is not assigned");
+        // if we got here then the variable is defiantly not assigned
+        throw new AssigmentException(variable);
     }
 
     @Override
     public List<String> getVariables() {
-        List<String> variables = new ArrayList<>();
-        variables.add(variable);
-        return variables;
+        return List.of(variable);
     }
 
     @Override
@@ -53,31 +55,14 @@ public class Var implements Expression {
 
     @Override
     public Expression differentiate(final String var) {
+        // d/dx x = 1 | d/dy x = 0
         return var.equals(variable) ? new Num(1) : new Num(0);
     }
 
     @Override
     public Expression simplify() {
-        return new Var(variable);
-    }
-
-    @Override
-    public boolean equals(final Expression e) {
-        if (e.isVar()) {
-            Var other = (Var) e;
-            return other.variable.equals(this.variable);
-        }
-        return false;
-    }
-
-    @Override
-    public boolean isVar() {
-        return true;
-    }
-
-    @Override
-    public boolean isNum() {
-        return false;
+        // it is the most simplified version already
+        return this;
     }
 
     @Override

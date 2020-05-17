@@ -4,6 +4,7 @@
 /**
  * The class Binary expression.
  * an abstract class of a mathematical expression between 2 expressions
+ * is used to convert the generalized form if the methods in BaseExpression to specific ones.
  */
 public abstract class BinaryExpression extends BaseExpression {
 
@@ -13,12 +14,17 @@ public abstract class BinaryExpression extends BaseExpression {
      * @param expression1 the first expression
      * @param expression2 the second expression
      */
-    public BinaryExpression(final Expression expression1, final Expression expression2) {
+    protected BinaryExpression(final Expression expression1, final Expression expression2) {
         super(expression1, expression2);
     }
 
     @Override
-    public Expression createNew(final Expression... exps) {
+    protected double applyOperator(final double... nums) {
+        return applyOperator(nums[0], nums[1]);
+    }
+
+    @Override
+    protected Expression createNew(final Expression... exps) {
         return createNew(exps[0], exps[1]);
     }
 
@@ -36,6 +42,28 @@ public abstract class BinaryExpression extends BaseExpression {
         return differentiateLogic(exps[0], exps[1], var);
     }
 
+    @Override
+    protected Expression simplifyRules(final Expression... exps) {
+        return simplifyRules(exps[0], exps[1]);
+    }
+
+    @Override
+    protected String getString(Expression... exps) {
+        return "(" + exps[0] + getOperator() + exps[1];
+    }
+
+    /**
+     * Simplify rules expression.
+     *
+     * @param exp1 the first expression
+     * @param exp2 the second expression
+     * @return the simplified expression
+     */
+    protected Expression simplifyRules(Expression exp1, Expression exp2) {
+        // if the expression cannot be simplified we just returning the expression with it components simplified
+        return createNew(exp1, exp2);
+    }
+
     /**
      * Differentiate logic expression.
      *
@@ -44,26 +72,8 @@ public abstract class BinaryExpression extends BaseExpression {
      * @param var  the variable of which we differentiate upon.
      * @return the derivative expression
      */
-    protected abstract Expression differentiateLogic(Expression exp1, Expression exp2, String var);
-
-    @Override
-    protected Expression simplifyRules(final Expression... exps) {
-        final Expression exp1 = exps[0];
-        final Expression exp2 = exps[1];
-        try {
-            return new Num(createNew(exp1, exp2).evaluate());
-        } catch (AssigmentException e) {
-            return simplifyRules(exp1, exp2);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    protected double applyOperator(final double... nums) {
-        final double num1 = nums[0];
-        final double num2 = nums[1];
-        return applyOperator(num1, num2);
+    protected Expression differentiateLogic(Expression exp1, Expression exp2, String var) {
+        return createNew(exp1.differentiate(var), exp2.differentiate(var));
     }
 
     /**
@@ -74,18 +84,4 @@ public abstract class BinaryExpression extends BaseExpression {
      * @return the value of the mathematical expression after the application of the operator
      */
     protected abstract double applyOperator(double num1, double num2);
-
-    @Override
-    public String getString(Expression... exps) {
-        return "(" + exps[0].toString() + getOperator() + exps[1];
-    }
-
-    /**
-     * Simplify rules expression.
-     *
-     * @param exp1 the first expression
-     * @param exp2 the second expression
-     * @return the simplified expression
-     */
-    protected abstract Expression simplifyRules(Expression exp1, Expression exp2);
 }

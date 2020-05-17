@@ -1,5 +1,7 @@
 // ID 316044809
 
+import exceptions.AssigmentException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +14,8 @@ import java.util.stream.Stream;
  * representing an abstract mathematical expression with an unknown number of expressions
  */
 public abstract class BaseExpression implements Expression {
+    public static final double EPSILON = 10e-12;
+    public static final int MAX_NUM_OF_EXPRESSIONS = 2;
     /**
      * all The Expressions in the BaseExpression.
      */
@@ -23,7 +27,19 @@ public abstract class BaseExpression implements Expression {
      * @param expressions the expressions
      */
     protected BaseExpression(Expression... expressions) {
+        // making the List Unmodifiable
         this.expressions = Stream.of(expressions).collect(Collectors.toUnmodifiableList());
+    }
+
+    /**
+     * compering 2 doubles using epsilon to increase precision.
+     *
+     * @param num1 the first num to compare
+     * @param num2 the second num to compare
+     * @return if both of them are equals up to an epsilon
+     */
+    protected static boolean doubleEquals(double num1, double num2) {
+        return Math.abs(num1 - num2) <= EPSILON;
     }
 
     /**
@@ -35,33 +51,54 @@ public abstract class BaseExpression implements Expression {
 
     @Override
     public double evaluate(final Map<String, Double> assignment) throws Exception {
-        double[] arr = new double[2];
+        double[] arr = new double[MAX_NUM_OF_EXPRESSIONS];
         int count = 0;
         for (Expression e : expressions) {
-            double evaluate = e.evaluate(assignment);
-            arr[count++] = evaluate;
+            arr[count++] = e.evaluate(assignment);
         }
-        return applyOperator(arr);
+        return round(applyOperator(arr), 3);
     }
+
+    /**
+     * Round int.
+     *
+     * @param toRound   the number to round
+     * @param precision the number of digits to round to
+     * @return the number rounded to the precision
+     */
+    protected static double round(double toRound, int precision) {
+        final double factor = Math.pow(10, precision);
+        return Math.round(toRound * factor) / factor;
+    }
+
+    /**
+     * applyOperator.
+     * apply the Operator on the current Expression
+     *
+     * @param nums an unknown numbers of numbers to apply the applyOperator on
+     * @return the value of the expression after the evaluation
+     */
+    protected abstract double applyOperator(double... nums);
 
     @Override
     public double evaluate() throws Exception {
-        double[] arr = new double[2];
+        double[] arr = new double[MAX_NUM_OF_EXPRESSIONS];
         int count = 0;
         for (Expression e : expressions) {
-            double evaluate = e.evaluate();
-            arr[count++] = evaluate;
+            arr[count++] = e.evaluate();
         }
-        return applyOperator(arr);
+        return round(applyOperator(arr), 3);
     }
 
     @Override
     public List<String> getVariables() {
         List<String> vars = new ArrayList<>();
+        // unite all the list we got from the expressions
         expressions.forEach(e -> vars.addAll(e.getVariables()));
+        // make sure all the variables in the list are unique
         return vars.stream()
                    .distinct()
-                   .collect(Collectors.toList());
+                   .collect(Collectors.toUnmodifiableList());
     }
 
     @Override
@@ -95,7 +132,20 @@ public abstract class BaseExpression implements Expression {
 
     @Override
     public Expression simplify() {
-        return simplifyRules(expressions.stream().map(Expression::simplify).toArray(Expression[]::new));
+        // getting all the simplified expression to an array
+        final Expression[] simplifiedExpressions = this.expressions.stream()
+                                                                   .map(Expression::simplify)
+                                                                   .toArray(Expression[]::new);
+        try {
+            // checking if the expression can be evaluated to a number
+            return new Num(createNew(simplifiedExpressions).evaluate());
+        } catch (AssigmentException e) {
+            // simplify the expression if cannot be evaluated because assigment problem
+            return simplifyRules(simplifiedExpressions);
+        } catch (Exception e) {
+            // there is an arithmetic reason we cannot evaluated the expression so return the expression as it is
+            return createNew(simplifiedExpressions);
+        }
     }
 
     /**
@@ -105,47 +155,6 @@ public abstract class BaseExpression implements Expression {
      * @return the simplified expression
      */
     protected abstract Expression simplifyRules(Expression... exps);
-
-    @Override
-    public boolean equals(Expression e) {
-        if (e.isNum() || e.isVar()) {
-            return false;
-        }
-        BaseExpression baseE = (BaseExpression) e;
-        if (baseE.expressions.size() != this.expressions.size()) {
-            return false;
-        }
-        final Expression thisExp1 = this.expressions.get(0);
-        final Expression otherExp1 = baseE.expressions.get(0);
-        if (this.expressions.size() == 1) {
-            return thisExp1.equals(otherExp1);
-        }
-        final Expression thisExp2 = this.expressions.get(1);
-        final Expression otherExp2 = baseE.expressions.get(1);
-        return (thisExp1.equals(otherExp1) && thisExp2.equals(otherExp2))
-                || (thisExp1.equals(otherExp2) && thisExp2.equals(otherExp1));
-    }
-
-    @Override
-    public boolean isVar() {
-        return false;
-    }
-
-    @Override
-    public boolean isNum() {
-        return false;
-    }
-
-
-    /**
-     * applyOperator.
-     * apply the Operator on the current Expression
-     *
-     * @param nums an unknown numbers of numbers to apply the applyOperator on
-     * @return the value of the expression after the evaluation
-     * @throws Exception an Arithmetic Exception - if it's imposable to compute the value.
-     */
-    protected abstract double applyOperator(double... nums) throws Exception;
 
     @Override
     public String toString() {

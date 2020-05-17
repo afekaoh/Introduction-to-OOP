@@ -14,6 +14,7 @@ public interface Expression {
      * @param assignment a mapping of the assignment from strings to doubles
      * @return the expression evaluated
      * @throws Exception if the expression contains a variable which is not in the assignment
+     *                   or an arithmetic exceptions if a not valid operation happened(divide by zero, log domain etc.)
      */
     double evaluate(Map<String, Double> assignment) throws Exception;
 
@@ -23,22 +24,16 @@ public interface Expression {
      *
      * @return the expression evaluated
      * @throws Exception if the expression contains a variable which is not in the assignment
+     *                   or an arithmetic exceptions if a not valid operation happened(divide by zero, log domain etc.)
      */
     double evaluate() throws Exception;
 
     /**
      * Get variables.
      *
-     * @return Returns a list of the variables in the expression.
+     * @return Returns an unmodifiable list of the variables in the expression.
      */
     List<String> getVariables();
-
-    /**
-     * To string string.
-     *
-     * @return Returns a nice string representation of the expression.
-     */
-    String toString();
 
     /**
      * Returns a new expression in which all occurrences of the variable
@@ -68,24 +63,9 @@ public interface Expression {
     Expression simplify();
 
     /**
-     * Equals boolean.
+     * To string string.
      *
-     * @param e the expression of which we check equality
-     * @return true if the expressions are equals and false otherwise
+     * @return Returns a nice string representation of the expression.
      */
-    boolean equals(Expression e);
-
-    /**
-     * Is var boolean.
-     *
-     * @return true if the Expression is Var type
-     */
-    boolean isVar();
-
-    /**
-     * Is num boolean.
-     *
-     * @return true if the Expression is Num type
-     */
-    boolean isNum();
+    String toString();
 }

@@ -1,6 +1,5 @@
 import static java.lang.Math.cos;
 
-
 /**
  * The class Cos.
  * representing the mathematical operation of cosine.
@@ -17,25 +16,28 @@ public class Cos extends UnaryExpression {
     }
 
     @Override
-    public double applyOperator(final double num) {
-        return cos(Math.toRadians(num));
-    }
-
-    @Override
     protected Expression differentiateLogic(final Expression expression, final String var) {
-        return new Mult(
-                new Neg(expression.differentiate(var)),
-                new Sin(expression)
+        // cos(f(x))' = -f'*sin(f)
+        return new Neg(
+                new Mult(
+                        expression.differentiate(var),
+                        new Sin(expression)
+                )
         );
     }
 
     @Override
-    public Expression createNew(final Expression expression) {
+    protected Expression createNew(final Expression expression) {
         return new Cos(expression);
     }
 
     @Override
-    public String getOperator() {
+    protected double applyOperator(final double num) {
+        return cos(Math.toRadians(num));
+    }
+
+    @Override
+    protected String getOperator() {
         return "cos(";
     }
 

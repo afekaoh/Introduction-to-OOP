@@ -25,13 +25,14 @@ public class ExpressionsTest {
                         new Mult(new Num(2), x),
                         new Sin(new Mult(new Num(4), y))
                 ),
-                new Pow(Const.E, x)
+                new Pow(new Var("e"), x)
         );
         System.out.println(e);
 
-        Expression e2 = new Log(new Num(2), new Num(4));
-        e2 = e2.simplify();
+        Expression e2 = new Div(new Num(0), new Num(0));
         System.out.println(e2);
+        System.out.println(e2.simplify());
+
         Map<String, Double> assign = new TreeMap<>();
         assign.put("x", 2.0);
         assign.put("y", 0.25);
