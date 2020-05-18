@@ -3,8 +3,10 @@
 
 /**
  * The class Binary expression.
+ * <p>
  * an abstract class of a mathematical expression between 2 expressions
- * is used to convert the generalized form if the methods in BaseExpression to specific ones.
+ * <p>
+ * is used to convert the generalized form of the methods in BaseExpression to specific ones.
  */
 public abstract class BinaryExpression extends BaseExpression {
 
@@ -24,18 +26,9 @@ public abstract class BinaryExpression extends BaseExpression {
     }
 
     @Override
-    protected Expression createNew(final Expression... exps) {
-        return createNew(exps[0], exps[1]);
+    protected Expression simplifyRules(final Expression... exps) {
+        return simplifyRules(exps[0], exps[1]);
     }
-
-    /**
-     * Create a new BinaryExpression.
-     *
-     * @param exp1 the first expression
-     * @param exp2 the second expression
-     * @return the new expression
-     */
-    protected abstract Expression createNew(Expression exp1, Expression exp2);
 
     @Override
     protected Expression differentiateLogic(final String var, final Expression... exps) {
@@ -43,8 +36,20 @@ public abstract class BinaryExpression extends BaseExpression {
     }
 
     @Override
-    protected Expression simplifyRules(final Expression... exps) {
-        return simplifyRules(exps[0], exps[1]);
+    protected Expression createNew(final Expression... exps) {
+        return createNew(exps[0], exps[1]);
+    }
+
+    /**
+     * Differentiate logic expression.
+     *
+     * @param exp1 the first expression component
+     * @param exp2 the second expression component
+     * @param var  the variable of which we differentiate upon.
+     * @return the derivative expression
+     */
+    protected Expression differentiateLogic(Expression exp1, Expression exp2, String var) {
+        return createNew(exp1.differentiate(var), exp2.differentiate(var));
     }
 
     @Override
@@ -53,34 +58,30 @@ public abstract class BinaryExpression extends BaseExpression {
     }
 
     /**
+     * Create a new BinaryExpression.
+     *
+     * @param exp1 the first expression component
+     * @param exp2 the second expression component
+     * @return the new expression
+     */
+    protected abstract Expression createNew(Expression exp1, Expression exp2);
+
+    /**
      * Simplify rules expression.
      *
-     * @param exp1 the first expression
-     * @param exp2 the second expression
+     * @param exp1 the first simplified component
+     * @param exp2 the second simplified component
      * @return the simplified expression
      */
     protected Expression simplifyRules(Expression exp1, Expression exp2) {
-        // if the expression cannot be simplified we just returning the expression with it components simplified
         return createNew(exp1, exp2);
-    }
-
-    /**
-     * Differentiate logic expression.
-     *
-     * @param exp1 the first expression
-     * @param exp2 the second expression
-     * @param var  the variable of which we differentiate upon.
-     * @return the derivative expression
-     */
-    protected Expression differentiateLogic(Expression exp1, Expression exp2, String var) {
-        return createNew(exp1.differentiate(var), exp2.differentiate(var));
     }
 
     /**
      * Apply operator double.
      *
-     * @param num1 the first number to apply the operator on
-     * @param num2 the second number to apply the operator on
+     * @param num1 the first expression component evaluated
+     * @param num2 the second expression component evaluated
      * @return the value of the mathematical expression after the application of the operator
      */
     protected abstract double applyOperator(double num1, double num2);

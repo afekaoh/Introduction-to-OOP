@@ -28,11 +28,6 @@ public class ExpressionsTest {
                 new Pow(new Var("e"), x)
         );
         System.out.println(e);
-
-        Expression e2 = new Div(new Num(0), new Num(0));
-        System.out.println(e2);
-        System.out.println(e2.simplify());
-
         Map<String, Double> assign = new TreeMap<>();
         assign.put("x", 2.0);
         assign.put("y", 0.25);

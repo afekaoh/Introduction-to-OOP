@@ -2,7 +2,8 @@
 
 /**
  * The class Unary expression.
- * an abstract class of a single mathematical expression
+ * an abstract class of a single mathematical expression.
+ * is used to convert the generalized form of the methods in BaseExpression to specific ones.
  */
 public abstract class UnaryExpression extends BaseExpression {
 

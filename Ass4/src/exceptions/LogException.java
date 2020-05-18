@@ -1,7 +1,6 @@
 // ID 316044809
 package exceptions;
 
-
 /**
  * The class Log exception.
  */

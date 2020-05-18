@@ -11,7 +11,7 @@ public class LogPowerException extends LogException {
      *
      * @param s the s
      */
-    public LogPowerException(final String s) {
-        super(s + " the power of the logarithm must be grater then 0");
+    public LogPowerException(final double s) {
+        super("of " + s + ": the power of the logarithm must be grater then 0");
     }
 }

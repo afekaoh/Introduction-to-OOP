@@ -10,7 +10,7 @@ public class LogBaseException extends LogException {
      *
      * @param s the s
      */
-    public LogBaseException(final String s) {
-        super(s + " the base of the log must be grater then 0 and different then 1");
+    public LogBaseException(final double s) {
+        super("in a base " + s + ": the base of the log must be grater then 0 and different then 1");
     }
 }

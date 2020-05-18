@@ -47,16 +47,17 @@ public class Log extends BinaryExpression {
     @Override
     protected double applyOperator(final double num1, final double num2) {
         if (num2 <= EPSILON) {
-            throw new LogPowerException("of " + num2);
+            throw new LogPowerException(num2);
         }
-        if (doubleEquals(num1, 1) || num1 <= 0) {
-            throw new LogBaseException("in a base" + num1);
+        if (doubleEquals(num1, 1) || num1 <= EPSILON) {
+            throw new LogBaseException(num1);
         }
         return Math.log(num2) / Math.log(num1);
     }
 
     /**
      * To ln expression.
+     * <p>
      * converting the log to be ln based
      *
      * @param exp1 the first expression
@@ -65,6 +66,7 @@ public class Log extends BinaryExpression {
      */
     private Expression toLn(final Expression exp1, final Expression exp2) {
         final Var e = new Var("e");
+        // log(a, b) = ln(b)/ln(a)
         return new Div(
                 new Log(e, exp2),
                 new Log(e, exp1)
