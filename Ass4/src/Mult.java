@@ -25,11 +25,6 @@ public class Mult extends BinaryExpression {
     }
 
     @Override
-    protected Expression createNew(final Expression exp1, final Expression exp2) {
-        return new Mult(exp1, exp2);
-    }
-
-    @Override
     protected Expression simplifyRules(final Expression exp1, final Expression exp2) {
         try {
             final double num1 = exp1.evaluate();
@@ -57,6 +52,11 @@ public class Mult extends BinaryExpression {
             }
         }
         return super.simplifyRules(exp1, exp2);
+    }
+
+    @Override
+    protected Expression createNew(final Expression exp1, final Expression exp2) {
+        return new Mult(exp1, exp2);
     }
 
     @Override

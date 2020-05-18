@@ -17,11 +17,6 @@ public class Plus extends BinaryExpression {
     }
 
     @Override
-    protected Expression createNew(Expression exp1, Expression exp2) {
-        return new Plus(exp1, exp2);
-    }
-
-    @Override
     protected Expression simplifyRules(final Expression exp1, final Expression exp2) {
         try {
             final double num1 = exp1.evaluate();
@@ -41,6 +36,11 @@ public class Plus extends BinaryExpression {
             }
         }
         return super.simplifyRules(exp1, exp2);
+    }
+
+    @Override
+    protected Expression createNew(Expression exp1, Expression exp2) {
+        return new Plus(exp1, exp2);
     }
 
     @Override

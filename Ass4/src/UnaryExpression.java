@@ -42,23 +42,23 @@ public abstract class UnaryExpression extends BaseExpression {
     }
 
     /**
-     * Create new expression.
-     *
-     * @param expression the second expression
-     * @return the new expression
-     */
-    protected abstract Expression createNew(Expression expression);
-
-    /**
      * Differentiate logic expression.
      *
-     * @param expression the expression
+     * @param expression the expression component to differentiate.
      * @param var        the variable of which we differentiate upon.
      * @return the derivative expression
      */
     protected Expression differentiateLogic(Expression expression, String var) {
         return createNew(expression.differentiate(var));
     }
+
+    /**
+     * Create new expression.
+     *
+     * @param expression the second expression
+     * @return the new expression
+     */
+    protected abstract Expression createNew(Expression expression);
 
     /**
      * Apply operator double.

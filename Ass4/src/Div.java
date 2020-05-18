@@ -30,11 +30,6 @@ public class Div extends BinaryExpression {
     }
 
     @Override
-    protected Expression createNew(final Expression exp1, final Expression exp2) {
-        return new Div(exp1, exp2);
-    }
-
-    @Override
     protected Expression simplifyRules(final Expression exp1, final Expression exp2) {
         try {
             double denominator = exp2.evaluate();
@@ -48,6 +43,11 @@ public class Div extends BinaryExpression {
             }
         }
         return super.simplifyRules(exp1, exp2);
+    }
+
+    @Override
+    protected Expression createNew(final Expression exp1, final Expression exp2) {
+        return new Div(exp1, exp2);
     }
 
     @Override

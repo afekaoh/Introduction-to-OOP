@@ -17,11 +17,6 @@ public class Minus extends BinaryExpression {
     }
 
     @Override
-    protected Expression createNew(final Expression exp1, final Expression exp2) {
-        return new Minus(exp1, exp2);
-    }
-
-    @Override
     protected Expression simplifyRules(final Expression exp1, final Expression exp2) {
         try {
             // 0 - x
@@ -42,6 +37,11 @@ public class Minus extends BinaryExpression {
             }
         }
         return super.simplifyRules(exp1, exp2);
+    }
+
+    @Override
+    protected Expression createNew(final Expression exp1, final Expression exp2) {
+        return new Minus(exp1, exp2);
     }
 
     @Override
