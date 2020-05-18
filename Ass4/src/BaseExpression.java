@@ -2,11 +2,11 @@
 
 import exceptions.AssigmentException;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * The class Base expression.
@@ -26,8 +26,7 @@ public abstract class BaseExpression implements Expression {
      * @param expressions the expressions components
      */
     protected BaseExpression(Expression... expressions) {
-        // making the List Unmodifiable
-        this.expressions = Stream.of(expressions).collect(Collectors.toUnmodifiableList());
+        this.expressions = Arrays.asList(expressions);
     }
 
     /**
@@ -97,7 +96,7 @@ public abstract class BaseExpression implements Expression {
                           .map(Expression::getVariables)    // Stream<List<String>>
                           .flatMap(Collection::stream)  // Stream<String>
                           .distinct()   // making the Stream unique
-                          .collect(Collectors.toUnmodifiableList()); // collect to List
+                          .collect(Collectors.toList()); // collect to List
     }
 
     @Override
@@ -107,7 +106,7 @@ public abstract class BaseExpression implements Expression {
 
     @Override
     public Expression differentiate(final String var) {
-        return differentiateLogic(var, expressions.toArray(Expression[]::new));
+        return differentiateLogic(var, expressions.toArray(new Expression[0]));
     }
 
     @Override
@@ -156,7 +155,7 @@ public abstract class BaseExpression implements Expression {
 
     @Override
     public String toString() {
-        return getString(expressions.toArray(Expression[]::new)) + ")";
+        return getString(expressions.toArray(new Expression[0])) + ")";
     }
 
     /**

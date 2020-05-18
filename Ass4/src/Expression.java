@@ -31,7 +31,7 @@ public interface Expression {
     /**
      * Get variables.
      *
-     * @return Returns an unmodifiable list of the variables in the expression.
+     * @return Returns a unique list of the variables in the expression.
      */
     List<String> getVariables();
 

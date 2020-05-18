@@ -1,5 +1,6 @@
 // ID 316044809
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +34,7 @@ public class Num implements Expression {
     @Override
     public List<String> getVariables() {
         // return empty list
-        return List.of();
+        return Collections.emptyList();
     }
 
     @Override

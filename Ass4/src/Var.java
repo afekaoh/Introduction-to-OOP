@@ -5,6 +5,8 @@ import exceptions.AssigmentException;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * The class Var.
@@ -42,7 +44,7 @@ public class Var implements Expression {
 
     @Override
     public List<String> getVariables() {
-        return List.of(variable);
+        return Stream.of(variable).collect(Collectors.toList());
     }
 
     @Override
