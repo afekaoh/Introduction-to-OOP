@@ -20,8 +20,14 @@ public class Log extends BinaryExpression {
     }
 
     @Override
-    protected Expression createNew(final Expression exp1, final Expression exp2) {
-        return new Log(exp1, exp2);
+    protected Expression differentiateLogic(final Expression exp1, final Expression exp2, final String var) {
+        // we know how to differentiate ln easily
+        if (exp1.toString().equals("e")) {
+            // (ln(f(x)))' = f'/f
+            return new Div(exp2.differentiate(var), exp2);
+        }
+        // converting the base to ln and then differentiate with the easier base
+        return toLn(exp1, exp2).differentiate(var);
     }
 
     @Override
@@ -34,14 +40,8 @@ public class Log extends BinaryExpression {
     }
 
     @Override
-    protected Expression differentiateLogic(final Expression exp1, final Expression exp2, final String var) {
-        // we know how to differentiate ln easily
-        if (exp1.toString().equals("e")) {
-            // (ln(f(x)))' = f'/f
-            return new Div(exp2.differentiate(var), exp2);
-        }
-        // converting the base to ln and then differentiate with the easier base
-        return toLn(exp1, exp2).differentiate(var);
+    protected Expression createNew(final Expression exp1, final Expression exp2) {
+        return new Log(exp1, exp2);
     }
 
     @Override

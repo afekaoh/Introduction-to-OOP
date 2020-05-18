@@ -40,6 +40,11 @@ public abstract class BinaryExpression extends BaseExpression {
         return createNew(exps[0], exps[1]);
     }
 
+    @Override
+    protected String getString(Expression... exps) {
+        return "(" + exps[0] + getOperator() + exps[1];
+    }
+
     /**
      * Differentiate logic expression.
      *
@@ -52,20 +57,6 @@ public abstract class BinaryExpression extends BaseExpression {
         return createNew(exp1.differentiate(var), exp2.differentiate(var));
     }
 
-    @Override
-    protected String getString(Expression... exps) {
-        return "(" + exps[0] + getOperator() + exps[1];
-    }
-
-    /**
-     * Create a new BinaryExpression.
-     *
-     * @param exp1 the first expression component
-     * @param exp2 the second expression component
-     * @return the new expression
-     */
-    protected abstract Expression createNew(Expression exp1, Expression exp2);
-
     /**
      * Simplify rules expression.
      *
@@ -76,6 +67,15 @@ public abstract class BinaryExpression extends BaseExpression {
     protected Expression simplifyRules(Expression exp1, Expression exp2) {
         return createNew(exp1, exp2);
     }
+
+    /**
+     * Create a new BinaryExpression.
+     *
+     * @param exp1 the first expression component
+     * @param exp2 the second expression component
+     * @return the new expression
+     */
+    protected abstract Expression createNew(Expression exp1, Expression exp2);
 
     /**
      * Apply operator double.

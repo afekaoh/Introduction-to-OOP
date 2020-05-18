@@ -19,17 +19,17 @@ public class Pow extends BinaryExpression {
     }
 
     @Override
-    protected Expression createNew(final Expression exp1, final Expression exp2) {
-        return new Pow(exp1, exp2);
-    }
-
-    @Override
     protected Expression differentiateLogic(final Expression exp1, final Expression exp2, final String var) {
         // (f(x)^g(x)) = (e^(f*ln(g)))' = f^g * (g*ln(f))'
         return new Mult(
                 new Pow(exp1, exp2),
                 new Mult(exp2, new Log(new Var("e"), exp1)).differentiate(var)
         );
+    }
+
+    @Override
+    protected Expression createNew(final Expression exp1, final Expression exp2) {
+        return new Pow(exp1, exp2);
     }
 
     @Override

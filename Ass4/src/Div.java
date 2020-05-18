@@ -18,6 +18,18 @@ public class Div extends BinaryExpression {
     }
 
     @Override
+    protected Expression differentiateLogic(final Expression exp1, final Expression exp2, final String var) {
+        // (f(x)/g(x))' = (f'g - fg')/g^2)
+        return new Div(
+                new Minus(
+                        new Mult(exp1.differentiate(var), exp2),
+                        new Mult(exp1, exp2.differentiate(var))
+                ),
+                new Pow(exp2, new Num(2))
+        );
+    }
+
+    @Override
     protected Expression createNew(final Expression exp1, final Expression exp2) {
         return new Div(exp1, exp2);
     }
@@ -36,18 +48,6 @@ public class Div extends BinaryExpression {
             }
         }
         return super.simplifyRules(exp1, exp2);
-    }
-
-    @Override
-    protected Expression differentiateLogic(final Expression exp1, final Expression exp2, final String var) {
-        // (f(x)/g(x))' = (f'g - fg')/g^2)
-        return new Div(
-                new Minus(
-                        new Mult(exp1.differentiate(var), exp2),
-                        new Mult(exp1, exp2.differentiate(var))
-                ),
-                new Pow(exp2, new Num(2))
-        );
     }
 
     @Override

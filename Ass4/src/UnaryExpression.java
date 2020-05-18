@@ -22,7 +22,7 @@ public abstract class UnaryExpression extends BaseExpression {
     }
 
     @Override
-    protected Expression createNew(final Expression... exps) {
+    protected Expression simplifyRules(final Expression... exps) {
         return createNew(exps[0]);
     }
 
@@ -32,7 +32,7 @@ public abstract class UnaryExpression extends BaseExpression {
     }
 
     @Override
-    protected Expression simplifyRules(final Expression... exps) {
+    protected Expression createNew(final Expression... exps) {
         return createNew(exps[0]);
     }
 
@@ -40,6 +40,14 @@ public abstract class UnaryExpression extends BaseExpression {
     protected String getString(Expression... exps) {
         return getOperator() + exps[0].toString();
     }
+
+    /**
+     * Create new expression.
+     *
+     * @param expression the second expression
+     * @return the new expression
+     */
+    protected abstract Expression createNew(Expression expression);
 
     /**
      * Differentiate logic expression.
@@ -51,14 +59,6 @@ public abstract class UnaryExpression extends BaseExpression {
     protected Expression differentiateLogic(Expression expression, String var) {
         return createNew(expression.differentiate(var));
     }
-
-    /**
-     * Create new expression.
-     *
-     * @param expression the second expression
-     * @return the new expression
-     */
-    protected abstract Expression createNew(Expression expression);
 
     /**
      * Apply operator double.
