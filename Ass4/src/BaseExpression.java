@@ -2,7 +2,7 @@
 
 import exceptions.AssigmentException;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -92,13 +92,12 @@ public abstract class BaseExpression implements Expression {
 
     @Override
     public List<String> getVariables() {
-        List<String> vars = new ArrayList<>();
-        // unite all the list we got from the expressions
-        expressions.forEach(e -> vars.addAll(e.getVariables()));
         // make sure all the variables in the list are unique
-        return vars.stream()
-                   .distinct()
-                   .collect(Collectors.toUnmodifiableList());
+        return expressions.stream()
+                          .map(Expression::getVariables)    // Stream<List<String>>
+                          .flatMap(Collection::stream)  // Stream<String>
+                          .distinct()   // making the Stream unique
+                          .collect(Collectors.toUnmodifiableList()); // collect to List
     }
 
     @Override
@@ -139,14 +138,6 @@ public abstract class BaseExpression implements Expression {
     protected abstract Expression simplifyRules(Expression... exps);
 
     /**
-     * Create new expression.
-     *
-     * @param exps the expressions components from which we create a new expression.
-     * @return the new expression
-     */
-    protected abstract Expression createNew(Expression... exps);
-
-    /**
      * Differentiate logic expression.
      *
      * @param var  the variable to differentiate upon.
@@ -154,6 +145,14 @@ public abstract class BaseExpression implements Expression {
      * @return the derivative of the expression
      */
     protected abstract Expression differentiateLogic(String var, Expression... exps);
+
+    /**
+     * Create new expression.
+     *
+     * @param exps the expressions components from which we create a new expression.
+     * @return the new expression
+     */
+    protected abstract Expression createNew(Expression... exps);
 
     @Override
     public String toString() {
