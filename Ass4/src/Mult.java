@@ -49,6 +49,7 @@ public class Mult extends BinaryExpression {
                     return exp1;
                 }
             } catch (Exception ignored) {
+                boolean ignoreThis;
             }
         }
         return super.simplifyRules(exp1, exp2);
