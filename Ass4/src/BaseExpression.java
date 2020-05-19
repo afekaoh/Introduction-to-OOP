@@ -1,4 +1,4 @@
-// ID 316044809
+//// ID 316044809
 
 import exceptions.AssigmentException;
 
@@ -91,17 +91,18 @@ public abstract class BaseExpression implements Expression {
 
     @Override
     public List<String> getVariables() {
-        // make sure all the variables in the list are unique
         return expressions.stream()
-                          .map(Expression::getVariables)    // Stream<List<String>>
-                          .flatMap(Collection::stream)  // Stream<String>
-                          .distinct()   // making the Stream unique
-                          .collect(Collectors.toList()); // collect to List
+                          .map(Expression::getVariables)
+                          .flatMap(Collection::stream)
+                          .distinct()
+                          .collect(Collectors.toList());
     }
 
     @Override
     public Expression assign(final String var, final Expression expression) {
-        return createNew(expressions.stream().map(e -> e.assign(var, expression)).toArray(Expression[]::new));
+        return createNew(expressions.stream()
+                                    .map(e -> e.assign(var, expression))
+                                    .toArray(Expression[]::new));
     }
 
     @Override
