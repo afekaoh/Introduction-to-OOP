@@ -1,12 +1,13 @@
-//// ID 316044809
+// ID 316044809
 
 import exceptions.AssigmentException;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 /**
  * The class Base expression.
@@ -91,18 +92,27 @@ public abstract class BaseExpression implements Expression {
 
     @Override
     public List<String> getVariables() {
-        return expressions.stream()
-                          .map(Expression::getVariables)
-                          .flatMap(Collection::stream)
-                          .distinct()
-                          .collect(Collectors.toList());
+        List<String> list = new ArrayList<>();
+        Set<String> uniqueValues = new HashSet<>();
+        for (Expression expression : expressions) {
+            List<String> variables = expression.getVariables();
+            for (String string : variables) {
+                if (uniqueValues.add(string)) {
+                    list.add(string);
+                }
+            }
+        }
+        return list;
     }
 
     @Override
     public Expression assign(final String var, final Expression expression) {
-        return createNew(expressions.stream()
-                                    .map(e -> e.assign(var, expression))
-                                    .toArray(Expression[]::new));
+        List<Expression> list = new ArrayList<>();
+        for (Expression e : expressions) {
+            Expression assign = e.assign(var, expression);
+            list.add(assign);
+        }
+        return createNew(list.toArray(new Expression[0]));
     }
 
     @Override
@@ -113,9 +123,12 @@ public abstract class BaseExpression implements Expression {
     @Override
     public Expression simplify() {
         // getting all the simplified expression to an array
-        final Expression[] simplifiedExpressions = expressions.stream()
-                                                              .map(Expression::simplify)
-                                                              .toArray(Expression[]::new);
+        List<Expression> list = new ArrayList<>();
+        for (Expression expression : expressions) {
+            Expression simplify = expression.simplify();
+            list.add(simplify);
+        }
+        final Expression[] simplifiedExpressions = list.toArray(new Expression[0]);
 
         try {
             // checking if the expression can be evaluated to a number
