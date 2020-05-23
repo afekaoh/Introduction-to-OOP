@@ -1,12 +1,12 @@
 // ID 316044809
-package game.objects;
+package game.geometry.objects;
 
 import biuoop.DrawSurface;
 import biuoop.KeyboardSensor;
-import game.GameSettings;
 import game.collections.Collidable;
 import game.collections.ElementsCollection;
 import game.collections.GameEnvironment;
+import game.collections.GameSettings;
 import game.collections.Sprite;
 import game.geometry.physics.CollisionInfo;
 import game.geometry.physics.Velocity;
@@ -17,7 +17,7 @@ import game.geometry.shapes.Rectangle;
 import java.awt.Color;
 
 /**
- * The class game.objects.Paddle.
+ * The class game.geometry.objects.Paddle.
  */
 public class Paddle implements Sprite, Collidable {
     /**
@@ -54,7 +54,7 @@ public class Paddle implements Sprite, Collidable {
 
 
     /**
-     * Instantiates a new game.objects.Paddle.
+     * Instantiates a new game.geometry.objects.Paddle.
      *
      * @param x        the x coordinate of the paddle
      * @param y        the y coordinate of the paddle
@@ -75,6 +75,23 @@ public class Paddle implements Sprite, Collidable {
     public void addToGame(ElementsCollection e) {
         e.addCollidable(this);
         e.addSprite(this);
+    }
+
+    @Override
+    public void removeFromGame(final ElementsCollection elementsCollection) {
+        elementsCollection.removeSprite(this);
+        elementsCollection.removeCollidable(this);
+        elementsCollection.removeElement(this);
+    }
+
+    @Override
+    public void decreaseLife() {
+        //
+    }
+
+    @Override
+    public boolean isDead() {
+        return false;
     }
 
 
@@ -161,7 +178,7 @@ public class Paddle implements Sprite, Collidable {
     }
 
     @Override
-    public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
+    public Velocity hit(final Ball hitter, Point collisionPoint, Velocity currentVelocity) {
         int region = getRegion(collisionPoint);
         double angle = Velocity.map(region, 1, NUM_OF_REGIONS, -60, 60);
         return angle == 0

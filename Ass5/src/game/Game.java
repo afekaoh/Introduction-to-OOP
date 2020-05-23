@@ -8,12 +8,16 @@ import biuoop.Sleeper;
 import game.collections.Collidable;
 import game.collections.ElementsCollection;
 import game.collections.GameEnvironment;
+import game.collections.GameSettings;
 import game.collections.Sprite;
 import game.collections.SpriteCollection;
+import game.geometry.objects.Ball;
+import game.geometry.objects.Block;
+import game.geometry.objects.Paddle;
 import game.geometry.shapes.Point;
-import game.objects.Ball;
-import game.objects.Block;
-import game.objects.Paddle;
+import game.listeners.BallRemover;
+import game.listeners.BlockRemover;
+import game.tools.Counter;
 
 import java.awt.Color;
 import java.util.stream.Stream;
@@ -54,6 +58,8 @@ public class Game {
     private final GameEnvironment environment = null;
 
     private final ElementsCollection elements;
+    private final Counter remainingBlocks;
+    private final Counter remainingBalls;
     /**
      * The Draw Surface of the game.
      */
@@ -73,6 +79,8 @@ public class Game {
         this.sleeper = new Sleeper();
         this.elements = new ElementsCollection();
         keyboardSensor = gui.getKeyboardSensor();
+        remainingBlocks = new Counter(0);
+        remainingBalls = new Counter(0);
         setNewCanvas();
     }
 
@@ -107,20 +115,25 @@ public class Game {
 
     /**
      * Initialize a new game: create all the component of the game
-     * i.e Blocks, Balls and game.objects.Paddle add them to the game, and sta.
+     * i.e Blocks, Balls and game.geometry.objects.Paddle add them to the game, and sta.
      */
     public void initialize() {
+        BlockRemover blockRemover = new BlockRemover(this, remainingBlocks);
+        BallRemover ballRemover = new BallRemover(this, remainingBalls);
+
         //creating the edges blocks
         // creating blocks that blocks the edges of the screen
+        final Block downBloack = new Block(new Point(0, height), width, 100, 0);
+        downBloack.addHitListener(ballRemover);
         final Stream<Block> edges = Stream.of(
                 //left edge
-                new Block(new Point(-100, 0), 100, height, -1),
+                new Block(new Point(-100, 0), 100, height, 0),
                 //right edge
-                new Block(new Point(width, 0), 100, height, -1),
-                //top edge
-                new Block(new Point(0, -100), width, 100, -1),
+                new Block(new Point(width, 0), 100, height, 0),
                 //bottom edge
-                new Block(new Point(0, height), width, 100, -1)
+                downBloack,
+                //top edge
+                new Block(new Point(0, -100), width, 100, 0)
                                              );
         // adding the edges to the environment
         edges.forEach(elements::addElement);
@@ -128,20 +141,22 @@ public class Game {
         // creating the game blocks
         final int numOfRows = 5;
         final int blocksPerRow = 10;
-        final int startX = width / 4;
-        final int startY = width / 9;
-        final int blockWidth = (width - startX) / blocksPerRow;
+        final int blockWidth = width / blocksPerRow;
         final int blockHeight = (int) (height * 0.05);
+        final int numOfBlocks = numOfRows * blocksPerRow;
         for (int i = 0; i < numOfRows; i++) {
-            for (int j = blocksPerRow - 1; j >= i; j--) {
-                elements.addElement(new Block(
-                        new Point(j * blockWidth + startX, i * blockHeight + startY),
+            for (int j = 0; j < blocksPerRow; j++) {
+                final Block block = new Block(
+                        new Point(j * blockWidth, i * blockHeight),
                         blockWidth,
                         blockHeight,
-                        i + 1
-                ));
+                        i
+                );
+                block.addHitListener(blockRemover);
+                elements.addElement(block);
             }
         }
+        remainingBlocks.increase(numOfBlocks);
 
         // creating the paddle that the player will play with
         final int paddleHeight = (int) (height * 0.03);
@@ -160,7 +175,7 @@ public class Game {
         ));
 
         // creating the balls
-        final int numOfBalls = 2;
+        final int numOfBalls = 3;
         for (int i = 0; i < numOfBalls; i++) {
             elements.addElement(new Ball(
                     new Point(width / (i + 2), 3 * height / 4),
@@ -169,6 +184,7 @@ public class Game {
                     elements.getEnvironment()
             ));
         }
+        remainingBalls.increase(numOfBalls);
 
         // adding all the elements to the game
         elements.addAll();
@@ -178,11 +194,13 @@ public class Game {
      * run the game.
      */
     public void run() {
-        //noinspection InfiniteLoopStatement
         while (true) {
             long startTime = System.currentTimeMillis();
             elements.runSprites(canvas);
             drawFrame(startTime);
+            if (remainingBlocks.getValue() == 0 || remainingBalls.getValue() == 0) {
+                return;
+            }
         }
     }
 
@@ -200,5 +218,13 @@ public class Game {
         }
         // getting ready for the next frame of the game
         setNewCanvas();
+    }
+
+    public ElementsCollection getElementsCollection() {
+        return this.elements;
+    }
+
+    public void closeGame() {
+        gui.close();
     }
 }

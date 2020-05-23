@@ -41,7 +41,8 @@ public class SpriteCollection {
      * call timePassed() on all sprites.
      */
     public void notifyAllTimePassed() {
-        sprites.forEach(Sprite::timePassed);
+        List<Sprite> s = new ArrayList<>(sprites);
+        s.forEach(Sprite::timePassed);
     }
 
     /**

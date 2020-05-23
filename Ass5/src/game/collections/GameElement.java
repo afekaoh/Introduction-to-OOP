@@ -20,4 +20,7 @@ public interface GameElement {
      */
     void removeFromGame(ElementsCollection elementsCollection);
 
+    void decreaseLife();
+
+    boolean isDead();
 }

@@ -1,5 +1,5 @@
 // ID 316044809
-package game.objects;
+package game.geometry.objects;
 
 import biuoop.DrawSurface;
 import game.collections.ElementsCollection;
@@ -14,7 +14,7 @@ import java.awt.Color;
 import java.util.Random;
 
 /**
- * The class game.objects.Ball representing a 2D ball.
+ * The class game.geometry.objects.Ball representing a 2D ball.
  */
 public class Ball implements Sprite {
 
@@ -37,7 +37,7 @@ public class Ball implements Sprite {
     private Velocity velocity;
 
     /**
-     * Instantiates a new game.objects.Ball with center radius and color.
+     * Instantiates a new game.geometry.objects.Ball with center radius and color.
      *
      * @param center      the center of the call
      * @param radius      the radius of the ball
@@ -48,8 +48,6 @@ public class Ball implements Sprite {
         this.center = center;
         this.radius = radius;
         this.color = color;
-        final int x = (int) center.getX();
-        final int y = (int) center.getY();
         setVelocityFromRadius();
         this.environment = environment;
     }
@@ -83,6 +81,16 @@ public class Ball implements Sprite {
     public void removeFromGame(final ElementsCollection elementsCollection) {
         elementsCollection.removeSprite(this);
         elementsCollection.removeElement(this);
+    }
+
+    @Override
+    public void decreaseLife() {
+        //
+    }
+
+    @Override
+    public boolean isDead() {
+        return false;
     }
 
 
@@ -131,7 +139,7 @@ public class Ball implements Sprite {
         } else {
             // getting the new velocity
             this.velocity = collision.collisionObject()
-                                     .hit(collision.collisionPoint(), velocity);
+                                     .hit(this, collision.collisionPoint(), velocity);
 
             // checking where to move the ball
             Point p = null;

@@ -1,5 +1,5 @@
 // ID 316044809
-package game;
+package game.tools;
 
 import game.geometry.shapes.Point;
 

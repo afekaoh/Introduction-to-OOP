@@ -1,5 +1,5 @@
 // ID 316044809
-package game.objects;
+package game.geometry.objects;
 
 import biuoop.DrawSurface;
 import game.collections.Collidable;
@@ -8,13 +8,18 @@ import game.collections.Sprite;
 import game.geometry.physics.Velocity;
 import game.geometry.shapes.Point;
 import game.geometry.shapes.Rectangle;
+import game.listeners.HitListener;
+import game.listeners.HitNotifier;
+import game.tools.Counter;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * The class game.objects.Block.
+ * The class game.geometry.objects.Block.
  */
-public class Block implements Collidable, Sprite {
+public class Block implements Collidable, Sprite, HitNotifier {
 
     /**
      * The constant DIFFICULTY_COLORS.
@@ -31,16 +36,20 @@ public class Block implements Collidable, Sprite {
      */
     private final Rectangle boundary;
     /**
+     * The Hit listeners.
+     */
+    private final List<HitListener> hitListeners;
+    /**
      * The Difficulty of the block.
      */
-    private int difficulty;
+    private final Counter life;
     /**
      * The Color of the block.
      */
     private Color color;
 
     /**
-     * Instantiates a new game.objects.Block.
+     * Instantiates a new Block.
      *
      * @param topLeft    the top left point of the block
      * @param width      the width of the block
@@ -49,8 +58,9 @@ public class Block implements Collidable, Sprite {
      */
     public Block(Point topLeft, int width, int height, int difficulty) {
         this.boundary = new Rectangle(topLeft, width, height);
-        this.difficulty = difficulty;
+        this.life = new Counter(difficulty);
         setColor();
+        this.hitListeners = new ArrayList<>();
     }
 
     /**
@@ -66,7 +76,7 @@ public class Block implements Collidable, Sprite {
      * @return the color
      */
     private Color getColor() {
-        return DIFFICULTY_COLORS[Math.abs(difficulty % DIFFICULTY_COLORS.length)];
+        return DIFFICULTY_COLORS[this.life.getValue()];
     }
 
 
@@ -77,6 +87,22 @@ public class Block implements Collidable, Sprite {
         e.addSprite(this);
     }
 
+    @Override
+    public void removeFromGame(final ElementsCollection elementsCollection) {
+        elementsCollection.removeSprite(this);
+        elementsCollection.removeCollidable(this);
+        elementsCollection.removeElement(this);
+    }
+
+    @Override
+    public void decreaseLife() {
+        this.life.decrease(1);
+    }
+
+    @Override
+    public boolean isDead() {
+        return this.life.getValue() == -1;
+    }
 
     // sprite methods
     @Override
@@ -103,7 +129,8 @@ public class Block implements Collidable, Sprite {
     }
 
     @Override
-    public Velocity hit(final Point collisionPoint, final Velocity currentVelocity) {
+    public Velocity hit(final Ball hitter, final Point collisionPoint,
+                        final Velocity currentVelocity) {
         Velocity newV = new Velocity(currentVelocity);
         if (collisionPoint.getX() == boundary.left() || collisionPoint.getX() == boundary.right()) {
             newV.reverseX();
@@ -111,7 +138,22 @@ public class Block implements Collidable, Sprite {
         if (collisionPoint.getY() == boundary.top() || collisionPoint.getY() == boundary.bottom()) {
             newV.reverseY();
         }
-        this.difficulty--;
+        this.notifyHit(hitter);
         return newV;
+    }
+
+    private void notifyHit(Ball hitter) {
+        List<HitListener> copy = new ArrayList<>(this.hitListeners);
+        copy.forEach(hl -> hl.hitEvent(this, hitter));
+    }
+
+    @Override
+    public void addHitListener(final HitListener hitListener) {
+        this.hitListeners.add(hitListener);
+    }
+
+    @Override
+    public void removeHitListener(final HitListener hl) {
+        hitListeners.remove(hl);
     }
 }

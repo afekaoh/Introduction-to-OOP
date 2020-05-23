@@ -1,7 +1,8 @@
-package game;// ID 316044809
+// ID 316044809
+package game.collections;
+
 
 import biuoop.KeyboardSensor;
-import game.collections.GameEnvironment;
 
 /**
  * The class game.Game settings.
