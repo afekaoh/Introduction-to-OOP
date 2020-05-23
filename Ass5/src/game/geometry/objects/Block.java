@@ -94,12 +94,10 @@ public class Block implements Collidable, Sprite, HitNotifier {
         elementsCollection.removeElement(this);
     }
 
-    @Override
     public void decreaseLife() {
         this.life.decrease(1);
     }
 
-    @Override
     public boolean isDead() {
         return this.life.getValue() == -1;
     }

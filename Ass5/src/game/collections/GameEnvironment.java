@@ -31,6 +31,7 @@ public class GameEnvironment {
         collidables.add(collidable);
     }
 
+    //todo
     public void removeCollidable(Collidable collidable) {
         collidables.remove(collidable);
     }

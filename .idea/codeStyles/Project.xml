@@ -9,11 +9,6 @@
         <value />
       </option>
     </JavaCodeStyleSettings>
-    <codeStyleSettings language="Cookie">
-      <indentOptions>
-        <option name="USE_TAB_CHARACTER" value="false" />
-      </indentOptions>
-    </codeStyleSettings>
     <codeStyleSettings language="JAVA">
       <option name="RIGHT_MARGIN" value="120" />
       <option name="ALIGN_MULTILINE_CHAINED_METHODS" value="true" />

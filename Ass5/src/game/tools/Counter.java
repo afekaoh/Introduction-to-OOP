@@ -2,6 +2,9 @@
 package game.tools;
 
 
+/**
+ * The class Counter.
+ */
 public class Counter {
     private int counter;
 
@@ -22,6 +25,11 @@ public class Counter {
     // get current count.
     public int getValue() {
         return counter;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(counter);
     }
 }
 

@@ -19,8 +19,4 @@ public interface GameElement {
      * @param elementsCollection the elements collection
      */
     void removeFromGame(ElementsCollection elementsCollection);
-
-    void decreaseLife();
-
-    boolean isDead();
 }

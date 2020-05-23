@@ -83,16 +83,6 @@ public class Ball implements Sprite {
         elementsCollection.removeElement(this);
     }
 
-    @Override
-    public void decreaseLife() {
-        //
-    }
-
-    @Override
-    public boolean isDead() {
-        return false;
-    }
-
 
     // sprite methods
     @Override

@@ -18,6 +18,4 @@ public class Ass5Game {
         game.run();
         game.closeGame();
     }
-
-
 }

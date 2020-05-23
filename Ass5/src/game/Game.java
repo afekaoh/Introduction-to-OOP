@@ -14,13 +14,16 @@ import game.collections.SpriteCollection;
 import game.geometry.objects.Ball;
 import game.geometry.objects.Block;
 import game.geometry.objects.Paddle;
+import game.geometry.objects.ScoreIndicator;
 import game.geometry.shapes.Point;
+import game.geometry.shapes.Rectangle;
 import game.listeners.BallRemover;
 import game.listeners.BlockRemover;
+import game.listeners.ScoreTrackingListener;
 import game.tools.Counter;
 
 import java.awt.Color;
-import java.util.stream.Stream;
+import java.util.List;
 
 /**
  * The class game.Game.
@@ -28,7 +31,7 @@ import java.util.stream.Stream;
  */
 public class Game {
 
-    public static final int FRAMES_PER_SECOND = 60;
+    public static final int FRAMES_PER_SECOND = 30;
     public static final int MILLISECONDS_PER_FRAME = 1000 / FRAMES_PER_SECOND;
     public static final Color SCREEN_COLOR = Color.black;
     /**
@@ -118,14 +121,23 @@ public class Game {
      * i.e Blocks, Balls and game.geometry.objects.Paddle add them to the game, and sta.
      */
     public void initialize() {
-        BlockRemover blockRemover = new BlockRemover(this, remainingBlocks);
-        BallRemover ballRemover = new BallRemover(this, remainingBalls);
+        Counter score = new Counter(0);
+        ScoreIndicator indicator = new ScoreIndicator(
+                new Rectangle(
+                        new Point(0, 0),
+                        width,
+                        20
+                ),
+                Color.WHITE,
+                score
+        );
+        elements.addElement(indicator);
 
         //creating the edges blocks
-        // creating blocks that blocks the edges of the screen
+        BallRemover ballRemover = new BallRemover(this, remainingBalls);
         final Block downBloack = new Block(new Point(0, height), width, 100, 0);
         downBloack.addHitListener(ballRemover);
-        final Stream<Block> edges = Stream.of(
+        final List<Block> edges = List.of(
                 //left edge
                 new Block(new Point(-100, 0), 100, height, 0),
                 //right edge
@@ -133,26 +145,31 @@ public class Game {
                 //bottom edge
                 downBloack,
                 //top edge
-                new Block(new Point(0, -100), width, 100, 0)
-                                             );
+                new Block(new Point(0, -100), width, 120, 0)
+                                         );
         // adding the edges to the environment
         edges.forEach(elements::addElement);
 
+
         // creating the game blocks
+        BlockRemover blockRemover = new BlockRemover(this, remainingBlocks);
+        ScoreTrackingListener scoreTracking = new ScoreTrackingListener(score);
         final int numOfRows = 5;
         final int blocksPerRow = 10;
         final int blockWidth = width / blocksPerRow;
         final int blockHeight = (int) (height * 0.05);
+        final int startHeight = indicator.getHeight();
         final int numOfBlocks = numOfRows * blocksPerRow;
         for (int i = 0; i < numOfRows; i++) {
             for (int j = 0; j < blocksPerRow; j++) {
                 final Block block = new Block(
-                        new Point(j * blockWidth, i * blockHeight),
+                        new Point(j * blockWidth, i * blockHeight + startHeight),
                         blockWidth,
                         blockHeight,
                         i
                 );
                 block.addHitListener(blockRemover);
+                block.addHitListener(scoreTracking);
                 elements.addElement(block);
             }
         }
@@ -188,6 +205,7 @@ public class Game {
 
         // adding all the elements to the game
         elements.addAll();
+        edges.forEach(elements::removeSprite);
     }
 
     /**
