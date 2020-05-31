@@ -93,7 +93,9 @@ public class ElementsCollection {
      * Add all the elements to the game.
      */
     public void addAll() {
-        elements.forEach(e -> e.addToGame(this));
+        for (GameElement e : elements) {
+            e.addToGame(this);
+        }
     }
 
     /**

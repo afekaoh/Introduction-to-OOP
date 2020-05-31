@@ -44,7 +44,7 @@ public class Rectangle {
      * @return a list of all the intersection points between the line given and the rectangle
      */
     public List<Point> intersectionPoints(Line line) {
-        Stream<Line> edges = Stream.of(
+        return Stream.of(
                 // top line
                 new Line(right(), top(), left(), top()),
                 //right line
@@ -53,10 +53,10 @@ public class Rectangle {
                 new Line(left(), top(), left(), bottom()),
                 //bottom line
                 new Line(right(), bottom(), left(), bottom())
-                                      );
-        return edges.filter(line::isIntersecting)
-                    .map(line::intersectionWith)
-                    .collect(Collectors.toList());
+                        )
+                     .filter(line::isIntersecting)
+                     .map(line::intersectionWith)
+                     .collect(Collectors.toList());
     }
 
     /**

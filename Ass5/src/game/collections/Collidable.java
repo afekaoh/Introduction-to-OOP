@@ -7,7 +7,7 @@ import game.geometry.shapes.Point;
 import game.geometry.shapes.Rectangle;
 
 /**
- * The interface game.collections.Collidable.
+ * The interface Collidable.
  */
 public interface Collidable extends GameElement {
     /**
@@ -22,10 +22,10 @@ public interface Collidable extends GameElement {
      * The return is the new velocity expected after the hit
      * (based on the force the object inflicted on us).
      *
-     * @param hitter
+     * @param hitter          the hitter ball
      * @param collisionPoint  the collision point
      * @param currentVelocity the current velocity
      * @return the new velocity
      */
-    Velocity hit(final Ball hitter, Point collisionPoint, Velocity currentVelocity);
+    Velocity hit(Ball hitter, Point collisionPoint, Velocity currentVelocity);
 }

@@ -8,11 +8,11 @@ import biuoop.Sleeper;
 import game.collections.Collidable;
 import game.collections.ElementsCollection;
 import game.collections.GameEnvironment;
-import game.collections.GameSettings;
 import game.collections.Sprite;
 import game.collections.SpriteCollection;
 import game.geometry.objects.Ball;
 import game.geometry.objects.Block;
+import game.geometry.objects.EdgeBlock;
 import game.geometry.objects.Paddle;
 import game.geometry.objects.ScoreIndicator;
 import game.geometry.shapes.Point;
@@ -21,9 +21,10 @@ import game.listeners.BallRemover;
 import game.listeners.BlockRemover;
 import game.listeners.ScoreTrackingListener;
 import game.tools.Counter;
+import game.tools.GameSettings;
 
 import java.awt.Color;
-import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * The class game.Game.
@@ -33,7 +34,8 @@ public class Game {
 
     public static final int FRAMES_PER_SECOND = 30;
     public static final int MILLISECONDS_PER_FRAME = 1000 / FRAMES_PER_SECOND;
-    public static final Color SCREEN_COLOR = Color.black;
+    public static final Color SCREEN_COLOR = Color.gray;
+    public static final int START_HEIGHT = 20;
     /**
      * The Width of the game.
      */
@@ -59,10 +61,10 @@ public class Game {
      * The Environment - includes all the collidables of the game.
      */
     private final GameEnvironment environment = null;
-
     private final ElementsCollection elements;
-    private final Counter remainingBlocks;
-    private final Counter remainingBalls;
+    private Counter remainingBlocks;
+    private Counter remainingBalls;
+    private Counter score;
     /**
      * The Draw Surface of the game.
      */
@@ -82,8 +84,6 @@ public class Game {
         this.sleeper = new Sleeper();
         this.elements = new ElementsCollection();
         keyboardSensor = gui.getKeyboardSensor();
-        remainingBlocks = new Counter(0);
-        remainingBalls = new Counter(0);
         setNewCanvas();
     }
 
@@ -121,78 +121,77 @@ public class Game {
      * i.e Blocks, Balls and game.geometry.objects.Paddle add them to the game, and sta.
      */
     public void initialize() {
-        Counter score = new Counter(0);
+
+        createScoreIndicator();
+
+        // creating the game blocks
+        createBlocks();
+
+        // creating the balls
+        final int numOfBalls = 3;
+        createBalls(numOfBalls);
+
+        //creating the edges blocks
+        createEdges();
+
+        // creating the paddle that the player will play with
+        createPlayer();
+
+        // adding all the elements to the game
+        elements.addAll();
+    }
+
+    /**
+     * Create the score indicator.
+     */
+    private void createScoreIndicator() {
+        score = new Counter();
         ScoreIndicator indicator = new ScoreIndicator(
                 new Rectangle(
                         new Point(0, 0),
                         width,
-                        20
+                        Game.START_HEIGHT
                 ),
                 Color.WHITE,
                 score
         );
         elements.addElement(indicator);
+    }
 
-        //creating the edges blocks
-        BallRemover ballRemover = new BallRemover(this, remainingBalls);
-        final Block downBloack = new Block(new Point(0, height), width, 100, 0);
-        downBloack.addHitListener(ballRemover);
-        final List<Block> edges = List.of(
-                //left edge
-                new Block(new Point(-100, 0), 100, height, 0),
-                //right edge
-                new Block(new Point(width, 0), 100, height, 0),
-                //bottom edge
-                downBloack,
-                //top edge
-                new Block(new Point(0, -100), width, 120, 0)
-                                         );
-        // adding the edges to the environment
-        edges.forEach(elements::addElement);
-
-
-        // creating the game blocks
-        BlockRemover blockRemover = new BlockRemover(this, remainingBlocks);
-        ScoreTrackingListener scoreTracking = new ScoreTrackingListener(score);
+    /**
+     * Create blocks for the game.
+     */
+    private void createBlocks() {
         final int numOfRows = 5;
         final int blocksPerRow = 10;
         final int blockWidth = width / blocksPerRow;
         final int blockHeight = (int) (height * 0.05);
-        final int startHeight = indicator.getHeight();
         final int numOfBlocks = numOfRows * blocksPerRow;
-        for (int i = 0; i < numOfRows; i++) {
-            for (int j = 0; j < blocksPerRow; j++) {
+        remainingBlocks = new Counter(numOfBlocks);
+        BlockRemover blockRemover = new BlockRemover(this, remainingBlocks);
+        ScoreTrackingListener scoreTracking = new ScoreTrackingListener(score);
+        for (int row = 0; row < numOfRows; row++) {
+            for (int column = 0; column < blocksPerRow; column++) {
                 final Block block = new Block(
-                        new Point(j * blockWidth, i * blockHeight + startHeight),
+                        new Point(column * blockWidth, row * blockHeight + Game.START_HEIGHT),
                         blockWidth,
                         blockHeight,
-                        i
+                        numOfRows - 1 - row,
+                        blockRemover,
+                        scoreTracking
                 );
-                block.addHitListener(blockRemover);
-                block.addHitListener(scoreTracking);
                 elements.addElement(block);
             }
         }
-        remainingBlocks.increase(numOfBlocks);
+    }
 
-        // creating the paddle that the player will play with
-        final int paddleHeight = (int) (height * 0.03);
-        // the paddle is extra length to better see region interaction
-        final int paddleWidth = width / 8;
-        final GameSettings settings = new GameSettings(
-                elements.getEnvironment(),
-                keyboardSensor
-        );
-        elements.addElement(new Paddle(
-                width / 2,
-                height - (paddleHeight + 2),
-                paddleWidth,
-                paddleHeight,
-                settings
-        ));
-
+    /**
+     * Create the  balls.
+     *
+     * @param numOfBalls the num of balls
+     */
+    private void createBalls(final int numOfBalls) {
         // creating the balls
-        final int numOfBalls = 3;
         for (int i = 0; i < numOfBalls; i++) {
             elements.addElement(new Ball(
                     new Point(width / (i + 2), 3 * height / 4),
@@ -200,12 +199,50 @@ public class Game {
                     Color.YELLOW,
                     elements.getEnvironment()
             ));
-        }
-        remainingBalls.increase(numOfBalls);
+            remainingBalls = new Counter(numOfBalls);
 
-        // adding all the elements to the game
-        elements.addAll();
-        edges.forEach(elements::removeSprite);
+        }
+    }
+
+    /**
+     * Create the edges of the screen.
+     */
+    private void createEdges() {
+        BallRemover ballRemover = new BallRemover(this, remainingBalls);
+        final int edgeSize = 20;
+        Stream.of(
+                //left edge
+                new EdgeBlock(new Point(-edgeSize, 0), edgeSize, height, 0),
+                //right edge
+                new EdgeBlock(new Point(width, 0), edgeSize, height, 0),
+                //bottom edge
+                new EdgeBlock(new Point(0, height), width, edgeSize, 0, ballRemover),
+                //top edge
+                new EdgeBlock(new Point(0, -edgeSize), width, edgeSize + Game.START_HEIGHT, 0)
+                 )
+              // adding the blocks to the element collections
+              .forEach(elements::addElement);
+    }
+
+    /**
+     * Create the paddle which the player will play with.
+     */
+    private void createPlayer() {
+        final int paddleHeight = (int) (height * 0.03);
+        // the paddle is extra length to better see region interaction
+        final int paddleWidth = width / 8;
+        final GameSettings settings = new GameSettings(
+                elements.getEnvironment(),
+                keyboardSensor
+        );
+
+        elements.addElement(new Paddle(
+                width / 2,
+                height - (paddleHeight + 2),
+                paddleWidth,
+                paddleHeight,
+                settings
+        ));
     }
 
     /**
@@ -214,13 +251,19 @@ public class Game {
     public void run() {
         while (true) {
             long startTime = System.currentTimeMillis();
+            // getting ready for the next frame of the game
+            setNewCanvas();
             elements.runSprites(canvas);
             drawFrame(startTime);
-            if (remainingBlocks.getValue() == 0 || remainingBalls.getValue() == 0) {
+            if (remainingBlocks.getValue() == 0) {
+                score.increase(100);
+                return;
+            } else if (remainingBalls.getValue() == 0) {
                 return;
             }
         }
     }
+
 
     /**
      * draws the canvas to the gui and suspends the animation.
@@ -234,14 +277,20 @@ public class Game {
         if (milliSecondLeftToSleep > 0) {
             sleeper.sleepFor(milliSecondLeftToSleep);
         }
-        // getting ready for the next frame of the game
-        setNewCanvas();
     }
 
+    /**
+     * Get elements collection.
+     *
+     * @return the elements collection
+     */
     public ElementsCollection getElementsCollection() {
         return this.elements;
     }
 
+    /**
+     * Close the game.
+     */
     public void closeGame() {
         gui.close();
     }

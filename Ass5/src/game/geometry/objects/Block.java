@@ -51,14 +51,31 @@ public class Block implements Collidable, Sprite, HitNotifier {
     /**
      * Instantiates a new Block.
      *
-     * @param topLeft    the top left point of the block
-     * @param width      the width of the block
-     * @param height     the height of the block
-     * @param difficulty the difficulty of the block
+     * @param topLeft   the top Left point.
+     * @param width     the width of the block
+     * @param height    the height of the block
+     * @param life      the  number of life
+     * @param listeners an array of listeners which we add to the block
      */
-    public Block(Point topLeft, int width, int height, int difficulty) {
+    public Block(final Point topLeft, final int width, final int height, final int life,
+                 final HitListener... listeners) {
+        this(topLeft, width, height, life);
+        for (final HitListener listener : listeners) {
+            addHitListener(listener);
+        }
+    }
+
+    /**
+     * Instantiates a new Block.
+     *
+     * @param topLeft the top left point of the block
+     * @param width   the width of the block
+     * @param height  the height of the block
+     * @param life    the number of life of the block
+     */
+    public Block(Point topLeft, int width, int height, int life) {
         this.boundary = new Rectangle(topLeft, width, height);
-        this.life = new Counter(difficulty);
+        this.life = new Counter(life);
         setColor();
         this.hitListeners = new ArrayList<>();
     }
@@ -79,8 +96,7 @@ public class Block implements Collidable, Sprite, HitNotifier {
         return DIFFICULTY_COLORS[this.life.getValue()];
     }
 
-
-    // game.collections.GameElement methods
+    // GameElement methods
     @Override
     public void addToGame(ElementsCollection e) {
         e.addCollidable(this);
@@ -94,10 +110,18 @@ public class Block implements Collidable, Sprite, HitNotifier {
         elementsCollection.removeElement(this);
     }
 
+    /**
+     * Decrease life.
+     */
     public void decreaseLife() {
         this.life.decrease(1);
     }
 
+    /**
+     * Is dead boolean.
+     *
+     * @return the boolean
+     */
     public boolean isDead() {
         return this.life.getValue() == -1;
     }
@@ -119,7 +143,6 @@ public class Block implements Collidable, Sprite, HitNotifier {
         setColor();
     }
 
-
     // collidable methods
     @Override
     public Rectangle getCollisionRectangle() {
@@ -140,11 +163,8 @@ public class Block implements Collidable, Sprite, HitNotifier {
         return newV;
     }
 
-    private void notifyHit(Ball hitter) {
-        List<HitListener> copy = new ArrayList<>(this.hitListeners);
-        copy.forEach(hl -> hl.hitEvent(this, hitter));
-    }
 
+    // hitNotifier methods
     @Override
     public void addHitListener(final HitListener hitListener) {
         this.hitListeners.add(hitListener);
@@ -153,5 +173,15 @@ public class Block implements Collidable, Sprite, HitNotifier {
     @Override
     public void removeHitListener(final HitListener hl) {
         hitListeners.remove(hl);
+    }
+
+    /**
+     * Notify all the listeners about the hit.
+     *
+     * @param hitter the hitter ball
+     */
+    private void notifyHit(Ball hitter) {
+        List<HitListener> copy = new ArrayList<>(this.hitListeners);
+        copy.forEach(hl -> hl.hitEvent(this, hitter));
     }
 }

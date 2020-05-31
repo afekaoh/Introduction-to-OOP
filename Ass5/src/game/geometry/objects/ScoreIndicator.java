@@ -1,3 +1,4 @@
+// ID 316044809
 package game.geometry.objects;
 
 import biuoop.DrawSurface;
@@ -8,12 +9,31 @@ import game.tools.Counter;
 
 import java.awt.Color;
 
-// ID 316044809
+
+/**
+ * The class Score indicator.
+ */
 public class ScoreIndicator implements Sprite {
+    /**
+     * The Boundary.
+     */
     private final Rectangle boundary;
+    /**
+     * The Color.
+     */
     private final Color color;
+    /**
+     * The Score.
+     */
     private final Counter score;
 
+    /**
+     * Instantiates a new Score indicator.
+     *
+     * @param boundary the boundary
+     * @param color    the color
+     * @param score    the score
+     */
     public ScoreIndicator(final Rectangle boundary, final Color color, final Counter score) {
         this.boundary = boundary;
         this.color = color;
@@ -25,13 +45,15 @@ public class ScoreIndicator implements Sprite {
         canvas.setColor(color);
         canvas.fillRectangle(boundary.left(), boundary.top(), boundary.getWidth(), boundary.getHeight());
         canvas.setColor(Color.BLACK);
-        canvas.drawText(
-                (int) boundary.getCenter().getX(), (int) boundary.getCenter().getY() + 10, score.toString(), 16);
+        final int indicatorX = (int) boundary.getCenter().getX();
+        final int indicatorY = (int) boundary.getCenter().getY() + boundary.bottom() / 2;
+        final int fontSize = 16;
+        canvas.drawText(indicatorX, indicatorY, score.toString(), fontSize);
     }
 
     @Override
     public void timePassed() {
-        //
+        // do nothing
     }
 
     @Override
@@ -41,10 +63,7 @@ public class ScoreIndicator implements Sprite {
 
     @Override
     public void removeFromGame(final ElementsCollection elementsCollection) {
-        //
-    }
-
-    public int getHeight() {
-        return boundary.getHeight();
+        elementsCollection.removeSprite(this);
+        elementsCollection.removeElement(this);
     }
 }

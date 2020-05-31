@@ -13,7 +13,7 @@ public class Ass5Game {
      * @param args the input arguments
      */
     public static void main(String[] args) {
-        Game game = new Game(800, 600, "");
+        Game game = new Game(800, 600, "game");
         game.initialize();
         game.run();
         game.closeGame();

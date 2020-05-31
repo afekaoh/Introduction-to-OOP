@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The class game.collections.Sprite collection.
+ * The class Sprite collection.
  */
 public class SpriteCollection {
     /**
@@ -31,6 +31,11 @@ public class SpriteCollection {
         sprites.add(sprite);
     }
 
+    /**
+     * Remove sprite.
+     *
+     * @param sprite the sprite to remove
+     */
     public void removeSprite(Sprite sprite) {
         sprites.remove(sprite);
     }

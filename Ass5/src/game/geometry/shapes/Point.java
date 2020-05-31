@@ -4,7 +4,7 @@ package game.geometry.shapes;
 import java.util.Objects;
 
 /**
- * The class geometry.abstract_geometry.Point.
+ * The class Point.
  * representing a point in 2D space.
  */
 public class Point {
@@ -18,7 +18,7 @@ public class Point {
     private double y;
 
     /**
-     * Instantiates a new geometry.abstract_geometry.Point.
+     * Instantiates a new Point.
      *
      * @param x the x
      * @param y the y
@@ -111,7 +111,7 @@ public class Point {
 
     @Override
     public String toString() {
-        return "geometry.abstract_geometry.Point{" + "x=" + x + ", y=" + y + '}';
+        return "Point{" + "x=" + x + ", y=" + y + '}';
     }
 
     /**

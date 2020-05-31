@@ -1,4 +1,5 @@
-package game.geometry.shapes;// ID 316044809
+// ID 316044809
+package game.geometry.shapes;
 
 import game.tools.PointsComparator;
 
@@ -8,7 +9,7 @@ import java.util.Objects;
 import static java.util.Collections.min;
 
 /**
- * The class geometry.abstract_geometry.Line.
+ * The class Line.
  * representing a line in 2D space.
  */
 public class Line {
@@ -22,7 +23,7 @@ public class Line {
     private Point end;
 
     /**
-     * Instantiates a new geometry.abstract_geometry.Line using points.
+     * Instantiates a new Line using points.
      *
      * @param start the start point.
      * @param end   the end point.
@@ -33,7 +34,7 @@ public class Line {
     }
 
     /**
-     * Instantiates a new geometry.abstract_geometry.Line using XY coordinates.
+     * Instantiates a new Line using XY coordinates.
      *
      * @param xStart the x start
      * @param yStart the y start
@@ -262,7 +263,7 @@ public class Line {
 
     @Override
     public String toString() {
-        return "geometry.abstract_geometry.Line{" + "start=" + start + ", end=" + end + '}';
+        return "Line{" + "start=" + start + ", end=" + end + '}';
     }
 
     /**
@@ -327,7 +328,7 @@ public class Line {
         }
 
         /**
-         * Instantiates a new geometry.abstract_geometry.Line result in the case the lines don't have intersection point.
+         * Instantiates a new Line result in the case the lines don't have intersection point.
          */
         LineResult() {
             this.t = 0;

@@ -5,7 +5,7 @@ import biuoop.DrawSurface;
 
 
 /**
- * The interface game.collections.Sprite.
+ * The interface Sprite.
  */
 public interface Sprite extends GameElement {
     /**

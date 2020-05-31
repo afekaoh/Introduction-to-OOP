@@ -1,11 +1,12 @@
 // ID 316044809
-package game.collections;
+package game.tools;
 
 
 import biuoop.KeyboardSensor;
+import game.collections.GameEnvironment;
 
 /**
- * The class game.Game settings.
+ * The class Game settings.
  */
 public class GameSettings {
     /**
@@ -18,7 +19,7 @@ public class GameSettings {
     private final KeyboardSensor keyboard;
 
     /**
-     * Instantiates a new game.Game settings.
+     * Instantiates a new Game settings.
      *
      * @param environment the game edges
      * @param keyboard    the keyboard Sensor

@@ -14,7 +14,7 @@ import java.awt.Color;
 import java.util.Random;
 
 /**
- * The class game.geometry.objects.Ball representing a 2D ball.
+ * The class Ball representing a 2D ball.
  */
 public class Ball implements Sprite {
 
@@ -37,7 +37,7 @@ public class Ball implements Sprite {
     private Velocity velocity;
 
     /**
-     * Instantiates a new game.geometry.objects.Ball with center radius and color.
+     * Instantiates a new Ball with center radius and color.
      *
      * @param center      the center of the call
      * @param radius      the radius of the ball
@@ -71,7 +71,7 @@ public class Ball implements Sprite {
     }
 
 
-    // game.collections.GameElement methods
+    // GameElement methods
     @Override
     public void addToGame(ElementsCollection e) {
         e.addSprite(this);
@@ -84,7 +84,7 @@ public class Ball implements Sprite {
     }
 
 
-    // sprite methods
+    // Sprite methods
     @Override
     public void drawOn(final DrawSurface canvas) {
         canvas.setColor(this.color);

@@ -6,18 +6,18 @@ import biuoop.KeyboardSensor;
 import game.collections.Collidable;
 import game.collections.ElementsCollection;
 import game.collections.GameEnvironment;
-import game.collections.GameSettings;
 import game.collections.Sprite;
 import game.geometry.physics.CollisionInfo;
 import game.geometry.physics.Velocity;
 import game.geometry.shapes.Line;
 import game.geometry.shapes.Point;
 import game.geometry.shapes.Rectangle;
+import game.tools.GameSettings;
 
 import java.awt.Color;
 
 /**
- * The class game.geometry.objects.Paddle.
+ * The class Paddle.
  */
 public class Paddle implements Sprite, Collidable {
     /**
@@ -54,7 +54,7 @@ public class Paddle implements Sprite, Collidable {
 
 
     /**
-     * Instantiates a new game.geometry.objects.Paddle.
+     * Instantiates a new Paddle.
      *
      * @param x        the x coordinate of the paddle
      * @param y        the y coordinate of the paddle
@@ -70,7 +70,7 @@ public class Paddle implements Sprite, Collidable {
         this.environment = settings.getEnvironment();
     }
 
-    // game.collections.GameElement methods
+    // GameElement methods
     @Override
     public void addToGame(ElementsCollection e) {
         e.addCollidable(this);
@@ -84,7 +84,7 @@ public class Paddle implements Sprite, Collidable {
         elementsCollection.removeElement(this);
     }
 
-    // sprite methods
+    // Sprite methods
     @Override
     public void drawOn(DrawSurface canvas) {
         canvas.setColor(this.color);
@@ -103,7 +103,8 @@ public class Paddle implements Sprite, Collidable {
 
     /**
      * Move.
-     * moving the paddle left or right depending on the player
+     * <p>
+     * moving the paddle left or right depending on the player input
      */
     public void move() {
         if (keyboard.isPressed(KeyboardSensor.LEFT_KEY)) {
@@ -177,6 +178,7 @@ public class Paddle implements Sprite, Collidable {
 
     /**
      * Get region.
+     * <p>
      * returning the region on the paddle of which the ball has landed
      *
      * @param collisionPoint the collision point

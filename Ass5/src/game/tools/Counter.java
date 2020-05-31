@@ -6,23 +6,55 @@ package game.tools;
  * The class Counter.
  */
 public class Counter {
+    /**
+     * The Counter.
+     */
     private int counter;
 
+    /**
+     * Instantiates a new Counter.
+     */
+    public Counter() {
+        this(0);
+    }
+
+    /**
+     * Instantiates a new Counter.
+     *
+     * @param startValue the start value
+     */
     public Counter(final int startValue) {
         this.counter = startValue;
     }
 
-    // add number to current count.
+    /**
+     * Increase.
+     * <p>
+     * add number to current count.
+     *
+     * @param number the number to add
+     */
     public void increase(int number) {
         counter += number;
     }
 
-    // subtract number from current count.
+    /**
+     * Decrease.
+     * <p>
+     * subtract number from current count.
+     *
+     * @param number the number
+     */
     public void decrease(int number) {
         counter -= number;
     }
 
-    // get current count.
+    /**
+     * Get value.
+     *
+     * @return the value
+     */
+// get current count.
     public int getValue() {
         return counter;
     }

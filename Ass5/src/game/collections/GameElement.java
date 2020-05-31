@@ -2,7 +2,7 @@
 package game.collections;
 
 /**
- * The interface game.Game element.
+ * The interface Game element.
  */
 public interface GameElement {
 

@@ -12,7 +12,6 @@ public interface HitNotifier {
      *
      * @param hl the hl
      */
-
     void addHitListener(HitListener hl);
 
     /**
@@ -21,7 +20,5 @@ public interface HitNotifier {
      *
      * @param hl the hl
      */
-
     void removeHitListener(HitListener hl);
-
 }

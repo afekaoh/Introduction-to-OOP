@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The class game.Game environment.
+ * The class Game environment.
  */
 public class GameEnvironment {
     private final List<Collidable> collidables;
 
     /**
-     * Instantiates a new game.Game environment.
+     * Instantiates a new Game environment.
      */
     public GameEnvironment() {
         collidables = new ArrayList<>();
@@ -31,7 +31,11 @@ public class GameEnvironment {
         collidables.add(collidable);
     }
 
-    //todo
+    /**
+     * Remove collidable.
+     *
+     * @param collidable the collidable to remove
+     */
     public void removeCollidable(Collidable collidable) {
         collidables.remove(collidable);
     }

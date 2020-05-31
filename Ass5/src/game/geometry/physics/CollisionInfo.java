@@ -1,4 +1,5 @@
-package game.geometry.physics;// ID 316044809
+// ID 316044809
+package game.geometry.physics;
 
 import game.collections.Collidable;
 import game.geometry.shapes.Point;

@@ -1,10 +1,11 @@
-package game.geometry.physics;//ID 316044809
+//ID 316044809
+package game.geometry.physics;
 
 import game.geometry.shapes.Line;
 import game.geometry.shapes.Point;
 
 /**
- * The class game.geometry.physics.Velocity.
+ * The class Velocity.
  */
 public class Velocity {
     /**
@@ -17,7 +18,7 @@ public class Velocity {
     private double ySpeed;
 
     /**
-     * Instantiates a new game.geometry.physics.Velocity.
+     * Instantiates a new Velocity.
      *
      * @param xSpeed the x speed
      * @param ySpeed the y speed
@@ -28,7 +29,7 @@ public class Velocity {
     }
 
     /**
-     * Instantiates a new game.geometry.physics.Velocity as copy.
+     * Instantiates a new Velocity as copy.
      *
      * @param velocity the velocity to copy from
      */
@@ -134,7 +135,7 @@ public class Velocity {
      */
     @Override
     public String toString() {
-        return "game.geometry.physics.Velocity{" + "xSpeed=" + xSpeed + ", ySpeed=" + ySpeed + '}';
+        return "Velocity{" + "xSpeed=" + xSpeed + ", ySpeed=" + ySpeed + '}';
     }
 
     /**
