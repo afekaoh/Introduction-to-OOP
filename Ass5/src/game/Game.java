@@ -10,15 +10,16 @@ import game.collections.ElementsCollection;
 import game.collections.GameEnvironment;
 import game.collections.Sprite;
 import game.collections.SpriteCollection;
-import game.geometry.objects.Ball;
-import game.geometry.objects.Block;
-import game.geometry.objects.EdgeBlock;
-import game.geometry.objects.Paddle;
-import game.geometry.objects.ScoreIndicator;
-import game.geometry.shapes.Point;
-import game.geometry.shapes.Rectangle;
+import game.elements.objects.Ball;
+import game.elements.objects.Block;
+import game.elements.objects.EdgeBlock;
+import game.elements.objects.Paddle;
+import game.elements.objects.ScoreIndicator;
+import game.elements.shapes.Point;
+import game.elements.shapes.Rectangle;
 import game.listeners.BallRemover;
 import game.listeners.BlockRemover;
+import game.listeners.HitListener;
 import game.listeners.ScoreTrackingListener;
 import game.tools.Counter;
 import game.tools.GameSettings;
@@ -32,9 +33,9 @@ import java.util.stream.Stream;
  */
 public class Game {
 
-    public static final int FRAMES_PER_SECOND = 30;
+    public static final int FRAMES_PER_SECOND = 60;
     public static final int MILLISECONDS_PER_FRAME = 1000 / FRAMES_PER_SECOND;
-    public static final Color SCREEN_COLOR = Color.gray;
+    public static final Color SCREEN_COLOR = Color.decode("#F6F3E3");
     public static final int START_HEIGHT = 20;
     /**
      * The Width of the game.
@@ -152,7 +153,6 @@ public class Game {
                         width,
                         Game.START_HEIGHT
                 ),
-                Color.WHITE,
                 score
         );
         elements.addElement(indicator);
@@ -164,16 +164,18 @@ public class Game {
     private void createBlocks() {
         final int numOfRows = 5;
         final int blocksPerRow = 10;
-        final int blockWidth = width / blocksPerRow;
+        final int startX = width / 4;
+        final int startY = width / 9;
+        final int blockWidth = (width - startX) / blocksPerRow;
         final int blockHeight = (int) (height * 0.05);
         final int numOfBlocks = numOfRows * blocksPerRow;
         remainingBlocks = new Counter(numOfBlocks);
-        BlockRemover blockRemover = new BlockRemover(this, remainingBlocks);
-        ScoreTrackingListener scoreTracking = new ScoreTrackingListener(score);
+        HitListener blockRemover = new BlockRemover(this, remainingBlocks);
+        HitListener scoreTracking = new ScoreTrackingListener(score);
         for (int row = 0; row < numOfRows; row++) {
-            for (int column = 0; column < blocksPerRow; column++) {
+            for (int column = blocksPerRow - 1; column >= row; column--) {
                 final Block block = new Block(
-                        new Point(column * blockWidth, row * blockHeight + Game.START_HEIGHT),
+                        new Point(column * blockWidth + startX, row * blockHeight + startY + Game.START_HEIGHT),
                         blockWidth,
                         blockHeight,
                         numOfRows - 1 - row,
@@ -196,7 +198,7 @@ public class Game {
             elements.addElement(new Ball(
                     new Point(width / (i + 2), 3 * height / 4),
                     3,
-                    Color.YELLOW,
+                    Color.decode("#e9c46a"),
                     elements.getEnvironment()
             ));
             remainingBalls = new Counter(numOfBalls);
@@ -208,15 +210,16 @@ public class Game {
      * Create the edges of the screen.
      */
     private void createEdges() {
-        BallRemover ballRemover = new BallRemover(this, remainingBalls);
+        HitListener ballRemover = new BallRemover(this, remainingBalls);
         final int edgeSize = 20;
+        final int deathRegion = height - ((int) (height * 0.03) - 2);
         Stream.of(
                 //left edge
                 new EdgeBlock(new Point(-edgeSize, 0), edgeSize, height, 0),
                 //right edge
                 new EdgeBlock(new Point(width, 0), edgeSize, height, 0),
                 //bottom edge
-                new EdgeBlock(new Point(0, height), width, edgeSize, 0, ballRemover),
+                new EdgeBlock(new Point(0, deathRegion), width, edgeSize, 0, ballRemover),
                 //top edge
                 new EdgeBlock(new Point(0, -edgeSize), width, edgeSize + Game.START_HEIGHT, 0)
                  )
@@ -238,7 +241,7 @@ public class Game {
 
         elements.addElement(new Paddle(
                 width / 2,
-                height - (paddleHeight + 2),
+                height - paddleHeight - 2,
                 paddleWidth,
                 paddleHeight,
                 settings
@@ -254,13 +257,13 @@ public class Game {
             // getting ready for the next frame of the game
             setNewCanvas();
             elements.runSprites(canvas);
-            drawFrame(startTime);
             if (remainingBlocks.getValue() == 0) {
                 score.increase(100);
                 return;
             } else if (remainingBalls.getValue() == 0) {
                 return;
             }
+            drawFrame(startTime);
         }
     }
 

@@ -3,8 +3,8 @@ package game.listeners;
 
 import game.Game;
 import game.collections.ElementsCollection;
-import game.geometry.objects.Ball;
-import game.geometry.objects.Block;
+import game.elements.objects.Ball;
+import game.elements.objects.Block;
 import game.tools.Counter;
 
 
@@ -36,6 +36,6 @@ public class BallRemover implements HitListener {
     @Override
     public void hitEvent(final Block beingHit, final Ball hitter) {
         hitter.removeFromGame(elements);
-        remainingBalls.decrease(1);
+        remainingBalls.decrease();
     }
 }

@@ -1,14 +1,14 @@
 // ID 316044809
-package game.geometry.objects;
+package game.elements.objects;
 
 import biuoop.DrawSurface;
 import game.collections.ElementsCollection;
 import game.collections.GameEnvironment;
 import game.collections.Sprite;
-import game.geometry.physics.CollisionInfo;
-import game.geometry.physics.Velocity;
-import game.geometry.shapes.Line;
-import game.geometry.shapes.Point;
+import game.elements.physics.Velocity;
+import game.elements.shapes.Line;
+import game.elements.shapes.Point;
+import game.tools.CollisionInfo;
 
 import java.awt.Color;
 import java.util.Random;

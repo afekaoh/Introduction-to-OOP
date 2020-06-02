@@ -30,12 +30,30 @@ public class Counter {
     /**
      * Increase.
      * <p>
+     * add 1 to current count.
+     */
+    public void increase() {
+        increase(1);
+    }
+
+    /**
+     * Increase.
+     * <p>
      * add number to current count.
      *
      * @param number the number to add
      */
     public void increase(int number) {
         counter += number;
+    }
+
+    /**
+     * Decrease.
+     * <p>
+     * subtract 1 from current count.
+     */
+    public void decrease() {
+        decrease(1);
     }
 
     /**

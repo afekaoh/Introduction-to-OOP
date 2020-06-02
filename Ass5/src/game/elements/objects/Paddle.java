@@ -1,5 +1,5 @@
 // ID 316044809
-package game.geometry.objects;
+package game.elements.objects;
 
 import biuoop.DrawSurface;
 import biuoop.KeyboardSensor;
@@ -7,11 +7,11 @@ import game.collections.Collidable;
 import game.collections.ElementsCollection;
 import game.collections.GameEnvironment;
 import game.collections.Sprite;
-import game.geometry.physics.CollisionInfo;
-import game.geometry.physics.Velocity;
-import game.geometry.shapes.Line;
-import game.geometry.shapes.Point;
-import game.geometry.shapes.Rectangle;
+import game.elements.physics.Velocity;
+import game.elements.shapes.Line;
+import game.elements.shapes.Point;
+import game.elements.shapes.Rectangle;
+import game.tools.CollisionInfo;
 import game.tools.GameSettings;
 
 import java.awt.Color;
@@ -63,7 +63,7 @@ public class Paddle implements Sprite, Collidable {
      * @param settings the settings of the game
      */
     public Paddle(int x, int y, int width, int height, final GameSettings settings) {
-        this.color = Color.WHITE;
+        this.color = Color.decode("#7BC0E2");
         this.boundary = new Rectangle(new Point(x, y), width, height);
         this.velocity = new Velocity(0, 0);
         this.keyboard = settings.getKeyboard();

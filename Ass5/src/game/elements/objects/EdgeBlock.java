@@ -1,8 +1,8 @@
 // ID 316044809
-package game.geometry.objects;
+package game.elements.objects;
 
 import game.collections.ElementsCollection;
-import game.geometry.shapes.Point;
+import game.elements.shapes.Point;
 import game.listeners.HitListener;
 
 /**

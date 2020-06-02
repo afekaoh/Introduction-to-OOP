@@ -1,8 +1,8 @@
 //ID 316044809
-package game.geometry.physics;
+package game.elements.physics;
 
-import game.geometry.shapes.Line;
-import game.geometry.shapes.Point;
+import game.elements.shapes.Line;
+import game.elements.shapes.Point;
 
 /**
  * The class Velocity.

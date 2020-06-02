@@ -1,10 +1,10 @@
 // ID 316044809
 package game.collections;
 
-import game.geometry.objects.Ball;
-import game.geometry.physics.Velocity;
-import game.geometry.shapes.Point;
-import game.geometry.shapes.Rectangle;
+import game.elements.objects.Ball;
+import game.elements.physics.Velocity;
+import game.elements.shapes.Point;
+import game.elements.shapes.Rectangle;
 
 /**
  * The interface Collidable.

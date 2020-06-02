@@ -1,5 +1,5 @@
 // ID 316044809
-package game.geometry.shapes;
+package game.elements.shapes;
 
 import java.util.Objects;
 

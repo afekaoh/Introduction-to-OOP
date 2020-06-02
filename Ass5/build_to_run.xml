@@ -24,7 +24,9 @@
     <target name="zip" depends="compile">
         <mkdir dir="to_zip"/>
         <mkdir dir="to_zip/src"/>
-        <copydir src="src" dest="to_zip/src"/>
+        <copy todir="to_zip/src">
+            <fileset dir="src"/>
+        </copy>
         <copy file="build.xml" todir="to_zip"/>
         <zip destfile="ass5.zip" basedir="to_zip"/>
         <delete dir="to_zip"/>
@@ -36,10 +38,10 @@
 
     <!-- Run checkstyle on all our source files -->
     <target name="check">
-        <java jar="../General/checkstyle-5.7-all.jar" fork="true">
+        <java jar="../General/checkstyle-8.0-all.jar" fork="true">
             <classpath path="src/**/*.java"/>
             <arg line="-c ../General/biuoop.xml"/>
-            <arg line="-r src"/>
+            <arg line="src"/>
         </java>
     </target>
 

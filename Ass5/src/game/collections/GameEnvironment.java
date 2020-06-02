@@ -1,9 +1,9 @@
 // ID 316044809
 package game.collections;
 
-import game.geometry.physics.CollisionInfo;
-import game.geometry.shapes.Line;
-import game.geometry.shapes.Point;
+import game.elements.shapes.Line;
+import game.elements.shapes.Point;
+import game.tools.CollisionInfo;
 import game.tools.PointsComparator;
 
 import java.util.ArrayList;

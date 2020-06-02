@@ -2,8 +2,8 @@
 package game.listeners;
 
 
-import game.geometry.objects.Ball;
-import game.geometry.objects.Block;
+import game.elements.objects.Ball;
+import game.elements.objects.Block;
 import game.tools.Counter;
 
 /**
@@ -17,7 +17,7 @@ public class ScoreTrackingListener implements HitListener {
     /**
      * The constant BRAKE_SCORE.
      */
-    public static final int BRAKE_SCORE = 10;
+    public static final int KILL_SCORE = 10;
     /**
      * The Current score.
      */
@@ -34,6 +34,6 @@ public class ScoreTrackingListener implements HitListener {
 
     @Override
     public void hitEvent(final Block beingHit, final Ball hitter) {
-        currentScore.increase(beingHit.isDead() ? BRAKE_SCORE : HIT_SCORE);
+        currentScore.increase(beingHit.isDead() ? KILL_SCORE : HIT_SCORE);
     }
 }

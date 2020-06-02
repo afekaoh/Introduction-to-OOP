@@ -1,8 +1,8 @@
 // ID 316044809
 package game.listeners;
 
-import game.geometry.objects.Ball;
-import game.geometry.objects.Block;
+import game.elements.objects.Ball;
+import game.elements.objects.Block;
 
 /**
  * The interface Hit listener.

@@ -1,7 +1,7 @@
 // ID 316044809
 package game.tools;
 
-import game.geometry.shapes.Point;
+import game.elements.shapes.Point;
 
 import java.util.Comparator;
 

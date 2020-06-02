@@ -1,8 +1,8 @@
 // ID 316044809
-package game.geometry.physics;
+package game.tools;
 
 import game.collections.Collidable;
-import game.geometry.shapes.Point;
+import game.elements.shapes.Point;
 
 /**
  * The class Collision info - an object that holding the information needed about the collision.

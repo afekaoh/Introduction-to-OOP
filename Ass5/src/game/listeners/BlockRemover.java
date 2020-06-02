@@ -3,8 +3,8 @@ package game.listeners;
 
 import game.Game;
 import game.collections.ElementsCollection;
-import game.geometry.objects.Ball;
-import game.geometry.objects.Block;
+import game.elements.objects.Ball;
+import game.elements.objects.Block;
 import game.tools.Counter;
 
 
@@ -41,7 +41,7 @@ public class BlockRemover implements HitListener {
         if (beingHit.isDead()) {
             beingHit.removeHitListener(this);
             beingHit.removeFromGame(elements);
-            remainingBlocks.decrease(1);
+            remainingBlocks.decrease();
         }
     }
 }

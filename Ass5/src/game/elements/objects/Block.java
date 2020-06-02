@@ -1,13 +1,13 @@
 // ID 316044809
-package game.geometry.objects;
+package game.elements.objects;
 
 import biuoop.DrawSurface;
 import game.collections.Collidable;
 import game.collections.ElementsCollection;
 import game.collections.Sprite;
-import game.geometry.physics.Velocity;
-import game.geometry.shapes.Point;
-import game.geometry.shapes.Rectangle;
+import game.elements.physics.Velocity;
+import game.elements.shapes.Point;
+import game.elements.shapes.Rectangle;
 import game.listeners.HitListener;
 import game.listeners.HitNotifier;
 import game.tools.Counter;
@@ -25,11 +25,11 @@ public class Block implements Collidable, Sprite, HitNotifier {
      * The constant DIFFICULTY_COLORS.
      */
     private static final Color[] DIFFICULTY_COLORS = {
-            Color.MAGENTA,
-            Color.YELLOW,
-            Color.RED,
-            Color.CYAN,
-            Color.GREEN
+            Color.decode("#BFE6B1"),
+            Color.decode("#91CA87"),
+            Color.decode("#62AE5C"),
+            Color.decode("#349132"),
+            Color.decode("#057507"),
     };
     /**
      * The Boundary of the block.
