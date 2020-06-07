@@ -43,13 +43,15 @@ public class Ball implements Sprite {
      * @param radius      the radius of the ball
      * @param color       the color of the ball
      * @param environment the environment
+     * @param velocity    the velocity
      */
-    public Ball(final Point center, final int radius, final Color color, GameEnvironment environment) {
+    public Ball(final Point center, final int radius, final Color color, GameEnvironment environment,
+                final Velocity velocity) {
         this.center = center;
         this.radius = radius;
         this.color = color;
-        setVelocityFromRadius();
         this.environment = environment;
+        this.velocity = velocity;
     }
 
     /**

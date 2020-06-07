@@ -29,5 +29,16 @@ public class PauseScreen implements Animation {
             this.stop = true;
         }
     }
+
+    @Override
+    public void drawBackground(final DrawSurface canvas) {
+        canvas.setColor(Color.white);
+        canvas.fillRectangle(0, 0, canvas.getWidth(), canvas.getHeight());
+    }
+
+    @Override
+    public int getFramePerSeconds() {
+        return 60;
+    }
 }
 

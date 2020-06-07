@@ -1,9 +1,10 @@
 // ID 316044809
-package game.levels;
+package game.animation.states.levels;
 
 import game.collections.Sprite;
 import game.elements.objects.Block;
 import game.elements.physics.Velocity;
+import game.elements.shapes.Point;
 
 import java.util.List;
 
@@ -28,6 +29,15 @@ public interface LevelInformation {
      */
     List<Velocity> initialBallVelocities();
 
+
+    /**
+     * Initial ball location list.
+     *
+     * @return the list
+     */
+    List<Point> initialBallLocation();
+
+
     /**
      * Paddle speed int.
      *
@@ -41,6 +51,8 @@ public interface LevelInformation {
      * @return the Paddle width
      */
     int paddleWidth();
+
+    int paddleHeight();
 
     /**
      * Level name string.
@@ -77,4 +89,7 @@ public interface LevelInformation {
      */
     int numberOfBlocksToRemove();
 
+    int getWidth();
+
+    int getHeight();
 }

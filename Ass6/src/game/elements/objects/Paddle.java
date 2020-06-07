@@ -21,13 +21,13 @@ import java.awt.Color;
  */
 public class Paddle implements Sprite, Collidable {
     /**
-     * The constant PADDLE_SPEED.
-     */
-    public static final int PADDLE_SPEED = 8;
-    /**
      * The constant NUM_OF_REGIONS.
      */
     public static final int NUM_OF_REGIONS = 5;
+    /**
+     * The constant PADDLE_SPEED.
+     */
+    private final int paddleSpeed;
     /**
      * The Boundary of the paddle.
      */
@@ -56,18 +56,20 @@ public class Paddle implements Sprite, Collidable {
     /**
      * Instantiates a new Paddle.
      *
-     * @param x        the x coordinate of the paddle
-     * @param y        the y coordinate of the paddle
-     * @param width    the width of the paddle
-     * @param height   the height of the paddle
-     * @param settings the settings of the game
+     * @param x           the x coordinate of the paddle
+     * @param y           the y coordinate of the paddle
+     * @param width       the width of the paddle
+     * @param height      the height of the paddle
+     * @param paddleSpeed the paddle speed
+     * @param settings    the settings of the game
      */
-    public Paddle(int x, int y, int width, int height, final GameSettings settings) {
+    public Paddle(int x, int y, int width, int height, final int paddleSpeed, final GameSettings settings) {
         this.color = Color.decode("#7BC0E2");
         this.boundary = new Rectangle(new Point(x, y), width, height);
         this.velocity = new Velocity(0, 0);
         this.keyboard = settings.getKeyboard();
         this.environment = settings.getEnvironment();
+        this.paddleSpeed = paddleSpeed;
     }
 
     // GameElement methods
@@ -123,7 +125,7 @@ public class Paddle implements Sprite, Collidable {
      */
     public void moveLeft() {
         // giving the paddle a velocity in the left direction
-        this.velocity.setXSpeed(-PADDLE_SPEED);
+        this.velocity.setXSpeed(-paddleSpeed);
         // checking it it got to the edge of the screen
         final Point upperLeft = boundary.getUpperLeft().translate(0, -1);
         // take a line in the X as the paddle but higher on the Y to avoid collision with himself
@@ -144,7 +146,7 @@ public class Paddle implements Sprite, Collidable {
      */
     public void moveRight() {
         // giving the paddle a velocity in the right direction
-        this.velocity.setXSpeed(PADDLE_SPEED);
+        this.velocity.setXSpeed(paddleSpeed);
 
         // checking it it got to the edge of the screen
         final Point upperRight = boundary.getUpperLeft().translate(boundary.getWidth(), -1);

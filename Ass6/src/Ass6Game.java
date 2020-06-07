@@ -1,6 +1,8 @@
 // ID 316044809
 
-import game.levels.GameLevel;
+import game.animation.states.levels.GameLevel;
+import game.animation.states.levels.Level1;
+import game.animation.states.levels.LevelInformation;
 
 /**
  * The class Ass 5 game.
@@ -13,7 +15,8 @@ public class Ass6Game {
      * @param args the input arguments
      */
     public static void main(String[] args) {
-        GameLevel gameLevel = new GameLevel(800, 600, "game");
+        LevelInformation level1 = new Level1();
+        GameLevel gameLevel = new GameLevel(level1);
         gameLevel.initialize();
         gameLevel.run();
         gameLevel.closeGame();

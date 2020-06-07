@@ -1,15 +1,16 @@
 // ID 316044809
-package game.levels;
+package game.animation.states.levels;
 
 
 import biuoop.DrawSurface;
 import biuoop.KeyboardSensor;
 import game.animation.Animation;
 import game.animation.AnimationRunner;
+import game.animation.states.CountdownAnimation;
 import game.animation.states.PauseScreen;
 import game.collections.ElementsCollection;
+import game.collections.Sprite;
 import game.elements.objects.Ball;
-import game.elements.objects.Block;
 import game.elements.objects.EdgeBlock;
 import game.elements.objects.Paddle;
 import game.elements.objects.ScoreIndicator;
@@ -51,6 +52,9 @@ public class GameLevel implements Animation {
      * The Height.
      */
     private final int height;
+    private final KeyboardSensor keyboard;
+    private final LevelInformation levelInformation;
+    private final Sprite background;
     /**
      * The Remaining balls.
      */
@@ -67,22 +71,20 @@ public class GameLevel implements Animation {
      * The Remaining blocks.
      */
     private Counter remainingBlocks;
-    private KeyboardSensor keyboard;
 
     /**
      * Instantiates a new GameLevel.
      *
-     * @param width  the width of the game
-     * @param height the height of the game
-     * @param title  the title of the game
+     * @param level the level
      */
-    public GameLevel(final int width, final int height, final String title) {
-        this.width = width;
-        this.height = height;
-        this.animationRunner = new AnimationRunner(width, height, title, 60, Color.decode("#F6F3E3"));
+    public GameLevel(LevelInformation level) {
+        this.levelInformation = level;
+        this.width = level.getWidth();
+        this.height = level.getHeight();
+        this.animationRunner = new AnimationRunner(width, height, "Arknoid");
         this.elements = new ElementsCollection();
         this.keyboard = animationRunner.getKeyboardSensor();
-
+        this.background = level.getBackground();
     }
 
     /**
@@ -91,14 +93,15 @@ public class GameLevel implements Animation {
      */
     public void initialize() {
 
-        createScoreIndicator();
+        score = new Counter();
+        remainingBlocks = new Counter(levelInformation.blocks().size());
+        remainingBalls = new Counter(levelInformation.numberOfBalls());
 
         // creating the game blocks
-        createBlocks(5, 10, width / 4, width / 9, (width - width / 4) / 10, (int) (height * 0.05));
+        createBlocks();
 
         // creating the balls
-        final int numOfBalls = 3;
-        createBalls(numOfBalls);
+        createBalls();
 
         //creating the edges blocks
         createEdges();
@@ -106,73 +109,38 @@ public class GameLevel implements Animation {
         // creating the paddle that the player will play with
         createPlayer();
 
+        createScoreIndicator();
+
         // adding all the elements to the game
         elements.addAll();
     }
 
     /**
-     * Create the score indicator.
-     */
-    private void createScoreIndicator() {
-        score = new Counter();
-        ScoreIndicator indicator = new ScoreIndicator(
-                new Rectangle(
-                        new Point(0, 0),
-                        width,
-                        GameLevel.START_HEIGHT
-                ),
-                score
-        );
-        elements.addElement(indicator);
-    }
-
-    /**
      * Create blocks for the game.
-     *
-     * @param numOfRows    the num of rows
-     * @param blocksPerRow the blocks per row
-     * @param startX       the start x
-     * @param startY       the start y
-     * @param blockWidth   the block width
-     * @param blockHeight  the block height
      */
-    private void createBlocks(final int numOfRows, final int blocksPerRow, final int startX, final int startY,
-                              final int blockWidth, final int blockHeight) {
-        final int numOfBlocks = numOfRows * blocksPerRow;
-        remainingBlocks = new Counter(numOfBlocks);
-        HitListener blockRemover = new BlockRemover(this.elements, remainingBlocks);
-        HitListener scoreTracking = new ScoreTrackingListener(score);
-        for (int row = 0; row < numOfRows; row++) {
-            for (int column = blocksPerRow - 1; column >= row; column--) {
-                final Block block = new Block(
-                        new Point(column * blockWidth + startX, row * blockHeight + startY + GameLevel.START_HEIGHT),
-                        blockWidth,
-                        blockHeight,
-                        numOfRows - 1 - row,
-                        blockRemover,
-                        scoreTracking
-                );
-                elements.addElement(block);
-            }
-        }
+    private void createBlocks() {
+        HitListener blockRemover = new BlockRemover(elements, remainingBlocks);
+        HitListener scoreListener = new ScoreTrackingListener(score);
+        levelInformation.blocks().forEach(b -> {
+            b.addHitListener(blockRemover);
+            b.addHitListener(scoreListener);
+            elements.addElement(b);
+        });
     }
 
     /**
      * Create the  balls.
-     *
-     * @param numOfBalls the num of balls
      */
-    private void createBalls(final int numOfBalls) {
-        // creating the balls
-        for (int i = 0; i < numOfBalls; i++) {
-            elements.addElement(new Ball(
-                    new Point(width / (i + 2), 3 * height / 4),
-                    3,
-                    Color.decode("#e9c46a"),
-                    elements.getEnvironment()
-            ));
-            remainingBalls = new Counter(numOfBalls);
-
+    private void createBalls() {
+        for (int i = 0; i < levelInformation.numberOfBalls(); i++) {
+            elements.addElement(
+                    new Ball(
+                            levelInformation.initialBallLocation().get(i),
+                            3,
+                            Color.decode("#e9c46a"),
+                            elements.getEnvironment(),
+                            levelInformation.initialBallVelocities().get(i)
+                    ));
         }
     }
 
@@ -201,21 +169,36 @@ public class GameLevel implements Animation {
      * Create the paddle which the player will play with.
      */
     private void createPlayer() {
-        final int paddleHeight = (int) (height * 0.03);
-        // the paddle is extra length to better see region interaction
-        final int paddleWidth = width / 8;
         final GameSettings settings = new GameSettings(
                 elements.getEnvironment(),
                 keyboard
         );
-
         elements.addElement(new Paddle(
                 width / 2,
-                height - paddleHeight - 2,
-                paddleWidth,
-                paddleHeight,
+                height - levelInformation.paddleHeight() - 2,
+                levelInformation.paddleWidth(),
+                levelInformation.paddleHeight(),
+                levelInformation.paddleSpeed(),
                 settings
         ));
+    }
+
+
+    /**
+     * Create the score indicator.
+     */
+    private void createScoreIndicator() {
+        ScoreIndicator indicator = new ScoreIndicator(
+                new Rectangle(
+                        new Point(0, 0),
+                        width,
+                        GameLevel.START_HEIGHT
+                ),
+                levelInformation.levelName(),
+                score,
+                remainingBalls
+        );
+        elements.addElement(indicator);
     }
 
     /**
@@ -223,7 +206,7 @@ public class GameLevel implements Animation {
      */
     public void run() {
         // countdown before turn starts.
-//        this.animationRunner.run(new CountdownAnimation(3, 3, elements.getSprites(), animationRunner.getSleeper()));
+        this.animationRunner.run(new CountdownAnimation(3, 3, background, elements.getSprites()));
         // running the level
         this.running = true;
         animationRunner.run(this);
@@ -253,6 +236,17 @@ public class GameLevel implements Animation {
         } else if (remainingBalls.getValue() == 0) {
             running = false;
         }
+    }
+
+    @Override
+    public void drawBackground(final DrawSurface canvas) {
+        this.background.drawOn(canvas);
+    }
+
+    @Override
+    public int getFramePerSeconds() {
+        // todo
+        return 60;
     }
 }
 

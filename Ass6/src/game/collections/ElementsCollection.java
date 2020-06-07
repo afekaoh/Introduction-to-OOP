@@ -117,6 +117,11 @@ public class ElementsCollection {
         return this.environment;
     }
 
+    /**
+     * Get sprites.
+     *
+     * @return the sprites
+     */
     public SpriteCollection getSprites() {
         return this.sprites;
     }

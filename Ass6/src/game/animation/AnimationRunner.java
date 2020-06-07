@@ -6,22 +6,10 @@ import biuoop.GUI;
 import biuoop.KeyboardSensor;
 import biuoop.Sleeper;
 
-import java.awt.Color;
-
 /**
  * The class Animation runner.
  */
 public class AnimationRunner {
-    private final int millisecondsPerFrame;
-    private final Color screenColor;
-    /**
-     * The Width of the game.
-     */
-    private final int width;
-    /**
-     * The Height of the game.
-     */
-    private final int height;
     /**
      * The Gui for the game.
      */
@@ -31,29 +19,26 @@ public class AnimationRunner {
      */
     private final Sleeper sleeper;
     private final KeyboardSensor keyboardSensor;
+    private int millisecondsPerFrame;
     /**
      * The Draw Surface of the game.
      */
     private DrawSurface canvas;
 
-    public AnimationRunner(final int width, final int height, final String title, final int framesPerSecond,
-                           final Color screenColor) {
-        this.width = width;
-        this.height = height;
-        this.gui = new GUI(title, this.width, this.height);
-        this.screenColor = screenColor;
+    public AnimationRunner(final int width, final int height, final String title) {
+        this.gui = new GUI(title, width, height);
         this.sleeper = new Sleeper();
-        millisecondsPerFrame = 1000 / framesPerSecond;
         keyboardSensor = gui.getKeyboardSensor();
     }
 
     /**
      * Sets a new DrawSurface.
+     *
+     * @param animation the animation
      */
-    public void setNewCanvas() {
+    public void setNewCanvas(Animation animation) {
         this.canvas = gui.getDrawSurface();
-        canvas.setColor(screenColor);
-        canvas.fillRectangle(0, 0, width, height);
+        animation.drawBackground(canvas);
     }
 
     /**
@@ -62,10 +47,11 @@ public class AnimationRunner {
      * @param animation the animation
      */
     public void run(Animation animation) {
+        this.millisecondsPerFrame = 1000 / animation.getFramePerSeconds();
         while (true) {
             long startTime = System.currentTimeMillis();
             // getting ready for the next frame of the game
-            setNewCanvas();
+            setNewCanvas(animation);
             animation.doOneFrame(canvas);
             if (animation.shouldStop()) {
                 return;
@@ -94,9 +80,5 @@ public class AnimationRunner {
 
     public void close() {
         gui.close();
-    }
-
-    public Sleeper getSleeper() {
-        return this.sleeper;
     }
 }
