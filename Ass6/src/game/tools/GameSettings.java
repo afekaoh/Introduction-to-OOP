@@ -10,7 +10,7 @@ import game.collections.GameEnvironment;
  */
 public class GameSettings {
     /**
-     * The game.animation.states.GameLevel boundary.
+     * The game.levels.GameLevel boundary.
      */
     private final GameEnvironment environment;
     /**

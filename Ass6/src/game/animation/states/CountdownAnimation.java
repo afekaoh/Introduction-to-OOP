@@ -6,11 +6,13 @@ import biuoop.Sleeper;
 import game.animation.Animation;
 import game.collections.SpriteCollection;
 
+import java.awt.Color;
+
 public class CountdownAnimation implements Animation {
-    private final int countFrom;
     private final double numOfSeconds;
-    private final SpriteCollection backgroungScreen;
+    private final SpriteCollection backgroundScreen;
     private final Sleeper sleeper;
+    private int countFrom;
     private boolean stop;
 
 
@@ -18,7 +20,7 @@ public class CountdownAnimation implements Animation {
                               final SpriteCollection backgroundScreen, final Sleeper sleeper) {
         this.countFrom = countFrom;
         this.numOfSeconds = numOfSeconds;
-        this.backgroungScreen = backgroundScreen;
+        this.backgroundScreen = backgroundScreen;
         this.sleeper = sleeper;
         this.stop = false;
     }
@@ -30,10 +32,15 @@ public class CountdownAnimation implements Animation {
 
     @Override
     public void doOneFrame(final DrawSurface canvas) {
-        for (int i = countFrom; i > 0; i--) {
-            backgroungScreen.drawAllOn(canvas);
-            sleeper.sleepFor((long) (numOfSeconds / countFrom));
+        canvas.setColor(Color.BLACK);
+        canvas.drawText(canvas.getWidth() / 2, canvas.getHeight() / 2, "" + countFrom, 64);
+        backgroundScreen.drawAllOn(canvas);
+        countFrom--;
+        if (countFrom == 0) {
+            stop = true;
+            return;
         }
-        stop = true;
+        sleeper.sleepFor(((long) (numOfSeconds / countFrom)) * 1000);
     }
 }
+

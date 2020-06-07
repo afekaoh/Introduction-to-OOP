@@ -1,6 +1,6 @@
 // ID 316044809
 
-import game.animation.states.GameLevel;
+import game.levels.GameLevel;
 
 /**
  * The class Ass 5 game.

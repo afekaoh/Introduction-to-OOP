@@ -1,11 +1,12 @@
 // ID 316044809
-package game.animation.states;
+package game.levels;
 
 
 import biuoop.DrawSurface;
 import biuoop.KeyboardSensor;
 import game.animation.Animation;
 import game.animation.AnimationRunner;
+import game.animation.states.PauseScreen;
 import game.collections.ElementsCollection;
 import game.elements.objects.Ball;
 import game.elements.objects.Block;
@@ -222,7 +223,7 @@ public class GameLevel implements Animation {
      */
     public void run() {
         // countdown before turn starts.
-        this.animationRunner.run(new CountdownAnimation(3, 3, elements.getSprites(), animationRunner.getSleeper()));
+//        this.animationRunner.run(new CountdownAnimation(3, 3, elements.getSprites(), animationRunner.getSleeper()));
         // running the level
         this.running = true;
         animationRunner.run(this);
