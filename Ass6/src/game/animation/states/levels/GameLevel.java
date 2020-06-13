@@ -62,7 +62,7 @@ public class GameLevel implements Animation {
     /**
      * The Score.
      */
-    private Counter score;
+    private final Counter score;
     /**
      * The Running.
      */
@@ -75,15 +75,20 @@ public class GameLevel implements Animation {
     /**
      * Instantiates a new GameLevel.
      *
-     * @param level the level
+     * @param level           the level
+     * @param keyboardSensor  the keyboard sensor
+     * @param animationRunner the animation runner
+     * @param score           the score
      */
-    public GameLevel(LevelInformation level) {
+    public GameLevel(LevelInformation level, final KeyboardSensor keyboardSensor,
+                     final AnimationRunner animationRunner, final Counter score) {
         this.levelInformation = level;
         this.width = level.getWidth();
         this.height = level.getHeight();
-        this.animationRunner = new AnimationRunner(width, height, "Arknoid");
+        this.animationRunner = animationRunner;
+        this.score = score;
         this.elements = new ElementsCollection();
-        this.keyboard = animationRunner.getKeyboardSensor();
+        this.keyboard = keyboardSensor;
         this.background = level.getBackground();
     }
 
@@ -92,8 +97,6 @@ public class GameLevel implements Animation {
      * i.e Blocks, Balls and game.geometry.objects.Paddle add them to the game, and sta.
      */
     public void initialize() {
-
-        score = new Counter();
         remainingBlocks = new Counter(levelInformation.blocks().size());
         remainingBalls = new Counter(levelInformation.numberOfBalls());
 
@@ -212,13 +215,6 @@ public class GameLevel implements Animation {
         animationRunner.run(this);
     }
 
-    /**
-     * Close the game.
-     */
-    public void closeGame() {
-        animationRunner.close();
-    }
-
     @Override
     public boolean shouldStop() {
         return !running;
@@ -243,10 +239,8 @@ public class GameLevel implements Animation {
         this.background.drawOn(canvas);
     }
 
-    @Override
-    public int getFramePerSeconds() {
-        // todo
-        return 60;
+    public boolean isDead() {
+        return remainingBalls.getValue() == 0;
     }
 }
 
