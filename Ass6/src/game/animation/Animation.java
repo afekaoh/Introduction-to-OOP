@@ -12,7 +12,7 @@ public interface Animation {
 
     void drawBackground(DrawSurface canvas);
 
-    default int getFramePerSeconds() {
+    default double getFramePerSeconds() {
         return FRAMES_PER_SECONDS;
     }
 }

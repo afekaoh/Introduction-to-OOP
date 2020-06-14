@@ -42,12 +42,12 @@ public class AnimationRunner {
     }
 
     /**
-     * run the game.
+     * play the game.
      *
      * @param animation the animation
      */
     public void run(Animation animation) {
-        this.millisecondsPerFrame = 1000 / animation.getFramePerSeconds();
+        this.millisecondsPerFrame = (int) (1000 / animation.getFramePerSeconds());
         while (true) {
             long startTime = System.currentTimeMillis();
             // getting ready for the next frame of the game

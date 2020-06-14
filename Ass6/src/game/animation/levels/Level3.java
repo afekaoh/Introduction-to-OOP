@@ -1,56 +1,40 @@
 // ID 316044809
-package game.animation.states.levels;
+package game.animation.levels;
 
 import biuoop.DrawSurface;
 import game.collections.ElementsCollection;
 import game.collections.Sprite;
 import game.elements.objects.Block;
-import game.elements.physics.Velocity;
 import game.elements.shapes.DrawShapes;
 import game.elements.shapes.Point;
 
 import java.awt.Color;
 import java.awt.Polygon;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
  * The class Level 1.
  */
-public class Level3 implements LevelInformation {
+public class Level3 extends Level {
+    public Level3(final int width, final int height) {
+        super(width, height);
+    }
+
 
     @Override
     public int numberOfBalls() {
-        return 1;
-    }
-
-    @Override
-    public List<Velocity> initialBallVelocities() {
-        return List.of(Velocity.fromAngleAndSpeed(0, 5));
-    }
-
-    @Override
-    public List<Point> initialBallLocation() {
-        return List.of(new Point(getWidth() / 2, (3 * getHeight()) / 4));
-    }
-
-    @Override
-    public int paddleSpeed() {
-        return 5;
+        return 3;
     }
 
     @Override
     public int paddleWidth() {
-        return 100;
-    }
-
-    @Override
-    public int paddleHeight() {
-        return 20;
+        return getWidth() / 4;
     }
 
     @Override
     public String levelName() {
-        return "level3";
+        return "Green 3";
     }
 
     @Override
@@ -62,8 +46,8 @@ public class Level3 implements LevelInformation {
             @Override
             public void drawOn(final DrawSurface d) {
 //                d.setColor(Color.decode("#F6F3E3"));
-                d.setColor(Color.CYAN);
-                d.fillRectangle(0, 0, 800, 600);
+                d.setColor(Color.GREEN);
+                d.fillRectangle(0, 0, getWidth(), getHeight());
                 d.setColor(Color.black);
                 d.drawPolygon(cloud);
                 d.drawPolygon(cloud2);
@@ -91,27 +75,34 @@ public class Level3 implements LevelInformation {
 
     @Override
     public List<Block> blocks() {
-        return List.of(
-                new Block(
-                        new Point(400, 200),
-                        100,
-                        20,
-                        0
-                ));
+        List<Block> blocks = new LinkedList<>();
+        final int numOfRows = 5;
+        final int blocksPerRow = numberOfBlocksToRemove() / numOfRows;
+        final int startX = getWidth() / 4;
+        final int startY = getHeight() / 4;
+        final int blockWidth = (getWidth() - startX) / blocksPerRow;
+        final int blockHeight = getHeight() / 20;
+        for (int i = 0; i < numOfRows; i++) {
+            for (int j = i; j < blocksPerRow; j++) {
+                blocks.add(
+                        new Block(
+                                new Point(
+                                        j * blockWidth + startX,
+                                        i * blockHeight + startY
+                                ),
+                                blockWidth,
+                                blockHeight,
+                                (numOfRows - 1) - i,
+                                DrawShapes.getColorSpace("Green")
+                        )
+                          );
+            }
+        }
+        return blocks;
     }
 
     @Override
     public int numberOfBlocksToRemove() {
-        return 1;
-    }
-
-    @Override
-    public int getWidth() {
-        return 800;
-    }
-
-    @Override
-    public int getHeight() {
-        return 600;
+        return 50;
     }
 }

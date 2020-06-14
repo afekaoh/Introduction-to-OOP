@@ -22,16 +22,6 @@ import java.util.List;
 public class Block implements Collidable, Sprite, HitNotifier {
 
     /**
-     * The constant DIFFICULTY_COLORS.
-     */
-    private static final Color[] DIFFICULTY_COLORS = {
-            Color.decode("#BFE6B1"),
-            Color.decode("#91CA87"),
-            Color.decode("#62AE5C"),
-            Color.decode("#349132"),
-            Color.decode("#057507"),
-    };
-    /**
      * The Boundary of the block.
      */
     private final Rectangle boundary;
@@ -43,6 +33,7 @@ public class Block implements Collidable, Sprite, HitNotifier {
      * The Difficulty of the block.
      */
     private final Counter life;
+    private final Color[] colorSpace;
     /**
      * The Color of the block.
      */
@@ -51,33 +42,20 @@ public class Block implements Collidable, Sprite, HitNotifier {
     /**
      * Instantiates a new Block.
      *
-     * @param topLeft   the top Left point.
-     * @param width     the width of the block
-     * @param height    the height of the block
-     * @param life      the  number of life
-     * @param listeners an array of listeners which we add to the block
+     * @param topLeft    the top left point of the block
+     * @param width      the width of the block
+     * @param height     the height of the block
+     * @param life       the number of life of the block
+     * @param colorSpace the color space
      */
-    public Block(final Point topLeft, final int width, final int height, final int life,
-                 final HitListener... listeners) {
-        this(topLeft, width, height, life);
-        for (final HitListener listener : listeners) {
-            addHitListener(listener);
-        }
-    }
-
-    /**
-     * Instantiates a new Block.
-     *
-     * @param topLeft the top left point of the block
-     * @param width   the width of the block
-     * @param height  the height of the block
-     * @param life    the number of life of the block
-     */
-    public Block(Point topLeft, int width, int height, int life) {
+    public Block(Point topLeft, int width, int height, int life, Color[] colorSpace) {
+        this.colorSpace = colorSpace;
         this.boundary = new Rectangle(topLeft, width, height);
         this.life = new Counter(life);
-        setColor();
         this.hitListeners = new ArrayList<>();
+        if (colorSpace != null) {
+            setColor();
+        }
     }
 
     /**
@@ -93,7 +71,7 @@ public class Block implements Collidable, Sprite, HitNotifier {
      * @return the color
      */
     private Color getColor() {
-        return DIFFICULTY_COLORS[this.life.getValue()];
+        return colorSpace[this.life.getValue() % colorSpace.length];
     }
 
     // GameElement methods

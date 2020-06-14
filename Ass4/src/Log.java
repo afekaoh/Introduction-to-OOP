@@ -1,8 +1,5 @@
 // ID 316044809
 
-import exceptions.LogBaseException;
-import exceptions.LogPowerException;
-
 /**
  * The class Log.
  * representing the mathematical operation of logarithm.

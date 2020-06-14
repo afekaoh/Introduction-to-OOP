@@ -3,9 +3,12 @@ package game;
 
 import biuoop.KeyboardSensor;
 import game.animation.AnimationRunner;
-import game.animation.states.EndScreenAnimation;
-import game.animation.states.levels.GameLevel;
-import game.animation.states.levels.LevelInformation;
+import game.animation.KeyPressStoppableAnimation;
+import game.animation.animations.endgame.EndScreenAnimation;
+import game.animation.animations.endgame.GameOverAnimation;
+import game.animation.animations.endgame.WinAnimation;
+import game.animation.levels.GameLevel;
+import game.animation.levels.LevelInformation;
 import game.tools.Counter;
 
 import java.util.List;
@@ -16,14 +19,15 @@ public class GameFlow {
     private final AnimationRunner animationRunner;
     private boolean win;
 
-    public GameFlow() {
-        this.animationRunner = new AnimationRunner(800, 600, "Arknoid");
-        this.keyboardSensor = animationRunner.getKeyboardSensor();
+    public GameFlow(final AnimationRunner animationRunner) {
+        this.animationRunner = animationRunner;
+        this.keyboardSensor = this.animationRunner.getKeyboardSensor();
         this.win = true;
     }
 
     public void runLevels(List<LevelInformation> levels) {
         final Counter score = new Counter();
+        EndScreenAnimation endScreen;
         for (LevelInformation levelInfo : levels) {
 
             GameLevel level = new GameLevel(
@@ -34,17 +38,24 @@ public class GameFlow {
             );
 
             level.initialize();
-
-            do {
-                level.run();
-            } while (!level.shouldStop());
+            level.run();
 
             if (level.isDead()) {
                 win = false;
                 break;
             }
         }
-        animationRunner.run(new EndScreenAnimation(keyboardSensor, win, score.getValue()));
+        if (win) {
+            endScreen = new WinAnimation(score.getValue());
+        } else {
+            endScreen = new GameOverAnimation(score.getValue());
+        }
+        animationRunner.run(
+                new KeyPressStoppableAnimation(
+                        keyboardSensor,
+                        KeyboardSensor.SPACE_KEY,
+                        endScreen
+                ));
     }
 
 

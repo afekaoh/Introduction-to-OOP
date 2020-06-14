@@ -5,6 +5,8 @@ import game.collections.ElementsCollection;
 import game.elements.shapes.Point;
 import game.listeners.HitListener;
 
+import java.util.Arrays;
+
 /**
  * The class Edge block a block that blocks the edges of the screen.
  */
@@ -20,7 +22,8 @@ public class EdgeBlock extends Block {
      */
     public EdgeBlock(final Point point, final int width, final int height, final int difficulty,
                      final HitListener... listeners) {
-        super(point, width, height, difficulty, listeners);
+        super(point, width, height, difficulty, null);
+        Arrays.stream(listeners).forEach(this::addHitListener);
     }
 
     /**
@@ -32,7 +35,7 @@ public class EdgeBlock extends Block {
      * @param difficulty the difficulty
      */
     public EdgeBlock(final Point topLeft, final int width, final int height, final int difficulty) {
-        super(topLeft, width, height, difficulty);
+        super(topLeft, width, height, difficulty, null);
     }
 
     /**

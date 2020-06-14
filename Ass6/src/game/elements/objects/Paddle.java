@@ -65,7 +65,7 @@ public class Paddle implements Sprite, Collidable {
      */
     public Paddle(int x, int y, int width, int height, final int paddleSpeed, final GameSettings settings) {
         this.color = Color.decode("#7BC0E2");
-        this.boundary = new Rectangle(new Point(x, y), width, height);
+        this.boundary = new Rectangle(new Point(x - width / 2, y - height / 2), width, height);
         this.velocity = new Velocity(0, 0);
         this.keyboard = settings.getKeyboard();
         this.environment = settings.getEnvironment();

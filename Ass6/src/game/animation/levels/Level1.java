@@ -1,5 +1,5 @@
 // ID 316044809
-package game.animation.states.levels;
+package game.animation.levels;
 
 import biuoop.DrawSurface;
 import game.collections.ElementsCollection;
@@ -16,26 +16,20 @@ import java.util.List;
 /**
  * The class Level 1.
  */
-public class Level1 implements LevelInformation {
+public class Level1 extends Level {
+
+    private final int width;
+    private final int height;
+
+    public Level1(final int width, final int height) {
+        super(width, height);
+        this.width = width;
+        this.height = height;
+    }
 
     @Override
     public int numberOfBalls() {
         return 1;
-    }
-
-    @Override
-    public List<Velocity> initialBallVelocities() {
-        return List.of(Velocity.fromAngleAndSpeed(0, 5));
-    }
-
-    @Override
-    public List<Point> initialBallLocation() {
-        return List.of(new Point(getWidth() / 2, (3 * getHeight()) / 4));
-    }
-
-    @Override
-    public int paddleSpeed() {
-        return 5;
     }
 
     @Override
@@ -44,13 +38,8 @@ public class Level1 implements LevelInformation {
     }
 
     @Override
-    public int paddleHeight() {
-        return 20;
-    }
-
-    @Override
     public String levelName() {
-        return "level1";
+        return "DirectHit";
     }
 
     @Override
@@ -63,7 +52,7 @@ public class Level1 implements LevelInformation {
             public void drawOn(final DrawSurface d) {
 //                d.setColor(Color.decode("#F6F3E3"));
                 d.setColor(Color.CYAN);
-                d.fillRectangle(0, 0, 800, 600);
+                d.fillRectangle(0, 0, getWidth(), getHeight());
                 d.setColor(Color.black);
                 d.drawPolygon(cloud);
                 d.drawPolygon(cloud2);
@@ -95,8 +84,9 @@ public class Level1 implements LevelInformation {
                 new Block(
                         new Point(400, 200),
                         100,
-                        20,
-                        0
+                        super.paddleHeight(),
+                        0,
+                        DrawShapes.getColorSpace("Green")
                 ));
     }
 
@@ -106,12 +96,7 @@ public class Level1 implements LevelInformation {
     }
 
     @Override
-    public int getWidth() {
-        return 800;
-    }
-
-    @Override
-    public int getHeight() {
-        return 600;
+    public List<Velocity> initialBallVelocities() {
+        return List.of(Velocity.fromAngleAndSpeed(0, super.paddleSpeed()));
     }
 }

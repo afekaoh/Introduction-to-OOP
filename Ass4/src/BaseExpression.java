@@ -1,7 +1,5 @@
 // ID 316044809
 
-import exceptions.AssigmentException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;

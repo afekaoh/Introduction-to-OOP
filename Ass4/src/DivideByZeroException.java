@@ -1,5 +1,4 @@
 // ID 316044809
-package exceptions;
 
 /**
  * The class Divide by zero exception.

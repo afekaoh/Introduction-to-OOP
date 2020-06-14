@@ -1,5 +1,5 @@
 // ID 316044809
-package game.animation.states.levels;
+package game.animation.levels;
 
 import game.collections.Sprite;
 import game.elements.objects.Block;

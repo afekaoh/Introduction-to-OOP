@@ -1,5 +1,5 @@
 // ID 316044809
-package game.animation.states;
+package game.animation.animations;
 
 import biuoop.DrawSurface;
 import game.animation.Animation;
@@ -58,8 +58,9 @@ public class CountdownAnimation implements Animation {
     }
 
     @Override
-    public int getFramePerSeconds() {
-        return (int) numOfSeconds / countFrom;
+    public double getFramePerSeconds() {
+        final double framesPerSeconds = numOfSeconds / countFrom;
+        return framesPerSeconds > 1 ? framesPerSeconds : 1 / framesPerSeconds;
     }
 }
 

@@ -1,13 +1,14 @@
 // ID 316044809
-package game.animation.states.levels;
+package game.animation.levels;
 
 
 import biuoop.DrawSurface;
 import biuoop.KeyboardSensor;
 import game.animation.Animation;
 import game.animation.AnimationRunner;
-import game.animation.states.CountdownAnimation;
-import game.animation.states.PauseScreen;
+import game.animation.KeyPressStoppableAnimation;
+import game.animation.animations.CountdownAnimation;
+import game.animation.animations.PauseScreen;
 import game.collections.ElementsCollection;
 import game.collections.Sprite;
 import game.elements.objects.Ball;
@@ -56,13 +57,13 @@ public class GameLevel implements Animation {
     private final LevelInformation levelInformation;
     private final Sprite background;
     /**
-     * The Remaining balls.
-     */
-    private Counter remainingBalls;
-    /**
      * The Score.
      */
     private final Counter score;
+    /**
+     * The Remaining balls.
+     */
+    private Counter remainingBalls;
     /**
      * The Running.
      */
@@ -209,9 +210,10 @@ public class GameLevel implements Animation {
      */
     public void run() {
         // countdown before turn starts.
-        this.animationRunner.run(new CountdownAnimation(3, 3, background, elements.getSprites()));
+        this.animationRunner.run(new CountdownAnimation(3, 2, background, elements.getSprites()));
         // running the level
         this.running = true;
+
         animationRunner.run(this);
     }
 
@@ -223,7 +225,7 @@ public class GameLevel implements Animation {
     @Override
     public void doOneFrame(DrawSurface canvas) {
         if (keyboard.isPressed("p")) {
-            this.animationRunner.run(new PauseScreen(this.keyboard));
+            animationRunner.run(new KeyPressStoppableAnimation(keyboard, KeyboardSensor.SPACE_KEY, new PauseScreen()));
         }
         elements.runSprites(canvas);
         if (remainingBlocks.getValue() == 0) {
