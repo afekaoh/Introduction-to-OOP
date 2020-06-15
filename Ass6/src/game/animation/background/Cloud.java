@@ -5,6 +5,7 @@ import biuoop.DrawSurface;
 import game.collections.Sprite;
 import game.elements.shapes.Point;
 
+import java.awt.Color;
 import java.awt.Polygon;
 import java.util.List;
 
@@ -75,15 +76,19 @@ public class Cloud extends Background {
     @Override
     public void drawOn(final DrawSurface canvas) {
         super.drawOn(canvas);
+        canvas.setColor(Color.BLACK);
+        canvas.drawPolygon(cloud);
+        canvas.setColor(Color.WHITE);
+        canvas.fillPolygon(cloud);
     }
 
     @Override
-    protected Background createNew(final Sprite backgroundElement, final Polygon newShape) {
+    public Background createNew(final Sprite backgroundElement, final Polygon newShape) {
         return new Cloud(backgroundElement, newShape);
     }
 
     @Override
-    protected Polygon getPolygon() {
+    public Polygon getPolygon() {
         return cloud;
     }
 }

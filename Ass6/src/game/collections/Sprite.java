@@ -12,9 +12,9 @@ public interface Sprite extends GameElement {
      * Draw on.
      * draw the sprite to the screen
      *
-     * @param d the DrawSurface which we draw to
+     * @param canvas the DrawSurface which we draw to
      */
-    void drawOn(DrawSurface d);
+    void drawOn(DrawSurface canvas);
 
     /**
      * Time passed.

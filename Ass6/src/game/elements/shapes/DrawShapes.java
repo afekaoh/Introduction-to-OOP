@@ -2,7 +2,6 @@
 package game.elements.shapes;
 
 import java.awt.Color;
-import java.awt.Polygon;
 
 /**
  * The class Draw shapes.
@@ -27,15 +26,15 @@ public final class DrawShapes {
             Color.MAGENTA
     };
 
-    public static Polygon getCloud() {
-        Polygon cloud = new Polygon();
-        CLOUD.forEach(p -> cloud.addPoint((int) p.getX(), (int) p.getY()));
-        return cloud;
-    }
-
-    public static Polygon getCloud(int deltaX, int deltaY) {
-
-    }
+//    public static Polygon getCloud() {
+//        Polygon cloud = new Polygon();
+//        CLOUD.forEach(p -> cloud.addPoint((int) p.getX(), (int) p.getY()));
+//        return cloud;
+//    }
+//
+//    public static Polygon getCloud(int deltaX, int deltaY) {
+//
+//    }
 
     public static Color[] getColorSpace(String color) {
         switch (color) {

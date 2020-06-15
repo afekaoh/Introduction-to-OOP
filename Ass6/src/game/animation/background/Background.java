@@ -43,7 +43,7 @@ public abstract class Background implements Sprite {
         return applyTransformation(tx);
     }
 
-    public Background scale(int scaleX, int scaleY) {
+    public Background scale(double scaleX, double scaleY) {
         AffineTransform tx = new AffineTransform();
         tx.scale(scaleX, scaleY);
         return applyTransformation(tx);
@@ -56,13 +56,13 @@ public abstract class Background implements Sprite {
         double[] arr = new double[2];
         while (!pI.isDone()) {
             pI.currentSegment(arr);
-            oldShape.addPoint((int) arr[0], (int) arr[1]);
+            newShape.addPoint((int) arr[0], (int) arr[1]);
             pI.next();
         }
         return createNew(backgroundElement, newShape);
     }
 
-    protected abstract Background createNew(final Sprite backgroundElement, final Polygon newShape);
+    public abstract Background createNew(final Sprite backgroundElement, final Polygon newShape);
 
-    protected abstract Polygon getPolygon();
+    public abstract Polygon getPolygon();
 }
