@@ -17,10 +17,14 @@ public class Stamp extends Background {
         super(backgroundElement);
         this.background = backgroundElement;
         this.stamp = new Polygon();
-        stamp.addPoint(100, 600);
-        stamp.addPoint(100, 400);
-        stamp.addPoint(150, 400);
-        stamp.addPoint(150, 600);
+        final int stampStartX = 390;
+        final int stampStartY = 600;
+        final int stampEndX = 410;
+        final int stampEndY = 500;
+        stamp.addPoint(stampStartX, stampStartY);
+        stamp.addPoint(stampStartX, stampEndY);
+        stamp.addPoint(stampEndX, stampEndY);
+        stamp.addPoint(stampEndX, stampStartY);
         this.head = new Head(backgroundElement);
     }
 
@@ -63,6 +67,11 @@ public class Stamp extends Background {
     @Override
     public Background createNew(final Sprite backgroundElement, final Polygon newShape) {
         return new Stamp(backgroundElement, newShape, head);
+    }
+
+    @Override
+    public Background createNew(final Sprite backgroundElement) {
+        return new Stamp(backgroundElement);
     }
 
     @Override

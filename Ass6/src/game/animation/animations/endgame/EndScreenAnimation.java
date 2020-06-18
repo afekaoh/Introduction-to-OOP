@@ -26,10 +26,4 @@ public abstract class EndScreenAnimation implements Animation {
         canvas.setColor(Color.BLACK);
         canvas.drawText(0, canvas.getHeight() / 2, text, 32);
     }
-
-    @Override
-    public void drawBackground(final DrawSurface canvas) {
-        canvas.setColor(Color.green);
-        canvas.fillRectangle(0, 0, canvas.getWidth(), canvas.getHeight());
-    }
 }

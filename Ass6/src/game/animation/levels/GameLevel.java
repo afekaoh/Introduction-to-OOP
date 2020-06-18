@@ -10,7 +10,6 @@ import game.animation.KeyPressStoppableAnimation;
 import game.animation.animations.CountdownAnimation;
 import game.animation.animations.PauseScreen;
 import game.collections.ElementsCollection;
-import game.collections.Sprite;
 import game.elements.objects.Ball;
 import game.elements.objects.EdgeBlock;
 import game.elements.objects.Paddle;
@@ -55,7 +54,6 @@ public class GameLevel implements Animation {
     private final int height;
     private final KeyboardSensor keyboard;
     private final LevelInformation levelInformation;
-    private final Sprite background;
     /**
      * The Score.
      */
@@ -90,7 +88,6 @@ public class GameLevel implements Animation {
         this.score = score;
         this.elements = new ElementsCollection();
         this.keyboard = keyboardSensor;
-        this.background = level.getBackground();
     }
 
     /**
@@ -100,7 +97,7 @@ public class GameLevel implements Animation {
     public void initialize() {
         remainingBlocks = new Counter(levelInformation.blocks().size());
         remainingBalls = new Counter(levelInformation.numberOfBalls());
-
+        levelInformation.getBackground().addToGame(elements);
         // creating the game blocks
         createBlocks();
 
@@ -210,7 +207,7 @@ public class GameLevel implements Animation {
      */
     public void run() {
         // countdown before turn starts.
-        this.animationRunner.run(new CountdownAnimation(3, 2, background, elements.getSprites()));
+        this.animationRunner.run(new CountdownAnimation(3, 2, elements.getSprites()));
         // running the level
         this.running = true;
 
@@ -237,10 +234,15 @@ public class GameLevel implements Animation {
     }
 
     @Override
-    public void drawBackground(final DrawSurface canvas) {
-        this.background.drawOn(canvas);
+    public double getFramePerSeconds() {
+        return levelInformation.getFrameOerSeconds();
     }
 
+    /**
+     * Is dead boolean.
+     *
+     * @return the boolean
+     */
     public boolean isDead() {
         return remainingBalls.getValue() == 0;
     }

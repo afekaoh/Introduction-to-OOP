@@ -1,7 +1,10 @@
 // ID 316044809
 package game.animation.levels;
 
+import game.animation.background.Background;
+import game.animation.background.Bush;
 import game.animation.background.Cloud;
+import game.animation.background.Hill;
 import game.animation.background.SimpleBackground;
 import game.animation.background.tree.Tree;
 import game.collections.Sprite;
@@ -12,6 +15,7 @@ import game.elements.shapes.Point;
 import java.awt.Color;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * The class Level 1.
@@ -39,15 +43,41 @@ public class Level3 extends Level {
 
     @Override
     public Sprite getBackground() {
+        final Random rand = new Random();
+        Background background;
+
+        // crete hills
+        background = Background
+                .createRandomElements(
+                        3,
+                        new Hill(new SimpleBackground(Color.BLUE)),
+                        rand
+                                     );
+        // crete the first trees
+        background = Background.createRandomElements(
+                5,
+                new Tree(background),
+                rand
+                                                    );
+        // creat the first bushes
+        background = Background.createRandomElements(
+                3,
+                new Bush(background),
+                rand
+                                                    );
+        // crete the seconds trees
+        background = Background.createRandomElements(
+                5,
+                new Tree(background
+                ),
+                rand
+                                                    );
+        // crete the seconds bushes
+        background = Background.createRandomElements(3, new Bush(background), rand);
+
         return new Cloud(
-                new Cloud(
-                        new Tree(
-                                new Tree(
-                                        new SimpleBackground(Color.BLUE)
-                                ).translate(200, 0)
-                        )
-                ).scale(0.6, 0.6)
-                 .translate(400, 100));
+                new Cloud(background).scale(0.6, 0.6)
+                                     .translate(400, 100));
     }
 
     @Override
@@ -81,5 +111,10 @@ public class Level3 extends Level {
     @Override
     public int numberOfBlocksToRemove() {
         return 50;
+    }
+
+    @Override
+    public int getFrameOerSeconds() {
+        return 45;
     }
 }

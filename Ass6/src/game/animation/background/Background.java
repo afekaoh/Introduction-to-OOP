@@ -8,12 +8,31 @@ import game.collections.Sprite;
 import java.awt.Polygon;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
+import java.util.Random;
 
 public abstract class Background implements Sprite {
     private final Sprite backgroundElement;
 
     public Background(final Sprite backgroundElement) {
         this.backgroundElement = backgroundElement;
+    }
+
+    public static Background createRandomElements(final int i, Background background, Random rand) {
+        if (i == 0) {
+            return background;
+        }
+        final double scaleX = (Math.random() * 6 + 7) / 10;
+        final double scaleY = (Math.random() * 6 + 7) / 10;
+        final Background b = background.createNew(background)
+                                       .scale(scaleX, scaleY);
+        final double elementHeight = b.getPolygon().getBounds().getHeight();
+        final double elementBottom = b.getPolygon().getBounds().getLocation().getY() + elementHeight / 2;
+
+        return createRandomElements(
+                i - 1,
+                b.translate((int) rand.nextInt(800) - 400, (int) (600 - elementBottom)),
+                rand
+                                   );
     }
 
     @Override
@@ -62,7 +81,9 @@ public abstract class Background implements Sprite {
         return createNew(backgroundElement, newShape);
     }
 
-    public abstract Background createNew(final Sprite backgroundElement, final Polygon newShape);
+    public abstract Background createNew(final Sprite bE, final Polygon newShape);
+
+    public abstract Background createNew(final Sprite bE);
 
     public abstract Polygon getPolygon();
 }

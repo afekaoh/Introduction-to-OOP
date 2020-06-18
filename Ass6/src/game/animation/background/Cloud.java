@@ -76,15 +76,20 @@ public class Cloud extends Background {
     @Override
     public void drawOn(final DrawSurface canvas) {
         super.drawOn(canvas);
-        canvas.setColor(Color.BLACK);
-        canvas.drawPolygon(cloud);
         canvas.setColor(Color.WHITE);
         canvas.fillPolygon(cloud);
+        canvas.setColor(Color.BLACK);
+        canvas.drawPolygon(cloud);
     }
 
     @Override
     public Background createNew(final Sprite backgroundElement, final Polygon newShape) {
         return new Cloud(backgroundElement, newShape);
+    }
+
+    @Override
+    public Background createNew(final Sprite backgroundElement) {
+        return new Cloud(backgroundElement);
     }
 
     @Override

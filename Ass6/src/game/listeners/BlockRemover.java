@@ -38,7 +38,6 @@ public class BlockRemover implements HitListener {
     public void hitEvent(Block beingHit, Ball hitter) {
         beingHit.decreaseLife();
         if (beingHit.isDead()) {
-            beingHit.removeHitListener(this);
             beingHit.removeFromGame(elements);
             remainingBlocks.decrease();
         }

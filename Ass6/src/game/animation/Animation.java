@@ -10,8 +10,6 @@ public interface Animation {
 
     void doOneFrame(DrawSurface canvas);
 
-    void drawBackground(DrawSurface canvas);
-
     default double getFramePerSeconds() {
         return FRAMES_PER_SECONDS;
     }

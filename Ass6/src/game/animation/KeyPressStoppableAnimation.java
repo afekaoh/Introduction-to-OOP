@@ -37,13 +37,9 @@ public class KeyPressStoppableAnimation implements Animation {
         animation.doOneFrame(canvas);
         if (isAlreadyPressed && !sensor.isPressed(key)) {
             isAlreadyPressed = false;
-        } else if (sensor.isPressed(key)) {
+        }
+        if (!isAlreadyPressed && sensor.isPressed(key)) {
             stop = true;
         }
-    }
-
-    @Override
-    public void drawBackground(final DrawSurface canvas) {
-        animation.drawBackground(canvas);
     }
 }

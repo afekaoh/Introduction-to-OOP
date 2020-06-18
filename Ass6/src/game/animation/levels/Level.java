@@ -59,4 +59,9 @@ public abstract class Level implements LevelInformation {
     public int getHeight() {
         return height;
     }
+
+    @Override
+    public int getFrameOerSeconds() {
+        return 60;
+    }
 }

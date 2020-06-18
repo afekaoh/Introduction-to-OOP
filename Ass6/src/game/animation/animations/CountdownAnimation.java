@@ -3,7 +3,6 @@ package game.animation.animations;
 
 import biuoop.DrawSurface;
 import game.animation.Animation;
-import game.collections.Sprite;
 import game.collections.SpriteCollection;
 
 import java.awt.Color;
@@ -13,7 +12,6 @@ import java.awt.Color;
  */
 public class CountdownAnimation implements Animation {
     private final double numOfSeconds;
-    private final Sprite background;
     private final SpriteCollection backgroundScreen;
     private int countFrom;
     private boolean stop;
@@ -22,17 +20,14 @@ public class CountdownAnimation implements Animation {
     /**
      * Instantiates a new Countdown animation.
      *
-     * @param countFrom        the count from
-     * @param numOfSeconds     the num of seconds
-     * @param background       the background
-     * @param backgroundScreen the background screen
+     * @param countFrom    the count from
+     * @param numOfSeconds the num of seconds
+     * @param background   the background screen
      */
-    public CountdownAnimation(final int countFrom, final double numOfSeconds, final Sprite background,
-                              final SpriteCollection backgroundScreen) {
+    public CountdownAnimation(final int countFrom, final double numOfSeconds, final SpriteCollection background) {
         this.countFrom = countFrom;
         this.numOfSeconds = numOfSeconds;
-        this.background = background;
-        this.backgroundScreen = backgroundScreen;
+        this.backgroundScreen = background;
         this.stop = false;
     }
 
@@ -43,18 +38,13 @@ public class CountdownAnimation implements Animation {
 
     @Override
     public void doOneFrame(final DrawSurface canvas) {
+        backgroundScreen.drawAllOn(canvas);
         canvas.setColor(Color.BLACK);
         canvas.drawText(canvas.getWidth() / 2, canvas.getHeight() / 2, "" + countFrom, 64);
         countFrom--;
         if (countFrom < 0) {
             stop = true;
         }
-    }
-
-    @Override
-    public void drawBackground(final DrawSurface canvas) {
-        background.drawOn(canvas);
-        backgroundScreen.drawAllOn(canvas);
     }
 
     @Override

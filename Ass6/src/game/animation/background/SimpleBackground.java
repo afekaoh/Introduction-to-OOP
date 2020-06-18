@@ -9,15 +9,15 @@ import java.awt.Color;
 
 public class SimpleBackground implements Sprite {
 
-    private final Color color;
+    private final Color color1;
 
     public SimpleBackground(Color color) {
-        this.color = color;
+        this.color1 = color;
     }
 
     @Override
     public void drawOn(final DrawSurface canvas) {
-        canvas.setColor(color);
+        canvas.setColor(color1);
         canvas.fillRectangle(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 

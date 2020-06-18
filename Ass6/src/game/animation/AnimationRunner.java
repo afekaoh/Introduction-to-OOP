@@ -38,7 +38,6 @@ public class AnimationRunner {
      */
     public void setNewCanvas(Animation animation) {
         this.canvas = gui.getDrawSurface();
-        animation.drawBackground(canvas);
     }
 
     /**

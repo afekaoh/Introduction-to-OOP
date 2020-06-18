@@ -86,6 +86,7 @@ public class Block implements Collidable, Sprite, HitNotifier {
         elementsCollection.removeSprite(this);
         elementsCollection.removeCollidable(this);
         elementsCollection.removeElement(this);
+        hitListeners.clear();
     }
 
     /**

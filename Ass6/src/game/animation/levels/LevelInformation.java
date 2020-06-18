@@ -92,4 +92,6 @@ public interface LevelInformation {
     int getWidth();
 
     int getHeight();
+
+    int getFrameOerSeconds();
 }

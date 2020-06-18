@@ -14,9 +14,9 @@ public class Head extends Background {
     public Head(final Sprite backgroundElement) {
         super(backgroundElement);
         this.head = new Polygon();
-        this.head.addPoint(50, 500);
-        this.head.addPoint(125, 350);
-        this.head.addPoint(200, 500);
+        this.head.addPoint(350, 500);
+        this.head.addPoint(400, 350);
+        this.head.addPoint(450, 500);
     }
 
     public Head(final Sprite backgroundElement, final Polygon newShape) {
@@ -28,13 +28,18 @@ public class Head extends Background {
     public void drawOn(final DrawSurface canvas) {
         canvas.setColor(Color.BLACK);
         canvas.drawPolygon(head);
-        canvas.setColor(Color.GREEN);
+        canvas.setColor(Color.GREEN.darker());
         canvas.fillPolygon(head);
     }
 
     @Override
     public Background createNew(final Sprite backgroundElement, final Polygon newShape) {
         return new Head(backgroundElement, newShape);
+    }
+
+    @Override
+    public Background createNew(final Sprite backgroundElement) {
+        return new Head(backgroundElement);
     }
 
     @Override

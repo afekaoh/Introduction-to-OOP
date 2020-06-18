@@ -37,6 +37,11 @@ public class Tree extends Background {
     }
 
     @Override
+    public Background createNew(final Sprite backgroundElement) {
+        return new Tree(backgroundElement);
+    }
+
+    @Override
     public Polygon getPolygon() {
         return stamp.getPolygon();
     }

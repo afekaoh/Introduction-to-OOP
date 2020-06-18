@@ -21,11 +21,5 @@ public class PauseScreen implements Animation {
         canvas.setColor(Color.BLACK);
         canvas.drawText(10, canvas.getHeight() / 2, "paused -- press space to continue", 32);
     }
-
-    @Override
-    public void drawBackground(final DrawSurface canvas) {
-        canvas.setColor(Color.white);
-        canvas.fillRectangle(0, 0, canvas.getWidth(), canvas.getHeight());
-    }
 }
 
