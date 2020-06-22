@@ -8,10 +8,25 @@ import biuoop.KeyboardSensor;
  * The class Key press stoppable animation.
  */
 public class KeyPressStoppableAnimation implements Animation {
+    /**
+     * The Sensor.
+     */
     private final KeyboardSensor sensor;
+    /**
+     * The Key.
+     */
     private final String key;
+    /**
+     * The Animation.
+     */
     private final Animation animation;
+    /**
+     * The Stop.
+     */
     private boolean stop;
+    /**
+     * The Is already pressed.
+     */
     private boolean isAlreadyPressed = true;
 
     /**

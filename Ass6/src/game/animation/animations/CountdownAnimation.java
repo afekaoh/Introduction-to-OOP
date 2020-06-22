@@ -11,9 +11,21 @@ import java.awt.Color;
  * The class Countdown animation.
  */
 public class CountdownAnimation implements Animation {
+    /**
+     * The Num of seconds.
+     */
     private final double numOfSeconds;
+    /**
+     * The Background screen.
+     */
     private final SpriteCollection backgroundScreen;
+    /**
+     * The Count from.
+     */
     private int countFrom;
+    /**
+     * The Stop.
+     */
     private boolean stop;
 
 

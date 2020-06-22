@@ -6,10 +6,9 @@ import game.animation.background.Bush;
 import game.animation.background.Cloud;
 import game.animation.background.Hill;
 import game.animation.background.SimpleBackground;
-import game.animation.background.tree.Tree;
 import game.collections.Sprite;
 import game.elements.objects.Block;
-import game.elements.shapes.DrawShapes;
+import game.elements.shapes.Colors;
 import game.elements.shapes.Point;
 
 import java.awt.Color;
@@ -21,6 +20,12 @@ import java.util.Random;
  * The class Level 1.
  */
 public class Level3 extends Level {
+    /**
+     * Instantiates a new Level 3.
+     *
+     * @param width  the width
+     * @param height the height
+     */
     public Level3(final int width, final int height) {
         super(width, height);
     }
@@ -50,34 +55,21 @@ public class Level3 extends Level {
         background = Background
                 .createRandomElements(
                         3,
-                        new Hill(new SimpleBackground(Color.BLUE)),
+                        new Hill(new SimpleBackground(Color.BLUE.brighter().brighter()), getWidth(), getHeight()),
                         rand
                                      );
-        // crete the first trees
-        background = Background.createRandomElements(
-                5,
-                new Tree(background),
-                rand
-                                                    );
         // creat the first bushes
         background = Background.createRandomElements(
                 3,
-                new Bush(background),
-                rand
-                                                    );
-        // crete the seconds trees
-        background = Background.createRandomElements(
-                5,
-                new Tree(background
-                ),
+                new Bush(background, getWidth(), getHeight()),
                 rand
                                                     );
         // crete the seconds bushes
-        background = Background.createRandomElements(3, new Bush(background), rand);
+        background = Background.createRandomElements(3, new Bush(background, getWidth(), getHeight()), rand);
 
         return new Cloud(
-                new Cloud(background).scale(0.6, 0.6)
-                                     .translate(400, 100));
+                new Cloud(background, getWidth(), getHeight()).scale(0.6, 0.6)
+                                                              .translate(400, 100), getWidth(), getHeight());
     }
 
     @Override
@@ -100,7 +92,7 @@ public class Level3 extends Level {
                                 blockWidth,
                                 blockHeight,
                                 (numOfRows - 1) - i,
-                                DrawShapes.getColorSpace("Green")
+                                Colors.getColorSpace("Green")
                         )
                           );
             }
@@ -115,6 +107,6 @@ public class Level3 extends Level {
 
     @Override
     public int getFrameOerSeconds() {
-        return 45;
+        return 60;
     }
 }

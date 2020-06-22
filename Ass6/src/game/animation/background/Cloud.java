@@ -9,7 +9,13 @@ import java.awt.Color;
 import java.awt.Polygon;
 import java.util.List;
 
+/**
+ * The class Cloud.
+ */
 public class Cloud extends Background {
+    /**
+     * The constant CLOUD.
+     */
     private static final List<Point> CLOUD = List.of(
             new Point(173, 146), new Point(170, 148), new Point(167, 150),
             new Point(164, 152), new Point(161, 153), new Point(158, 154), new Point(155, 156),
@@ -59,41 +65,64 @@ public class Cloud extends Background {
             new Point(191, 164), new Point(188, 162), new Point(185, 161), new Point(182, 159),
             new Point(180, 156), new Point(178, 154), new Point(176, 152), new Point(174, 149)
                                                     );
+    private static final Color COLOR = Color.WHITE;
+    /**
+     * The Cloud.
+     */
     private final Polygon cloud;
 
-    public Cloud(Sprite backgroundElement) {
-        super(backgroundElement);
+    /**
+     * Instantiates a new Cloud.
+     *
+     * @param backgroundElement the background element
+     * @param width             the width
+     * @param height            the height
+     */
+    public Cloud(Sprite backgroundElement, final int width, final int height) {
+        super(backgroundElement, width, height);
         cloud = new Polygon();
         CLOUD.forEach(p -> cloud.addPoint((int) p.getX(), (int) p.getY()));
     }
 
-    public Cloud(final Sprite backgroundElement, final Polygon cloud) {
-        super(backgroundElement);
+    /**
+     * Instantiates a new Cloud.
+     *
+     * @param backgroundElement the background element
+     * @param cloud             the cloud
+     * @param width             the width
+     * @param height            the height
+     */
+    public Cloud(final Sprite backgroundElement, final Polygon cloud, final int width, final int height) {
+        super(backgroundElement, width, height);
         this.cloud = cloud;
     }
-
 
     @Override
     public void drawOn(final DrawSurface canvas) {
         super.drawOn(canvas);
-        canvas.setColor(Color.WHITE);
-        canvas.fillPolygon(cloud);
         canvas.setColor(Color.BLACK);
         canvas.drawPolygon(cloud);
+        canvas.setColor(Color.WHITE);
+        canvas.fillPolygon(cloud);
+    }
+
+    @Override
+    protected Color getColor() {
+        return COLOR;
     }
 
     @Override
     public Background createNew(final Sprite backgroundElement, final Polygon newShape) {
-        return new Cloud(backgroundElement, newShape);
-    }
-
-    @Override
-    public Background createNew(final Sprite backgroundElement) {
-        return new Cloud(backgroundElement);
+        return new Cloud(backgroundElement, newShape, getWidth(), getHeight());
     }
 
     @Override
     public Polygon getPolygon() {
         return cloud;
+    }
+
+    @Override
+    public Background createNew(final Sprite backgroundElement) {
+        return new Cloud(backgroundElement, getWidth(), getHeight());
     }
 }

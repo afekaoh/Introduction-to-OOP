@@ -6,7 +6,7 @@ import java.awt.Color;
 /**
  * The class Draw shapes.
  */
-public final class DrawShapes {
+public final class Colors {
 
     private static final Color[] GREEN_COLORS = {
             Color.decode("#BFE6B1"),
@@ -26,22 +26,16 @@ public final class DrawShapes {
             Color.MAGENTA
     };
 
-//    public static Polygon getCloud() {
-//        Polygon cloud = new Polygon();
-//        CLOUD.forEach(p -> cloud.addPoint((int) p.getX(), (int) p.getY()));
-//        return cloud;
-//    }
-//
-//    public static Polygon getCloud(int deltaX, int deltaY) {
-//
-//    }
-
+    /**
+     * Get color space color [ ].
+     *
+     * @param color the color
+     * @return the color [ ]
+     */
     public static Color[] getColorSpace(String color) {
-        switch (color) {
-            case "Green":
-                return GREEN_COLORS;
-            default:
-                return DEFAULT_COLORS;
+        if (color.equals("Green")) {
+            return GREEN_COLORS;
         }
+        return DEFAULT_COLORS;
     }
 }

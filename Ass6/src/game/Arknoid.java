@@ -11,12 +11,29 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * The class Arknoid.
+ */
 public final class Arknoid {
+    /**
+     * The constant WIDTH.
+     */
     private static final int WIDTH = 800;
+    /**
+     * The constant HEIGHT.
+     */
     private static final int HEIGHT = 600;
+    /**
+     * The constant TITLE.
+     */
     private static final String TITLE = "Arknoid";
 
 
+    /**
+     * Play.
+     *
+     * @param args the levels to be played
+     */
     public void play(String[] args) {
         final AnimationRunner animationRunner = new AnimationRunner(WIDTH, HEIGHT, TITLE);
         final AbstractLevelFactory levelFactory = new AbstractLevelFactory(WIDTH, HEIGHT);
@@ -38,6 +55,12 @@ public final class Arknoid {
         game.close();
     }
 
+    /**
+     * Is num boolean.
+     *
+     * @param s the s
+     * @return the boolean
+     */
     private boolean isNum(String s) {
         try {
             Integer.parseInt(s);

@@ -13,18 +13,40 @@ import game.tools.Counter;
 
 import java.util.List;
 
+/**
+ * The class Game flow.
+ */
 public class GameFlow {
 
+    /**
+     * The Keyboard sensor.
+     */
     private final KeyboardSensor keyboardSensor;
+    /**
+     * The Animation runner.
+     */
     private final AnimationRunner animationRunner;
+    /**
+     * The Win.
+     */
     private boolean win;
 
+    /**
+     * Instantiates a new Game flow.
+     *
+     * @param animationRunner the animation runner
+     */
     public GameFlow(final AnimationRunner animationRunner) {
         this.animationRunner = animationRunner;
         this.keyboardSensor = this.animationRunner.getKeyboardSensor();
         this.win = true;
     }
 
+    /**
+     * Run levels.
+     *
+     * @param levels the levels
+     */
     public void runLevels(List<LevelInformation> levels) {
         final Counter score = new Counter();
         EndScreenAnimation endScreen;
@@ -59,6 +81,9 @@ public class GameFlow {
     }
 
 
+    /**
+     * Close the game.
+     */
     public void close() {
         animationRunner.close();
     }

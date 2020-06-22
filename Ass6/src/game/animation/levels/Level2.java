@@ -4,7 +4,7 @@ package game.animation.levels;
 import game.animation.background.SimpleBackground;
 import game.collections.Sprite;
 import game.elements.objects.Block;
-import game.elements.shapes.DrawShapes;
+import game.elements.shapes.Colors;
 import game.elements.shapes.Point;
 
 import java.awt.Color;
@@ -16,11 +16,6 @@ import java.util.stream.IntStream;
  * The class Level 1.
  */
 public class Level2 extends Level {
-    /**
-     * The constant LEVEL2.
-     */
-    private final int width;
-    private final int height;
 
     /**
      * Instantiates a new Level 2.
@@ -30,8 +25,6 @@ public class Level2 extends Level {
      */
     public Level2(final int width, final int height) {
         super(width, height);
-        this.width = width;
-        this.height = height;
     }
 
     @Override
@@ -65,7 +58,7 @@ public class Level2 extends Level {
                                           blockWidth,
                                           blockHeight,
                                           (i / 2) % 5,
-                                          DrawShapes.getColorSpace("Rainbow")
+                                          Colors.getColorSpace("Rainbow")
                                   )
                                  ).collect(Collectors.toList());
     }

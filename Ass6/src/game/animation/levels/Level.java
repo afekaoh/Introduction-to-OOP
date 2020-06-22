@@ -13,9 +13,21 @@ import java.util.stream.IntStream;
  */
 public abstract class Level implements LevelInformation {
 
+    /**
+     * The Width.
+     */
     private final int width;
+    /**
+     * The Height.
+     */
     private final int height;
 
+    /**
+     * Instantiates a new Level.
+     *
+     * @param width  the width
+     * @param height the height
+     */
     public Level(final int width, final int height) {
         this.width = width;
         this.height = height;

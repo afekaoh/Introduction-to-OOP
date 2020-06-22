@@ -5,20 +5,39 @@ import biuoop.DrawSurface;
 import game.animation.background.Background;
 import game.collections.Sprite;
 
+import java.awt.Color;
 import java.awt.Polygon;
 
+/**
+ * The class Tree.
+ */
 public class Tree extends Background {
+    /**
+     * The Stamp.
+     */
     private final Background stamp;
 
-    public Tree(final Sprite backgroundElement) {
-        super(backgroundElement);
-        this.stamp = new Stamp(backgroundElement);
+    /**
+     * Instantiates a new Tree.
+     *
+     * @param backgroundElement the background element
+     * @param width             the width
+     * @param height            the height
+     */
+    public Tree(final Sprite backgroundElement, final int width, final int height) {
+        super(backgroundElement, width, height);
+        this.stamp = new Stamp(backgroundElement, getWidth(), getHeight());
     }
 
     @Override
     public void drawOn(final DrawSurface canvas) {
         super.drawOn(canvas);
         stamp.drawOn(canvas);
+    }
+
+    @Override
+    protected Color getColor() {
+        return null;
     }
 
     @Override
@@ -38,7 +57,7 @@ public class Tree extends Background {
 
     @Override
     public Background createNew(final Sprite backgroundElement) {
-        return new Tree(backgroundElement);
+        return new Tree(backgroundElement, getWidth(), getHeight());
     }
 
     @Override

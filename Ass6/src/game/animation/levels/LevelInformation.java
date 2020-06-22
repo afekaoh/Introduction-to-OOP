@@ -52,6 +52,11 @@ public interface LevelInformation {
      */
     int paddleWidth();
 
+    /**
+     * Paddle height int.
+     *
+     * @return the int
+     */
     int paddleHeight();
 
     /**
@@ -89,9 +94,24 @@ public interface LevelInformation {
      */
     int numberOfBlocksToRemove();
 
+    /**
+     * Get width of the level.
+     *
+     * @return the width
+     */
     int getWidth();
 
+    /**
+     * Get height of the level.
+     *
+     * @return the height
+     */
     int getHeight();
 
+    /**
+     * Get frame oer seconds.
+     *
+     * @return the frame oer seconds
+     */
     int getFrameOerSeconds();
 }

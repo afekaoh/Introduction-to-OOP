@@ -4,7 +4,7 @@ package game.animation.levels;
 import game.animation.background.SimpleBackground;
 import game.collections.Sprite;
 import game.elements.objects.Block;
-import game.elements.shapes.DrawShapes;
+import game.elements.shapes.Colors;
 import game.elements.shapes.Point;
 
 import java.awt.Color;
@@ -15,6 +15,12 @@ import java.util.List;
  */
 public class Level4 extends Level {
 
+    /**
+     * Instantiates a new Level 4.
+     *
+     * @param width  the width
+     * @param height the height
+     */
     public Level4(final int width, final int height) {
         super(width, height);
     }
@@ -47,7 +53,7 @@ public class Level4 extends Level {
                         100,
                         20,
                         0,
-                        DrawShapes.getColorSpace("Rainbow")
+                        Colors.getColorSpace("Rainbow")
                 ));
     }
 

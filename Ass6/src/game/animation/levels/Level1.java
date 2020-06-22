@@ -5,7 +5,7 @@ import game.animation.background.SimpleBackground;
 import game.collections.Sprite;
 import game.elements.objects.Block;
 import game.elements.physics.Velocity;
-import game.elements.shapes.DrawShapes;
+import game.elements.shapes.Colors;
 import game.elements.shapes.Point;
 
 import java.awt.Color;
@@ -54,7 +54,7 @@ public class Level1 extends Level {
                         100,
                         super.paddleHeight(),
                         0,
-                        DrawShapes.getColorSpace("Green")
+                        Colors.getColorSpace("Green")
                 ));
     }
 

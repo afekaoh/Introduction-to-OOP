@@ -7,43 +7,72 @@ import game.collections.Sprite;
 import java.awt.Color;
 import java.awt.Polygon;
 
+/**
+ * The class Hill.
+ */
 public class Hill extends Background {
+    /**
+     * The constant COLOR.
+     */
+    public static final Color COLOR = Color.GREEN.darker();
+    /**
+     * The Hill.
+     */
     private final Polygon hill;
 
-    public Hill(final Sprite backgroundElement) {
-        super(backgroundElement);
+    /**
+     * Instantiates a new Hill.
+     *
+     * @param backgroundElement the background element
+     * @param width             the width
+     * @param height            the height
+     */
+    public Hill(final Sprite backgroundElement, final int width, final int height) {
+        super(backgroundElement, width, height);
         this.hill = new Polygon();
         final int radius = (int) (Math.random() * 200 + 200);
-        for (int i = 0; i <= 360; i++) {
+        for (int i = 180; i <= 360; i++) {
             int x = (int) (radius * Math.cos(Math.toRadians(i))) + 400;
             int y = (int) (radius * Math.sin(Math.toRadians(i))) + 600;
             hill.addPoint(x, y);
         }
     }
 
-    public Hill(final Sprite backgroundElement, final Polygon hill) {
-        super(backgroundElement);
+    /**
+     * Instantiates a new Hill.
+     *
+     * @param backgroundElement the background element
+     * @param hill              the hill
+     * @param width             the width
+     * @param height            the height
+     */
+    public Hill(final Sprite backgroundElement, final Polygon hill, final int width, final int height) {
+        super(backgroundElement, width, height);
         this.hill = hill;
     }
-
 
     @Override
     public void drawOn(final DrawSurface canvas) {
         super.drawOn(canvas);
-        canvas.setColor(Color.GREEN);
-        canvas.fillPolygon(hill);
         canvas.setColor(Color.BLACK);
         canvas.drawPolygon(hill);
+        canvas.setColor(Color.GREEN.darker());
+        canvas.fillPolygon(hill);
+    }
+
+    @Override
+    protected Color getColor() {
+        return COLOR;
     }
 
     @Override
     public Background createNew(final Sprite backgroundElement, final Polygon newShape) {
-        return new Hill(backgroundElement, newShape);
+        return new Hill(backgroundElement, newShape, getWidth(), getHeight());
     }
 
     @Override
     public Background createNew(final Sprite backgroundElement) {
-        return new Hill(backgroundElement);
+        return new Hill(backgroundElement, getWidth(), getHeight());
     }
 
     @Override

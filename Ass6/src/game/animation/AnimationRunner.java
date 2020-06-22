@@ -18,13 +18,26 @@ public class AnimationRunner {
      * The Sleeper of the game.
      */
     private final Sleeper sleeper;
+    /**
+     * The Keyboard sensor.
+     */
     private final KeyboardSensor keyboardSensor;
+    /**
+     * The Milliseconds per frame.
+     */
     private int millisecondsPerFrame;
     /**
      * The Draw Surface of the game.
      */
     private DrawSurface canvas;
 
+    /**
+     * Instantiates a new Animation runner.
+     *
+     * @param width  the width
+     * @param height the height
+     * @param title  the title
+     */
     public AnimationRunner(final int width, final int height, final String title) {
         this.gui = new GUI(title, width, height);
         this.sleeper = new Sleeper();
@@ -33,10 +46,8 @@ public class AnimationRunner {
 
     /**
      * Sets a new DrawSurface.
-     *
-     * @param animation the animation
      */
-    public void setNewCanvas(Animation animation) {
+    public void setNewCanvas() {
         this.canvas = gui.getDrawSurface();
     }
 
@@ -50,7 +61,7 @@ public class AnimationRunner {
         while (true) {
             long startTime = System.currentTimeMillis();
             // getting ready for the next frame of the game
-            setNewCanvas(animation);
+            setNewCanvas();
             animation.doOneFrame(canvas);
             if (animation.shouldStop()) {
                 return;
@@ -73,10 +84,18 @@ public class AnimationRunner {
         }
     }
 
+    /**
+     * Get keyboard sensor.
+     *
+     * @return the keyboard sensor
+     */
     public KeyboardSensor getKeyboardSensor() {
         return keyboardSensor;
     }
 
+    /**
+     * Close the animation.
+     */
     public void close() {
         gui.close();
     }
